@@ -9,7 +9,7 @@ public class GamePanel extends JPanel implements Runnable
 
     private Thread animator; // for the animation
 
-    private volatile boolean running = false; // stops the animation
+    public volatile boolean running = false; // stops the animation
     private volatile boolean gameOver = false; // for game termination
 
     private long lastFpsTime;  //The last time at which we recorded the frame rate
