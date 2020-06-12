@@ -1,3 +1,5 @@
+import Model.GamePanel;
+import View.Window;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

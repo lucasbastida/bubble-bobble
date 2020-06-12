@@ -1,3 +1,7 @@
+package View;
+
+import Model.GamePanel;
+
 import javax.swing.JFrame;
 
 public class Window extends JFrame {
