@@ -1,6 +1,8 @@
 package Controller;
 
 import View.VistaMenu;
+import View.Window;
+
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +22,7 @@ public class ControladorMenu {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println("Nuevo juego");
+            new Window();
         }
     }
 
