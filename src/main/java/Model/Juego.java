@@ -21,7 +21,9 @@ public class Juego implements Runnable, Subject {
 
     private ArrayList<Observer> observers = new ArrayList<>();
 
-    public Jugador jugador = new Jugador(20, 20, 50, 150);
+
+    //TODO cargar valores desde un archivo o clase que tenga las configuraciones?
+    private Jugador jugador = new Jugador(20, 20, 50, 150);
 
     public void run() {
 
@@ -71,6 +73,10 @@ public class Juego implements Runnable, Subject {
         }
         System.exit(0);
 
+    }
+
+    public Jugador getJugador() {
+        return jugador;
     }
 
     public void startGame()// initialise and start the thread

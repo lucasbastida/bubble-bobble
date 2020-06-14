@@ -24,19 +24,19 @@ public class ControladorPanelJuego {
                 }
 
                 if (keyCode == KeyEvent.VK_LEFT) {
-                    juego.moverJugadorHorizontal(-2);
+                    juego.getJugador().setDx(-2);
                 }
 
                 if (keyCode == KeyEvent.VK_RIGHT) {
-                    juego.moverJugadorHorizontal(2);
+                    juego.getJugador().setDx(2);
                 }
 
                 if (keyCode == KeyEvent.VK_UP) {
-                    juego.moverJugadorVertical(-2);
+                    juego.getJugador().setDy(-2);
                 }
 
                 if (keyCode == KeyEvent.VK_DOWN) {
-                    juego.moverJugadorVertical(2);
+                    juego.getJugador().setDy(2);
                 }
             }
 
@@ -44,19 +44,19 @@ public class ControladorPanelJuego {
                 int keyCode = e.getKeyCode();
 
                 if (keyCode == KeyEvent.VK_LEFT) {
-                    juego.moverJugadorHorizontal(0);
+                    juego.getJugador().setDx(0);
                 }
 
                 if (keyCode == KeyEvent.VK_RIGHT) {
-                    juego.moverJugadorHorizontal(0);
+                    juego.getJugador().setDx(0);
                 }
 
                 if (keyCode == KeyEvent.VK_UP) {
-                    juego.moverJugadorVertical(0);
+                    juego.getJugador().setDy(0);
                 }
 
                 if (keyCode == KeyEvent.VK_DOWN) {
-                    juego.moverJugadorVertical(0);
+                    juego.getJugador().setDy(0);
                 }
             }
         });

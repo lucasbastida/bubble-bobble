@@ -33,7 +33,8 @@ public class PanelJuego extends JPanel implements Observer
 
         try
         {
-            img = ImageIO.read( new File("bub.png" ));
+            //TODO se deberia
+            img = ImageIO.read(getClass().getResourceAsStream( "/bub.png" ));
         }
         catch ( IOException exc )
         {
@@ -73,7 +74,7 @@ public class PanelJuego extends JPanel implements Observer
                 g.drawImage(dbImage, 0, 0, null);
             g.drawString("Esto es todo :)", 600,300);
             g.drawString("Con Esc o Q se cierra", 600,350);
-            g.drawImage( img , juego.jugador.getX(),juego.jugador.getY(), juego.jugador.getWidth(), juego.jugador.getHeight(), null);
+            g.drawImage( img , juego.getJugador().getX(),juego.getJugador().getY(), juego.getJugador().getWidth(), juego.getJugador().getHeight(), null);
             Toolkit.getDefaultToolkit().sync(); // sync the display on some systems
             g.dispose();
         }
