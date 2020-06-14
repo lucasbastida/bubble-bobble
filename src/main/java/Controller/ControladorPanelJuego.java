@@ -15,15 +15,50 @@ public class ControladorPanelJuego {
         this.panelJuego = panelJuego;
         //this.juego = juego;
 
-        panelJuego.addKeyListener( new KeyAdapter() {
-            // listen for esc, q
-            public void keyPressed(KeyEvent e)
-            { int keyCode = e.getKeyCode();
+        panelJuego.addKeyListener(new KeyAdapter() {
+
+            public void keyPressed(KeyEvent e) {
+                int keyCode = e.getKeyCode();
                 if ((keyCode == KeyEvent.VK_ESCAPE) || (keyCode == KeyEvent.VK_Q)) {
                     juego.stopGame();
                 }
+
+                if (keyCode == KeyEvent.VK_LEFT) {
+                    juego.getJugador().setDx(-2);
+                }
+
+                if (keyCode == KeyEvent.VK_RIGHT) {
+                    juego.getJugador().setDx(2);
+                }
+
+                if (keyCode == KeyEvent.VK_UP) {
+                    juego.getJugador().setDy(-2);
+                }
+
+                if (keyCode == KeyEvent.VK_DOWN) {
+                    juego.getJugador().setDy(2);
+                }
+            }
+
+            public void keyReleased(KeyEvent e) {
+                int keyCode = e.getKeyCode();
+
+                if (keyCode == KeyEvent.VK_LEFT) {
+                    juego.getJugador().setDx(0);
+                }
+
+                if (keyCode == KeyEvent.VK_RIGHT) {
+                    juego.getJugador().setDx(0);
+                }
+
+                if (keyCode == KeyEvent.VK_UP) {
+                    juego.getJugador().setDy(0);
+                }
+
+                if (keyCode == KeyEvent.VK_DOWN) {
+                    juego.getJugador().setDy(0);
+                }
             }
         });
-
     }
 }
