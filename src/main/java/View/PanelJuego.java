@@ -3,9 +3,13 @@ package View;
 import Model.Juego;
 import util.Observer;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class PanelJuego extends JPanel implements Observer
 {
@@ -16,6 +20,8 @@ public class PanelJuego extends JPanel implements Observer
     private Graphics dbg;
     private Image dbImage = null;
 
+    private BufferedImage img = null;
+
     Juego juego;
 
     public PanelJuego(Juego juego) {
@@ -24,6 +30,15 @@ public class PanelJuego extends JPanel implements Observer
         setPreferredSize( new Dimension(PWIDTH, PHEIGHT));
         setFocusable(true);
         requestFocus(); // JPanel now receives key events
+
+        try
+        {
+            img = ImageIO.read( new File("bub.png" ));
+        }
+        catch ( IOException exc )
+        {
+            //TODO: Handle exception.
+        }
     }
 
     public void addNotify()
@@ -58,6 +73,7 @@ public class PanelJuego extends JPanel implements Observer
                 g.drawImage(dbImage, 0, 0, null);
             g.drawString("Esto es todo :)", 600,300);
             g.drawString("Con Esc o Q se cierra", 600,350);
+            g.drawImage( img , juego.jugador.getX(),juego.jugador.getY(), juego.jugador.getWidth(), juego.jugador.getHeight(), null);
             Toolkit.getDefaultToolkit().sync(); // sync the display on some systems
             g.dispose();
         }

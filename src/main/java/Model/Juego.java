@@ -1,5 +1,6 @@
 package Model;
 
+import Model.Entidades.Jugador;
 import util.Observer;
 import util.Subject;
 
@@ -20,6 +21,8 @@ public class Juego implements Runnable, Subject {
 
     private ArrayList<Observer> observers = new ArrayList<>();
 
+    public Jugador jugador = new Jugador(20, 20, 50, 150);
+
     public void run() {
 
         long sleepTime;
@@ -28,24 +31,22 @@ public class Juego implements Runnable, Subject {
         final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
         running = true;
 
-        while (running)
-        {
+        while (running) {
             // work out how long its been since the last update, this
             // will be used to calculate how far the entities should
             // move this loop
             long now = System.nanoTime();
             long updateLength = now - lastLoopTime;
             lastLoopTime = now;
-            double delta = updateLength / ((double)OPTIMAL_TIME);
+            double delta = updateLength / ((double) OPTIMAL_TIME);
 
             // update the frame counter
             lastFpsTime += updateLength;
             fps++;
 
             // update our FPS counter if a second has passed since we last recorded
-            if (lastFpsTime >= 1000000000)
-            {
-                System.out.println("(FPS: "+fps+")");
+            if (lastFpsTime >= 1000000000) {
+                System.out.println("(FPS: " + fps + ")");
                 lastFpsTime = 0;
                 fps = 0;
             }
@@ -56,20 +57,21 @@ public class Juego implements Runnable, Subject {
             //notify observer of game update
             notifyObservers();
 
-            sleepTime = (lastLoopTime-System.nanoTime() + OPTIMAL_TIME)/1000000; //time left in this loop
+            sleepTime = (lastLoopTime - System.nanoTime() + OPTIMAL_TIME) / 1000000; //time left in this loop
 
             if (sleepTime <= 0) // update/render took longer than period
                 sleepTime = 1; // sleep a bit anyway
             try {
                 Thread.sleep(sleepTime); // in ms
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            catch(InterruptedException e){ e.printStackTrace();}
 
 
-        } System.exit(0);
+        }
+        System.exit(0);
 
     }
-
 
     public void startGame()// initialise and start the thread
     {
@@ -79,12 +81,22 @@ public class Juego implements Runnable, Subject {
         }
     }
 
-    private void gameUpdate(){ //if (!gameOver)
+    private void gameUpdate() { //if (!gameOver)
         // update game state ...
+        jugador.mover();
+    }
+
+    public void moverJugadorHorizontal(int dx){
+        jugador.setDx(dx);
+    }
+    public void moverJugadorVertical(int dy){
+        jugador.setDy(dy);
     }
 
     public void stopGame() // called by the user to stop execution
-    { running = false; }
+    {
+        running = false;
+    }
 
 
     @Override
