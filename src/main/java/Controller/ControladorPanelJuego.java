@@ -19,6 +19,8 @@ public class ControladorPanelJuego {
 
             public void keyPressed(KeyEvent e) {
                 int keyCode = e.getKeyCode();
+                panelJuego.incremento++;
+                if (panelJuego.incremento > 31) panelJuego.incremento = 0;
                 if ((keyCode == KeyEvent.VK_ESCAPE) || (keyCode == KeyEvent.VK_Q)) {
                     juego.stopGame();
                 }

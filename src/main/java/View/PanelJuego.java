@@ -21,6 +21,7 @@ public class PanelJuego extends JPanel implements Observer
     private Image dbImage = null;
 
     private BufferedImage img = null;
+    public int incremento = 0;
 
     Juego juego;
 
@@ -34,7 +35,7 @@ public class PanelJuego extends JPanel implements Observer
         try
         {
             //TODO se deberia
-            img = ImageIO.read(getClass().getResourceAsStream( "/bub.png" ));
+            img = ImageIO.read(getClass().getResourceAsStream( "/linkformatted.png" ));
         }
         catch ( IOException exc )
         {
@@ -74,7 +75,12 @@ public class PanelJuego extends JPanel implements Observer
                 g.drawImage(dbImage, 0, 0, null);
             g.drawString("Esto es todo :)", 600,300);
             g.drawString("Con Esc o Q se cierra", 600,350);
-            g.drawImage( img , juego.getJugador().getX(),juego.getJugador().getY(), juego.getJugador().getWidth(), juego.getJugador().getHeight(), null);
+            //g.drawImage( img , juego.getJugador().getX(),juego.getJugador().getY(), juego.getJugador().getWidth(), juego.getJugador().getHeight(), null);
+
+            int mx = (incremento%8)*32;
+            int my = (incremento/8)*32;
+
+            g.drawImage(img,200, 200, 200+32, 200+32,mx, my, mx+32, my+32,this);
             Toolkit.getDefaultToolkit().sync(); // sync the display on some systems
             g.dispose();
         }
