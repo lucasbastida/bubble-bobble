@@ -1,6 +1,9 @@
 package Model;
 
+import javax.imageio.ImageIO;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class Sprite {
     private final int alto;
@@ -37,13 +40,26 @@ public class Sprite {
             }else incX = 0;
         }
 
-
     }
+    public BufferedImage cargarSprite(){
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(getClass().getResourceAsStream( dir ));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return img;
+    }
+
     public int getMx(){
        return (incX%columnas)*tamanio;
     }
     public int getMy(){
         return (incY/columnas)*tamanio;
+    }
+
+    public int getTamanio(){
+        return tamanio;
     }
 
 }
