@@ -5,7 +5,7 @@ import Model.Sprite;
 public class Jugador extends GameObject {
 
     private int dy, dx;
-    public static Sprite sprite = new Sprite(128, 256, 8, 4, "/linkFormatted");
+    public static Sprite sprite = new Sprite(128, 320, 2, 5, "/bub");
 
     public Jugador(int x, int y, int width, int height) {
         super(x, y, width, height);

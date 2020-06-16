@@ -25,31 +25,19 @@ public class Sprite {
     public void animacion(KeyEvent e){
         int keyCode = e.getKeyCode();
         if (keyCode == KeyEvent.VK_LEFT) {
-            incY = 1;
+            incY = 0;
            if(incX<columnas){
                incX++;
            }else incX = 0;
         }
         if (keyCode == KeyEvent.VK_RIGHT) {
-            incY = 0;
+            incY = columnas;
             if(incX<columnas){
                 incX++;
             }else incX = 0;
         }
 
-        if (keyCode == KeyEvent.VK_UP) {
-            incY = 2;
-            if(incX<columnas){
-                incX++;
-            }else incX = 0;
-        }
 
-        if (keyCode == KeyEvent.VK_DOWN) {
-            incY = 3;
-            if(incX<columnas){
-                incX++;
-            }else incX = 0;
-        }
     }
     public int getMx(){
        return (incX%columnas)*tamanio;
