@@ -25,7 +25,10 @@ public class Sprite {
         tamanio = ancho/columnas;
     }
 
-    public void animacion(KeyEvent e){
+    public void animacionJugador(KeyEvent e){
+        System.out.println("X = " + incX);
+        System.out.println("Y = " + incY);
+
         int keyCode = e.getKeyCode();
         if (keyCode == KeyEvent.VK_LEFT) {
             incY = 0;
@@ -38,6 +41,26 @@ public class Sprite {
             if(incX<columnas){
                 incX++;
             }else incX = 0;
+        }
+        if(keyCode == KeyEvent.VK_UP){ //Esto ya esta muy hardcodeado pero no se me ocurrio otra cosa
+            if(incY==columnas){
+                incY = 12;
+                incX = 3;
+            }
+            if(incY == 0){
+                incY = 13;
+                incX = 2;
+            }
+        }
+        if(keyCode == KeyEvent.VK_F){
+            if(incY==columnas){
+                incY = 12;
+                incX = 1;
+            }
+            if(incY == 0){
+                incY = 13;
+                incX = 0;
+            }
         }
 
     }
