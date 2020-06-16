@@ -21,7 +21,7 @@ public class PanelJuego extends JPanel implements Observer
     private Image dbImage = null;
 
     private BufferedImage img = null;
-    public int incremento = 0;
+    //public int incremento = 0;
 
     Juego juego;
 
@@ -77,10 +77,16 @@ public class PanelJuego extends JPanel implements Observer
             g.drawString("Con Esc o Q se cierra", 600,350);
             //g.drawImage( img , juego.getJugador().getX(),juego.getJugador().getY(), juego.getJugador().getWidth(), juego.getJugador().getHeight(), null);
 
-            int mx = (incremento%8)*32;
-            int my = (incremento/8)*32;
+           // int mx = (incremento%8)*32;
+            //int my = (incremento/8)*32;
 
-            g.drawImage(img,200, 200, 200+32, 200+32,mx, my, mx+32, my+32,this);
+            //g.drawImage(img,200, 200, 200+32, 200+32,mx, my, mx+32, my+32,this);
+            g.drawImage(img, juego.getJugador().getX(),juego.getJugador().getY(),juego.getJugador().getX()+32, juego.getJugador().getY()+32,
+                    juego.getJugador().getSprite().getMx(),
+                    juego.getJugador().getSprite().getMy(),
+                    juego.getJugador().getSprite().getMx()+32,
+                    juego.getJugador().getSprite().getMy()+32,this);
+
             Toolkit.getDefaultToolkit().sync(); // sync the display on some systems
             g.dispose();
         }
