@@ -19,6 +19,8 @@ public class ControladorPanelJuego {
 
             public void keyPressed(KeyEvent e) {
                 int keyCode = e.getKeyCode();
+                juego.getJugador().getSprite().animacionJugador(e);
+
                 if ((keyCode == KeyEvent.VK_ESCAPE) || (keyCode == KeyEvent.VK_Q)) {
                     juego.stopGame();
                 }

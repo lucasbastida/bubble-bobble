@@ -31,15 +31,7 @@ public class PanelJuego extends JPanel implements Observer
         setFocusable(true);
         requestFocus(); // JPanel now receives key events
 
-        try
-        {
-            //TODO se deberia
-            img = ImageIO.read(getClass().getResourceAsStream( "/bub.png" ));
-        }
-        catch ( IOException exc )
-        {
-            //TODO: Handle exception.
-        }
+        img = juego.getJugador().getSprite().cargarSprite();
     }
 
     public void addNotify()
@@ -72,14 +64,24 @@ public class PanelJuego extends JPanel implements Observer
             g = this.getGraphics(); // get the panel's graphic context
             if ((g != null) && (dbImage != null))
                 g.drawImage(dbImage, 0, 0, null);
-            g.drawString("Esto es todo :)", 600,300);
-            g.drawString("Con Esc o Q se cierra", 600,350);
-            g.drawImage( img , juego.getJugador().getX(),juego.getJugador().getY(), juego.getJugador().getWidth(), juego.getJugador().getHeight(), null);
+            //g.drawImage( img , juego.getJugador().getX(),juego.getJugador().getY(), juego.getJugador().getWidth(), juego.getJugador().getHeight(), null);
+
+            dibujarJugador(g);
             Toolkit.getDefaultToolkit().sync(); // sync the display on some systems
             g.dispose();
         }
         catch (Exception e)
         { System.out.println("Graphics context error: " + e); }
+    }
+
+    private void dibujarJugador(Graphics g){ //Esto es horrible pero no se como ordenarlo
+        g.drawImage(img, juego.getJugador().getX(),juego.getJugador().getY(),
+                juego.getJugador().getX()+juego.getJugador().getSprite().getTamanio(),
+                juego.getJugador().getY()+juego.getJugador().getSprite().getTamanio(),
+                juego.getJugador().getSprite().getMx(),
+                juego.getJugador().getSprite().getMy(),
+                juego.getJugador().getSprite().getMx()+juego.getJugador().getSprite().getTamanio(),
+                juego.getJugador().getSprite().getMy()+juego.getJugador().getSprite().getTamanio(),null);
     }
 
     @Override
