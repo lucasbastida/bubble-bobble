@@ -40,6 +40,9 @@ public class ControladorPanelJuego {
                 if (keyCode == KeyEvent.VK_DOWN) {
                     juego.getJugador().setDy(2);
                 }
+                if (keyCode == KeyEvent.VK_F) {
+                    juego.getJugador().disparar();
+                }
             }
 
             public void keyReleased(KeyEvent e) {

@@ -1,5 +1,6 @@
 package View;
 
+import Model.Burbuja;
 import Model.Juego;
 import util.Observer;
 
@@ -67,10 +68,6 @@ public class PanelJuego extends JPanel implements Observer
                 g.drawImage(dbImage, 0, 0, null);
                 dibujarJugador(g);
                 dibujarBurbujas(g);
-                //g.drawImage(juego.getJugador().getHabilidad().getSpriteSheet().getNewSubimage(0,0), juego.getJugador().getX()+20,
-                     //   juego.getJugador().getY(),
-                     //   juego.getJugador().getSpriteSheet().getTamanio(),
-                     //   juego.getJugador().getSpriteSheet().getTamanio(), null);
             }
 
             Toolkit.getDefaultToolkit().sync(); // sync the display on some systems
@@ -88,11 +85,14 @@ public class PanelJuego extends JPanel implements Observer
                juego.getJugador().getSpriteSheet().getTamanio(), null);
    }
    private void dibujarBurbujas(Graphics g){
-        g.drawImage(juego.getJugador().getHabilidad().getSprite(),
-                juego.getJugador().getX()+80,
-                juego.getJugador().getY(),
-                juego.getJugador().getHabilidad().getSpriteSheet().getTamanio(),
-                juego.getJugador().getHabilidad().getSpriteSheet().getTamanio(), null);
+       for (Burbuja burbuja:juego.getJugador().getBurbujas()) {
+           burbuja.mover(1);
+           g.drawImage(burbuja.getSprite(),
+                   burbuja.getX(),
+                   burbuja.getY(),
+                   juego.getJugador().getHabilidad().getSpriteSheet().getTamanio(),
+                   juego.getJugador().getHabilidad().getSpriteSheet().getTamanio(), null);
+       }
    }
     @Override
     public void update() {

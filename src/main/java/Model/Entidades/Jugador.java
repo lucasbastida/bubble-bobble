@@ -7,6 +7,7 @@ import Model.Sprite;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Jugador extends GameObject {
 
@@ -18,10 +19,12 @@ public class Jugador extends GameObject {
     private boolean mirandoDerecha = true;
 
     private Burbuja habilidad;
+    private ArrayList<Burbuja> burbujas;
 
     public Jugador(int x, int y, int width, int height) {
         super(x, y, width, height);
         setHabilidad(new BurbujaNormal(x+30, 7, 64,64));//cambiar esto
+        burbujas = new ArrayList<>();
     }
 
     public void mover() {
@@ -95,6 +98,11 @@ public class Jugador extends GameObject {
         }
     }
 
+    public void disparar(){
+        setHabilidad(new BurbujaNormal(x,y, width, height));
+        burbujas.add(getHabilidad());
+    }
+
     private void setSprite(int x, int y){
         BufferedImage[][] array = sprite.splitImage();
         spriteActual = array[x][y];
@@ -109,5 +117,8 @@ public class Jugador extends GameObject {
     }
     public Burbuja getHabilidad(){
         return habilidad;
+    }
+    public ArrayList<Burbuja> getBurbujas(){
+        return burbujas;
     }
 }

@@ -8,6 +8,6 @@ public interface Burbuja {
     int getX();
     int getY();
     Sprite getSpriteSheet();
-
     void animacionStop();
+    void mover(int direccion);
 }
