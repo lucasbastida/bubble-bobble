@@ -86,7 +86,7 @@ public class PanelJuego extends JPanel implements Observer
    }
    private void dibujarBurbujas(Graphics g){
        for (Burbuja burbuja:juego.getJugador().getBurbujas()) {
-           burbuja.mover(1);
+           burbuja.mover(); //esto no deberia estar aca, verdad?
            g.drawImage(burbuja.getSprite(),
                    burbuja.getX(),
                    burbuja.getY(),

@@ -7,22 +7,20 @@ import java.awt.image.BufferedImage;
 public class BurbujaNormal extends GameObject implements Burbuja  {
     private int dx;
     private int dy;
-    private final static int MAX_DES=200;
+    private final int direccion;
 
     public static Sprite sprite = new Sprite(64, 128, 1, 2, "/burbuja.png");
     public BufferedImage spriteActual;
 
-    public BurbujaNormal(int x, int y, int width, int height) {
+    public BurbujaNormal(int x, int y, int width, int height, int direccion) {
         super(x, y, width, height);
-
+        this.direccion = direccion;
     }
 
     public void animacionDisparar(){
         setSprite(0,0);
     }
-    public void animacionStop(){
-        setSprite(0,1);
-    }
+    public void animacionStop(){ setSprite(0,1); } //esto no me acuerdo cuando se usa ni por que
 
     private void setSprite(int x, int y){
         BufferedImage[][] array = sprite.splitImage();
@@ -35,12 +33,11 @@ public class BurbujaNormal extends GameObject implements Burbuja  {
         return sprite;
     }
 
-    public void mover(int direccion){ //direccion == -1 ->apunta a la izq
+    public void mover(){
         int speed = 3;
-        setX(getX() + speed);
-       /* if((getX())>500){ //TODO implementar que las burbujas desaparezan despues de un tiempo
-            setSprite(0,1);
-        }*/
+        setX(getX() + speed*direccion);
+       //TODO implementar que las burbujas desaparezan despues de un tiempo
+
     }
 
     public int getX(){
@@ -48,10 +45,6 @@ public class BurbujaNormal extends GameObject implements Burbuja  {
     }
     public int getY(){
         return y;
-    }
-    //Devuelve el maximo desplazamiento en pixeles que hace la burbuja antes de desaparecer
-    public int getMaxDes(){
-        return MAX_DES;
     }
 
 }

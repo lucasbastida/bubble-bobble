@@ -23,7 +23,7 @@ public class Jugador extends GameObject {
 
     public Jugador(int x, int y, int width, int height) {
         super(x, y, width, height);
-        setHabilidad(new BurbujaNormal(x+30, 7, 64,64));//cambiar esto
+        setHabilidad(new BurbujaNormal(x+30, y, 64,64,1));//cambiar esto
         burbujas = new ArrayList<>();
     }
 
@@ -99,7 +99,10 @@ public class Jugador extends GameObject {
     }
 
     public void disparar(){
-        setHabilidad(new BurbujaNormal(x,y, width, height));
+        int direccion;
+        if(mirandoDerecha) direccion = 1;
+        else direccion = -1;
+        setHabilidad(new BurbujaNormal(x,y, width, height,direccion));
         burbujas.add(getHabilidad());
     }
 
@@ -121,4 +124,5 @@ public class Jugador extends GameObject {
     public ArrayList<Burbuja> getBurbujas(){
         return burbujas;
     }
+
 }
