@@ -1,5 +1,6 @@
 package View;
 
+import Model.Burbuja;
 import Model.Juego;
 import util.Observer;
 
@@ -31,7 +32,8 @@ public class PanelJuego extends JPanel implements Observer
         setFocusable(true);
         requestFocus(); // JPanel now receives key events
 
-        img = juego.getJugador().getSprite().cargarSprite();
+        img = juego.getJugador().getSpriteSheet().cargarSprite();
+        juego.getJugador().getHabilidad().getSpriteSheet().cargarSprite();
     }
 
     public void addNotify()
@@ -62,11 +64,12 @@ public class PanelJuego extends JPanel implements Observer
         Graphics g;
         try {
             g = this.getGraphics(); // get the panel's graphic context
-            if ((g != null) && (dbImage != null))
+            if ((g != null) && (dbImage != null)){
                 g.drawImage(dbImage, 0, 0, null);
-            //g.drawImage( img , juego.getJugador().getX(),juego.getJugador().getY(), juego.getJugador().getWidth(), juego.getJugador().getHeight(), null);
+                dibujarJugador(g);
+                dibujarBurbujas(g);
+            }
 
-            dibujarJugador(g);
             Toolkit.getDefaultToolkit().sync(); // sync the display on some systems
             g.dispose();
         }
@@ -74,16 +77,23 @@ public class PanelJuego extends JPanel implements Observer
         { System.out.println("Graphics context error: " + e); }
     }
 
-    private void dibujarJugador(Graphics g){ //Esto es horrible pero no se como ordenarlo
-        g.drawImage(img, juego.getJugador().getX(),juego.getJugador().getY(),
-                juego.getJugador().getX()+juego.getJugador().getSprite().getTamanio(),
-                juego.getJugador().getY()+juego.getJugador().getSprite().getTamanio(),
-                juego.getJugador().getSprite().getMx(),
-                juego.getJugador().getSprite().getMy(),
-                juego.getJugador().getSprite().getMx()+juego.getJugador().getSprite().getTamanio(),
-                juego.getJugador().getSprite().getMy()+juego.getJugador().getSprite().getTamanio(),null);
-    }
-
+   private void dibujarJugador(Graphics g) { //capaz es innecesario pero me gusta mas asi
+       g.drawImage(juego.getJugador().getSprite(),
+               juego.getJugador().getX(),
+               juego.getJugador().getY(),
+               juego.getJugador().getSpriteSheet().getTamanio(),
+               juego.getJugador().getSpriteSheet().getTamanio(), null);
+   }
+   private void dibujarBurbujas(Graphics g){
+       for (Burbuja burbuja:juego.getJugador().getBurbujas()) {
+           burbuja.mover(); //esto no deberia estar aca, verdad?
+           g.drawImage(burbuja.getSprite(),
+                   burbuja.getX(),
+                   burbuja.getY(),
+                   juego.getJugador().getHabilidad().getSpriteSheet().getTamanio(),
+                   juego.getJugador().getHabilidad().getSpriteSheet().getTamanio(), null);
+       }
+   }
     @Override
     public void update() {
         gameRender();

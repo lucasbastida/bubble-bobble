@@ -22,6 +22,10 @@ public class GameObject {
         return y;
     }
 
+    public void setX(int x){
+        this.x = x;
+    }
+
     public int getWidth() {
         return width;
     }

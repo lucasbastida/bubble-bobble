@@ -1,6 +1,7 @@
 package Model;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -12,11 +13,10 @@ public class Sprite {
     private final int columnas;
     private final String dir;
     private final int tamanio;
-    private int incX = 0;
-    private int incY = 0;
+    private BufferedImage img;
 
-
-    public Sprite(int alto, int ancho, int filas, int columnas, String dir){
+    public Sprite(final int alto,final int ancho, final int filas,
+                  final int columnas, String dir){
         this.alto = alto;
         this.ancho = ancho;
         this.filas = filas;
@@ -25,47 +25,7 @@ public class Sprite {
         tamanio = ancho/columnas;
     }
 
-    public void animacionJugador(KeyEvent e){
-        System.out.println("X = " + incX);
-        System.out.println("Y = " + incY);
-
-        int keyCode = e.getKeyCode();
-        if (keyCode == KeyEvent.VK_LEFT) {
-            incY = 0;
-           if(incX<columnas){
-               incX++;
-           }else incX = 0;
-        }
-        if (keyCode == KeyEvent.VK_RIGHT) {
-            incY = columnas;
-            if(incX<columnas){
-                incX++;
-            }else incX = 0;
-        }
-        if(keyCode == KeyEvent.VK_UP){ //Esto ya esta muy hardcodeado pero no se me ocurrio otra cosa
-            if(incY==columnas){
-                incY = 12;
-                incX = 3;
-            }
-            if(incY == 0){
-                incY = 13;
-                incX = 2;
-            }
-        }
-        if(keyCode == KeyEvent.VK_F){
-            if(incY==columnas){
-                incY = 12;
-                incX = 1;
-            }
-            if(incY == 0){
-                incY = 13;
-                incX = 0;
-            }
-        }
-
-    }
     public BufferedImage cargarSprite(){
-        BufferedImage img = null;
         try {
             img = ImageIO.read(getClass().getResourceAsStream( dir ));
         } catch (IOException e) {
@@ -74,15 +34,33 @@ public class Sprite {
         return img;
     }
 
-    public int getMx(){
-       return (incX%columnas)*tamanio;
-    }
-    public int getMy(){
-        return (incY/columnas)*tamanio;
-    }
-
     public int getTamanio(){
         return tamanio;
     }
 
+    public int getColumnas() {return columnas;};
+
+    public BufferedImage[][] splitImage() {
+        BufferedImage[][] imageArray= new BufferedImage[filas][columnas]; //2D Array to hold each image piece
+        for (int y = 0; y < filas; y++)
+        {
+            for (int x = 0; x < columnas; x++)
+            {
+                //Initialize the image array with image chunks
+                imageArray[y][x] = getNewSubimage(x,y);
+            }
+        }
+        return imageArray;
+    }
+
+    public BufferedImage getNewSubimage(int x, int y) {
+        BufferedImage temp = img.getSubimage(tamanio*x,tamanio*y , tamanio, tamanio);
+        BufferedImage newImage = new BufferedImage(img.getColorModel(), img.getRaster().createCompatibleWritableRaster(tamanio,tamanio), img.isAlphaPremultiplied(), null);
+        temp.copyData(newImage.getRaster());
+        return newImage;
+    }
+
+    public BufferedImage getBufferedImage(){
+        return img;
+    }
 }

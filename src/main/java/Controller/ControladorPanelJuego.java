@@ -19,7 +19,7 @@ public class ControladorPanelJuego {
 
             public void keyPressed(KeyEvent e) {
                 int keyCode = e.getKeyCode();
-                juego.getJugador().getSprite().animacionJugador(e);
+                juego.getJugador().animacionPressed(keyCode);
 
                 if ((keyCode == KeyEvent.VK_ESCAPE) || (keyCode == KeyEvent.VK_Q)) {
                     juego.stopGame();
@@ -40,11 +40,14 @@ public class ControladorPanelJuego {
                 if (keyCode == KeyEvent.VK_DOWN) {
                     juego.getJugador().setDy(2);
                 }
+                if (keyCode == KeyEvent.VK_F) {
+                    juego.getJugador().disparar();
+                }
             }
 
             public void keyReleased(KeyEvent e) {
                 int keyCode = e.getKeyCode();
-
+                juego.getJugador().animacionRelease(keyCode);
                 if (keyCode == KeyEvent.VK_LEFT) {
                     juego.getJugador().setDx(0);
                 }
@@ -59,6 +62,9 @@ public class ControladorPanelJuego {
 
                 if (keyCode == KeyEvent.VK_DOWN) {
                     juego.getJugador().setDy(0);
+                }
+                if (keyCode == KeyEvent.VK_F) {
+                    juego.getJugador().getHabilidad().animacionStop();
                 }
             }
         });
