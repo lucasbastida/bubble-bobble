@@ -1,5 +1,7 @@
 package Model.Entidades;
 
+import Model.Burbuja;
+import Model.BurbujaNormal;
 import Model.Sprite;
 
 import java.awt.event.KeyEvent;
@@ -13,10 +15,13 @@ public class Jugador extends GameObject {
     public BufferedImage spriteActual;
     //esto se usa solamente para la animacion
     private static int index = 0;
-    boolean mirandoDerecha = true;
+    private boolean mirandoDerecha = true;
+
+    private Burbuja habilidad;
 
     public Jugador(int x, int y, int width, int height) {
         super(x, y, width, height);
+        setHabilidad(new BurbujaNormal(x+30, 7, 64,64));//cambiar esto
     }
 
     public void mover() {
@@ -65,6 +70,7 @@ public class Jugador extends GameObject {
             }
         }
         if (keyCode == KeyEvent.VK_F){
+            habilidad.animacionDisparar();
             if(mirandoDerecha){
                 setSprite(2,1);
             }else setSprite(2,0);
@@ -88,11 +94,20 @@ public class Jugador extends GameObject {
             } else setSprite(0, 0);
         }
     }
+
     private void setSprite(int x, int y){
         BufferedImage[][] array = sprite.splitImage();
         spriteActual = array[x][y];
     }
+
     public BufferedImage getSprite(){
         return spriteActual;
+    }
+
+    private void setHabilidad(Burbuja burbuja){
+        habilidad = burbuja;
+    }
+    public Burbuja getHabilidad(){
+        return habilidad;
     }
 }

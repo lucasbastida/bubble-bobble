@@ -60,6 +60,9 @@ public class ControladorPanelJuego {
                 if (keyCode == KeyEvent.VK_DOWN) {
                     juego.getJugador().setDy(0);
                 }
+                if (keyCode == KeyEvent.VK_F) {
+                    juego.getJugador().getHabilidad().animacionStop();
+                }
             }
         });
     }
