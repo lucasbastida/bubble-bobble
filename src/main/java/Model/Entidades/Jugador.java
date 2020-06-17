@@ -43,7 +43,7 @@ public class Jugador extends GameObject {
         return sprite;
     }
 
-    public void animacion(int keyCode){
+    public void animacionPressed(int keyCode){
         if (keyCode == KeyEvent.VK_LEFT) {
             mirandoDerecha = false;
             if(index < getSpriteSheet().getColumnas()-1){
@@ -73,6 +73,19 @@ public class Jugador extends GameObject {
             if (mirandoDerecha) {
                 setSprite(2, 3);
             } else setSprite(2, 2);
+        }
+    }
+
+    public void animacionRelease(int keyCode){
+        if (keyCode == KeyEvent.VK_F){
+            if(mirandoDerecha){
+                setSprite(1,0);
+            }else setSprite(0,0);
+        }
+        if (keyCode == KeyEvent.VK_UP) {
+            if (mirandoDerecha) {
+                setSprite(1, 0);
+            } else setSprite(0, 0);
         }
     }
     private void setSprite(int x, int y){

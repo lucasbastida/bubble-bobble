@@ -13,8 +13,6 @@ public class Sprite {
     private final int columnas;
     private final String dir;
     private final int tamanio;
-    private int incX = 0;
-    private int incY = 0;
     private BufferedImage img;
 
     public Sprite(final int alto,final int ancho, final int filas,

@@ -19,7 +19,7 @@ public class ControladorPanelJuego {
 
             public void keyPressed(KeyEvent e) {
                 int keyCode = e.getKeyCode();
-                juego.getJugador().animacion(keyCode);
+                juego.getJugador().animacionPressed(keyCode);
 
                 if ((keyCode == KeyEvent.VK_ESCAPE) || (keyCode == KeyEvent.VK_Q)) {
                     juego.stopGame();
@@ -44,7 +44,7 @@ public class ControladorPanelJuego {
 
             public void keyReleased(KeyEvent e) {
                 int keyCode = e.getKeyCode();
-
+                juego.getJugador().animacionRelease(keyCode);
                 if (keyCode == KeyEvent.VK_LEFT) {
                     juego.getJugador().setDx(0);
                 }
