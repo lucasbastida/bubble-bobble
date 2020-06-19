@@ -22,7 +22,7 @@ public class Juego implements Runnable, Subject {
     private ArrayList<Observer> observers = new ArrayList<>();
 
     //TODO cargar valores desde un archivo o clase que tenga las configuraciones?
-    private Jugador jugador = new Jugador(20, 20, 50, 150);
+    private Jugador jugador = new Jugador(20, 20);
     //private ArrayList<Burbuja> burbujas = jugador.getBurbujas();
 
     public void run() {
