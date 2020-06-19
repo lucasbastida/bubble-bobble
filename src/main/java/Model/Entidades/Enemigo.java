@@ -1,11 +1,9 @@
 package Model.Entidades;
 
-import java.awt.event.KeyEvent;
-
 public class Enemigo extends Sprite {
     private int index = 0;
     private int time = 2;
-    private boolean mirandoDerecha = true;
+    private int direccion = -1; //esta orientado hacia la izquierda
 
     public Enemigo(int x, int y) {
         super(x, y, 128, 256, 2, 4, "/walker.png");
@@ -15,23 +13,32 @@ public class Enemigo extends Sprite {
 
     public void mover(){
         int speed = 2;
-        setX(getX() + speed);
+        if(getX()>1200) direccion = -1;
+        if(getX()<10) direccion = 1;
+        setX(getX() + speed*direccion);
     }
     public void animacion(){
     if(time > 4) {
-        //mirandoDerecha = true;
         time = 0;
-        if (index < getColumnas()) {
+        if(direccion == 1)
+        if (index < getColumnas()-1) {
             index++;
             setSprite(1, index);
         } else {
             index = 0;
             setSprite(1, index);
         }
+        if(direccion == -1)
+            if (index < getColumnas()-1) {
+                index++;
+                setSprite(0, index);
+            } else {
+                index = 0;
+                setSprite(0, index);
+            }
     }else time++;
 
     }
-
 
     //TODO: implementar algoritmo de movimiento
 }
