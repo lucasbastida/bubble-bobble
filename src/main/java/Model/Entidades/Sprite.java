@@ -15,6 +15,7 @@ public class Sprite {
     protected String dir;
     protected final int tamanio;
     protected BufferedImage img;
+    public BufferedImage spriteActual;
 
     public Sprite(int x, int y, final int alto,final int ancho, final int filas,
                   final int columnas, String dir){
@@ -71,6 +72,12 @@ public class Sprite {
         temp.copyData(newImage.getRaster());
         return newImage;
     }
-
+    protected void setSprite(int x, int y){
+        BufferedImage[][] array = splitImage();
+        spriteActual = array[x][y];
+    }
+    public BufferedImage getSprite(){
+        return spriteActual;
+    }
     public BufferedImage getSpriteSheet(){ return img; }
 }

@@ -99,7 +99,7 @@ public class Jugador extends Sprite {
         burbujas.add(getHabilidad());
     }
 
-    private void setSprite(int x, int y){
+    protected void setSprite(int x, int y){
         BufferedImage[][] array = splitImage();
         spriteActual = array[x][y];
     }

@@ -20,7 +20,7 @@ public class BurbujaNormal extends Sprite implements Burbuja  {
     }
     public void animacionStop(){ setSprite(0,1); } //esto no me acuerdo cuando se usa ni por que
 
-    private void setSprite(int x, int y){
+    protected void setSprite(int x, int y){
         BufferedImage[][] array = splitImage();
         spriteActual = array[x][y];
     }
@@ -32,7 +32,6 @@ public class BurbujaNormal extends Sprite implements Burbuja  {
         int speed = 3;
         setX(getX() + speed*direccion);
        //TODO implementar que las burbujas desaparezan despues de un tiempo
-
     }
 
 }
