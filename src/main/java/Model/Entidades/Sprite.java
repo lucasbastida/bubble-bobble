@@ -80,4 +80,7 @@ public class Sprite {
         return spriteActual;
     }
     public BufferedImage getSpriteSheet(){ return img; }
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, tamanio, tamanio);
+    }
 }
