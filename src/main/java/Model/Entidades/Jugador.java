@@ -3,6 +3,7 @@ package Model.Entidades;
 import Model.Entidades.Burbujas.Burbuja;
 
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Jugador extends Sprite {
 
@@ -14,11 +15,11 @@ public class Jugador extends Sprite {
     public boolean disparando = false;
 
     private Burbuja habilidad;
-    private final ArrayList<Burbuja> burbujas;
+    private final CopyOnWriteArrayList<Burbuja> burbujas;
 
     public Jugador(int x, int y) {
         super(x, y, 320/5, 192/3);
-        burbujas = new ArrayList<>();
+        burbujas = new CopyOnWriteArrayList<>();
         setHabilidad(new Burbuja(x + 30, y, 1));//cambiar esto
     }
 
@@ -45,7 +46,7 @@ public class Jugador extends Sprite {
         return habilidad;
     }
 
-    public ArrayList<Burbuja> getBurbujas() {
+    public CopyOnWriteArrayList<Burbuja> getBurbujas() {
         return burbujas;
     }
 
