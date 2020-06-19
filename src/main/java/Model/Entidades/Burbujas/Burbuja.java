@@ -7,7 +7,7 @@ public class Burbuja extends Sprite { //Esto deberia ser una clase, no una inter
     private final int direccion;
 
     public Burbuja(int x, int y, int direccion) {
-        super(x, y,64, 128);
+        super(x, y, 128/2, 64);
         this.direccion = direccion;
     }
 

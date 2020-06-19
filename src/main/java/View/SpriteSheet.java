@@ -11,8 +11,6 @@ public class SpriteSheet {
     protected int filas;
     protected int columnas;
 
-    protected final int tamanio;
-
     private BufferedImage img; //imagen de sprite sheet entero
 
     private BufferedImage spriteActual; //una subimagen de imageArray
@@ -30,7 +28,6 @@ public class SpriteSheet {
         this.ancho = ancho;
         this.filas = filas;
         this.columnas = columnas;
-        this.tamanio = ancho / columnas;
 
         cargarSprite(dir);
         splitImage();
@@ -57,8 +54,8 @@ public class SpriteSheet {
     }
 
     private BufferedImage getNewSubimage(int x, int y) {
-        BufferedImage temp = img.getSubimage(tamanio * x, tamanio * y, tamanio, tamanio);
-        BufferedImage newImage = new BufferedImage(img.getColorModel(), img.getRaster().createCompatibleWritableRaster(tamanio, tamanio), img.isAlphaPremultiplied(), null);
+        BufferedImage temp = img.getSubimage(ancho/ columnas * x, alto/filas * y, ancho/ columnas, alto/filas);
+        BufferedImage newImage = new BufferedImage(img.getColorModel(), img.getRaster().createCompatibleWritableRaster(ancho/ columnas, alto/filas), img.isAlphaPremultiplied(), null);
         temp.copyData(newImage.getRaster());
         return newImage;
     }

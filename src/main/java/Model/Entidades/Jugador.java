@@ -17,7 +17,7 @@ public class Jugador extends Sprite {
     private final ArrayList<Burbuja> burbujas;
 
     public Jugador(int x, int y) {
-        super(x, y, 192, 320);
+        super(x, y, 320/5, 192/3);
         burbujas = new ArrayList<>();
         setHabilidad(new Burbuja(x + 30, y, 1));//cambiar esto
     }
