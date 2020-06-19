@@ -7,7 +7,7 @@ public class VistaJuego extends JFrame {
     public VistaJuego(PanelJuego panelJuego) {
         setTitle("Bubble Bobble");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setContentPane(panelJuego);
+        getContentPane().add(panelJuego);
         pack();
         setLocationRelativeTo(null);
         setResizable(false);

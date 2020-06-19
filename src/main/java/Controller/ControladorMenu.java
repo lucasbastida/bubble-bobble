@@ -37,6 +37,7 @@ public class ControladorMenu {
             juego.registerObserver(panelJuego);
             VistaJuego vistaJuego = new VistaJuego(panelJuego);
             ControladorPanelJuego controladorPanelJuego = new ControladorPanelJuego(panelJuego, juego);
+            juego.startGame(); // start the thread
         }
     }
 

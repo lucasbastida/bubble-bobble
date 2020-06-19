@@ -90,6 +90,14 @@ public class Juego implements Runnable, Subject {
     private void gameUpdate() { //if (!gameOver)
         // update game state ...
         jugador.mover();
+        moverBurbujas();
+    }
+
+    public void moverBurbujas() {
+        for (Burbuja b :
+                jugador.getBurbujas()) {
+            b.mover();
+        }
     }
 
     public void moverJugadorHorizontal(int dx){

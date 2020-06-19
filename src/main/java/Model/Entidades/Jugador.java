@@ -20,14 +20,19 @@ public class Jugador extends Sprite {
 
     public Jugador(int x, int y) {
         super(x, y, 192, 320, 3, 5, "/bub.png");
-        setHabilidad(new BurbujaNormal(x+30, y,1));//cambiar esto
+        dx = 0;
+        dy = 0;
+        setHabilidad(new BurbujaNormal(x + 30, y, 1));//cambiar esto
         burbujas = new ArrayList<>();
+
+        cargarSprite();
     }
 
     public void mover() {
         x += dx;
         y += dy;
     }
+
     public int getDy() {
         return dy;
     }
@@ -44,32 +49,32 @@ public class Jugador extends Sprite {
         this.dx = dx;
     }
 
-    public void animacionPressed(int keyCode){
+    public void animacionPressed(int keyCode) {
         if (keyCode == KeyEvent.VK_LEFT) {
             mirandoDerecha = false;
-            if(index < getColumnas()-1){
+            if (index < getColumnas() - 1) {
                 index++;
                 setSprite(0, index);
-            }else {
-                index =0;
-                setSprite(0,index);
+            } else {
+                index = 0;
+                setSprite(0, index);
             }
         }
         if (keyCode == KeyEvent.VK_RIGHT) {
             mirandoDerecha = true;
-            if(index < getColumnas()-1){
+            if (index < getColumnas() - 1) {
                 index++;
                 setSprite(1, index);
-            }else {
-                index =0;
-                setSprite(1,index);
+            } else {
+                index = 0;
+                setSprite(1, index);
             }
         }
-        if (keyCode == KeyEvent.VK_F){
+        if (keyCode == KeyEvent.VK_F) {
             habilidad.animacionDisparar();
-            if(mirandoDerecha){
-                setSprite(2,1);
-            }else setSprite(2,0);
+            if (mirandoDerecha) {
+                setSprite(2, 1);
+            } else setSprite(2, 0);
         }
         if (keyCode == KeyEvent.VK_UP) {
             if (mirandoDerecha) {
@@ -78,11 +83,11 @@ public class Jugador extends Sprite {
         }
     }
 
-    public void animacionRelease(int keyCode){
-        if (keyCode == KeyEvent.VK_F){
-            if(mirandoDerecha){
-                setSprite(1,0);
-            }else setSprite(0,0);
+    public void animacionRelease(int keyCode) {
+        if (keyCode == KeyEvent.VK_F) {
+            if (mirandoDerecha) {
+                setSprite(1, 0);
+            } else setSprite(0, 0);
         }
         if (keyCode == KeyEvent.VK_UP) {
             if (mirandoDerecha) {
@@ -91,30 +96,32 @@ public class Jugador extends Sprite {
         }
     }
 
-    public void disparar(){
+    public void disparar() {
         int direccion;
-        if(mirandoDerecha) direccion = 1;
+        if (mirandoDerecha) direccion = 1;
         else direccion = -1;
-        setHabilidad(new BurbujaNormal(x,y,direccion));
+        setHabilidad(new BurbujaNormal(x, y, direccion));
         burbujas.add(getHabilidad());
     }
 
-    private void setSprite(int x, int y){
+    private void setSprite(int x, int y) {
         BufferedImage[][] array = splitImage();
         spriteActual = array[x][y];
     }
 
-    public BufferedImage getSprite(){
+    public BufferedImage getSprite() {
         return spriteActual;
     }
 
-    private void setHabilidad(Burbuja burbuja){
+    private void setHabilidad(Burbuja burbuja) {
         habilidad = burbuja;
     }
-    public Burbuja getHabilidad(){
+
+    public Burbuja getHabilidad() {
         return habilidad;
     }
-    public ArrayList<Burbuja> getBurbujas(){
+
+    public ArrayList<Burbuja> getBurbujas() {
         return burbujas;
     }
 

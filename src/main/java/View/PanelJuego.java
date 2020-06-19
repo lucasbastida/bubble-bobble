@@ -12,91 +12,67 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class PanelJuego extends JPanel implements Observer
-{
-    private static final int PWIDTH = 1280; // size of panel
+public class PanelJuego extends JPanel implements Observer {
+
+    private static final int PWIDTH = 1280;
     private static final int PHEIGHT = 720;
 
-    // global variables for off-screen rendering
-    private Graphics dbg;
-    private Image dbImage = null;
+    private BufferedImage backBuffer;
 
-    private BufferedImage img = null;
-
-    Juego juego;
+    private Juego juego;
 
     public PanelJuego(Juego juego) {
         this.juego = juego;
         setBackground(Color.white);
-        setPreferredSize( new Dimension(PWIDTH, PHEIGHT));
+        setSize(new Dimension(PWIDTH, PHEIGHT));
+        setPreferredSize(new Dimension(PWIDTH, PHEIGHT));
         setFocusable(true);
         requestFocus(); // JPanel now receives key events
 
-        img = juego.getJugador().cargarSprite();
-        juego.getJugador().getHabilidad().cargarSprite();
-    }
-
-    public void addNotify()
-        /* Wait for the JPanel to be added to the
-        JFrame/JApplet before starting. */
-    {
-        super.addNotify(); // creates the peer
-        juego.startGame(); // start the thread
+        backBuffer = new BufferedImage(PWIDTH, PHEIGHT, BufferedImage.TYPE_INT_RGB); //crea un buffer para pintar
     }
 
 
-    private void gameRender(){ // draw the current frame to an image buffer
-        if (dbImage == null){ // create the buffer
-            dbImage = createImage(PWIDTH, PHEIGHT);
-            if (dbImage == null) {
-                System.out.println("dbImage is null");
-                return;
-            }
-            else dbg = dbImage.getGraphics( );
+
+    private void paintScreen() { // actively render the buffer image to the screen
+        Graphics g = getGraphics();
+
+        Graphics bbg = backBuffer.getGraphics();
+
+        bbg.clearRect(0,0,PWIDTH,PHEIGHT);
+        bbg.setColor(Color.BLUE);
+        bbg.fillRect(0, 0, PWIDTH, PHEIGHT);
+
+        //TODO no entiendo nada de la logica de la animacion, no carga al inicio porque la imagen esta en blanco debido a esto
+        //TODO refactorear jugador y burbuja porque esta todo acoplado y no se entiende nada
+        //todos los numeros magicos contribuye al quilombo
+        dibujarJugador(bbg);
+        dibujarBurbujas(bbg);
+
+        g.drawImage(backBuffer, 0 , 0, null);
+    }
+
+
+    private void dibujarJugador(Graphics g) {
+        g.drawImage(juego.getJugador().getSprite(),
+                juego.getJugador().getX(),
+                juego.getJugador().getY(),
+                juego.getJugador().getTamanio(),
+                juego.getJugador().getTamanio(), null);
+    }
+
+    private void dibujarBurbujas(Graphics g) {
+        for (Burbuja burbuja : juego.getJugador().getBurbujas()) {
+            g.drawImage(burbuja.getSprite(),
+                    burbuja.getX(),
+                    burbuja.getY(),
+                    juego.getJugador().getHabilidad().getTamanio(),
+                    juego.getJugador().getHabilidad().getTamanio(), null);
         }
-        // clear the background
-        dbg.setColor(new Color(44, 70, 121));
-        dbg.fillRect (0, 0, PWIDTH, PHEIGHT);
-        // draw game elements
     }
 
-    private void paintScreen( ){ // actively render the buffer image to the screen
-        Graphics g;
-        try {
-            g = this.getGraphics(); // get the panel's graphic context
-            if ((g != null) && (dbImage != null)){
-                g.drawImage(dbImage, 0, 0, null);
-                dibujarJugador(g);
-                dibujarBurbujas(g);
-            }
-
-            Toolkit.getDefaultToolkit().sync(); // sync the display on some systems
-            g.dispose();
-        }
-        catch (Exception e)
-        { System.out.println("Graphics context error: " + e); }
-    }
-
-   private void dibujarJugador(Graphics g) { //capaz es innecesario pero me gusta mas asi
-       g.drawImage(juego.getJugador().getSprite(),
-               juego.getJugador().getX(),
-               juego.getJugador().getY(),
-               juego.getJugador().getTamanio(),
-               juego.getJugador().getTamanio(), null);
-   }
-   private void dibujarBurbujas(Graphics g){
-       for (Burbuja burbuja:juego.getJugador().getBurbujas()) {
-           burbuja.mover(); //esto no deberia estar aca, verdad?
-           g.drawImage(burbuja.getSprite(),
-                   burbuja.getX(),
-                   burbuja.getY(),
-                   juego.getJugador().getHabilidad().getTamanio(),
-                   juego.getJugador().getHabilidad().getTamanio(), null);
-       }
-   }
     @Override
     public void update() {
-        gameRender();
         paintScreen();
     }
 }

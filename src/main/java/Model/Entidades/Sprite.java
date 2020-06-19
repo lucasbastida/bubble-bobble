@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Sprite {
+
     protected int x;
     protected int y;
     protected int alto; //alto de la hoja de sprites en px
@@ -50,7 +51,7 @@ public class Sprite {
 
     public int getTamanio(){ return tamanio; }
 
-    public int getColumnas() {return columnas;};
+    public int getColumnas() {return columnas;}
 
     public BufferedImage[][] splitImage() {
         BufferedImage[][] imageArray= new BufferedImage[filas][columnas]; //2D Array to hold each image piece
