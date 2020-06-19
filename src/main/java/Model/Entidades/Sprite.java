@@ -31,4 +31,7 @@ public class Sprite {
         return y;
     }
 
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, tamanio, tamanio);
+    }
 }

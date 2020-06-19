@@ -59,4 +59,21 @@ public class Jugador extends Sprite {
         this.dx = dx;
     }
 
+    public void checkCollisions(ArrayList<Enemigo> enemigos) {
+
+        Rectangle r1 = this.getBounds();
+
+        for (Enemigo enemigo : enemigos) {
+
+            Rectangle r2 = enemigo.getBounds();
+
+            if (r1.intersects(r2)) {
+                morir();
+            }
+        }
+    }
+
+    public void morir(){
+        setSprite(2,4);
+    }
 }

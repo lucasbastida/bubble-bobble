@@ -57,6 +57,7 @@ public class PanelJuego extends JPanel implements Observer {
         //todos los numeros magicos contribuye al quilombo
         dibujarJugador(bbg);
         dibujarBurbujas(bbg);
+        dibujarEnemigos(bgg);
 
         g.drawImage(backBuffer, 0 , 0, null);
     }
@@ -64,6 +65,7 @@ public class PanelJuego extends JPanel implements Observer {
 
     //TODO usar enum en vez de literales?
     private void dibujarJugador(Graphics g) {
+        //TODO juego.getJugador().checkCollisions(juego.getEnemigos());
         g.drawImage(imagenes.get("bub").getSpriteActual(), //usa los datos de sprite sheet,
                 juego.getJugador().getX(), //obtiene las coordenadas y su altura y anchura para dibujar del modelo
                 juego.getJugador().getY(),
@@ -73,12 +75,26 @@ public class PanelJuego extends JPanel implements Observer {
 
     private void dibujarBurbujas(Graphics g) {
         for (Burbuja burbuja : juego.getJugador().getBurbujas()) {
+            //TODO burbuja.checkCollisions(juego.getEnemigos());
             g.drawImage(imagenes.get("burbuja").getSpriteActual(),//obtiene la imagen burbuja desde el objeto sprite sheet en el hashmap
                     burbuja.getX(), //obtiene las coordenadas y su altura y anchura para dibujar del modelo
                     burbuja.getY(),
                     burbuja.getAncho(),
                     burbuja.getAlto(), null);
         }
+    }
+
+    private void dibujarEnemigos(Graphics g) { //capaz es innecesario pero me gusta mas asi
+        for (Enemigo enemigo:juego.getEnemigos()) {
+            enemigo.animacion();
+            enemigo.mover();
+            g.drawImage(enemigo.getSprite(),
+                    enemigo.getX(),
+                    enemigo.getY(),
+                    enemigo.getTamanio(),
+                    enemigo.getTamanio(), null);
+        }
+
     }
 
     @Override

@@ -1,6 +1,7 @@
 package Model;
 
 import Model.Entidades.Burbujas.Burbuja;
+import Model.Entidades.Enemigo;
 import Model.Entidades.Jugador;
 import util.Observer;
 import util.Subject;
@@ -24,7 +25,14 @@ public class Juego implements Runnable, Subject {
 
     //TODO cargar valores desde un archivo o clase que tenga las configuraciones?
     private Jugador jugador = new Jugador(20, 20);
+    public ArrayList<Enemigo> enemigos = new ArrayList<>(); //TODO cambiar esto
     //private ArrayList<Burbuja> burbujas = jugador.getBurbujas();
+    public Juego(){
+        enemigos.add(new Enemigo(300,300));
+        enemigos.add(new Enemigo(200,200));
+        enemigos.add(new Enemigo(500,500));
+        enemigos.add(new Enemigo(500,400));
+    }
 
     public void run() {
 
@@ -106,7 +114,9 @@ public class Juego implements Runnable, Subject {
         running = false;
     }
 
-
+    public ArrayList<Enemigo> getEnemigos(){
+        return enemigos;
+    }
     @Override
     public boolean registerObserver(Observer observer) {
         return observers.add(observer);
