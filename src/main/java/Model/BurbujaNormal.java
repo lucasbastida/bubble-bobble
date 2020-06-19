@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 public class BurbujaNormal extends Sprite implements Burbuja  {
     private final int direccion;
 
-    //public static Sprite sprite = new Sprite(0,0, 64, 128, 1, 2, "/burbuja.png");
     public BufferedImage spriteActual;
 
     public BurbujaNormal(int x, int y, int direccion) {

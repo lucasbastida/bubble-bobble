@@ -9,14 +9,7 @@ import java.util.ArrayList;
 
 public class Jugador extends Sprite {
 
-    /*private static final String dir = "/bub.png";
-    private static final int filas = 3;
-    private static final int columnas = 5;
-    private static final int alto = 192;
-    private static final int ancho = 320;
-    */
     private int dy, dx;
-    //public static Sprite sprite = new Sprite(128, 320, 3, 5, "/bub.png");
     public BufferedImage spriteActual;
     //esto se usa solamente para la animacion
     private static int index = 0;
