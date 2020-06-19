@@ -54,8 +54,8 @@ public class SpriteSheet {
     }
 
     private BufferedImage getNewSubimage(int x, int y) {
-        BufferedImage temp = img.getSubimage(ancho/ columnas * x, alto/filas * y, ancho/ columnas, alto/filas);
-        BufferedImage newImage = new BufferedImage(img.getColorModel(), img.getRaster().createCompatibleWritableRaster(ancho/ columnas, alto/filas), img.isAlphaPremultiplied(), null);
+        BufferedImage temp = img.getSubimage(ancho / columnas * x, alto / filas * y, ancho / columnas, alto / filas);
+        BufferedImage newImage = new BufferedImage(img.getColorModel(), img.getRaster().createCompatibleWritableRaster(ancho / columnas, alto / filas), img.isAlphaPremultiplied(), null);
         temp.copyData(newImage.getRaster());
         return newImage;
     }

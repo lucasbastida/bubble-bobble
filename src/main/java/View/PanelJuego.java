@@ -44,14 +44,13 @@ public class PanelJuego extends JPanel implements Observer {
     }
 
 
-    private void paintScreen() { // actively render the buffer image to the screen
+    public void paintScreen() { // actively render the buffer image to the screen
+//        super.(g); //alternativa para pintar (tambien doble buffered) -> renombrar paintScreen a paintComponent(Grap
         Graphics g = getGraphics();
-
         Graphics bbg = backBuffer.getGraphics();
 
-        bbg.clearRect(0,0,PWIDTH,PHEIGHT);
-//        bbg.setColor(Color.BLUE);
-//        bbg.fillRect(0, 0, PWIDTH, PHEIGHT);
+        bbg.setColor(Color.WHITE);
+        bbg.fillRect(0, 0, PWIDTH, PHEIGHT);
 
         //TODO no entiendo nada de la logica de la animacion, no carga al inicio porque la imagen esta en blanco debido a esto
         //TODO refactorear jugador y burbuja porque esta todo acoplado y no se entiende nada
@@ -68,8 +67,8 @@ public class PanelJuego extends JPanel implements Observer {
         g.drawImage(imagenes.get("bub").getSpriteActual(), //usa los datos de sprite sheet,
                 juego.getJugador().getX(), //obtiene las coordenadas y su altura y anchura para dibujar del modelo
                 juego.getJugador().getY(),
-                juego.getJugador().getAncho(),
-                juego.getJugador().getAlto(), null);
+                100,
+                100, null);
     }
 
     private void dibujarBurbujas(Graphics g) {
@@ -77,14 +76,15 @@ public class PanelJuego extends JPanel implements Observer {
             g.drawImage(imagenes.get("burbuja").getSpriteActual(),//obtiene la imagen burbuja desde el objeto sprite sheet en el hashmap
                     burbuja.getX(), //obtiene las coordenadas y su altura y anchura para dibujar del modelo
                     burbuja.getY(),
-                    burbuja.getAncho(),
-                    burbuja.getAlto(), null);
+                    100,
+                    100, null);
         }
     }
 
     @Override
     public void update() {
         paintScreen();
+//        repaint();//alternativa para pintar (tambien doble buffered)
     }
 
     public HashMap<String, SpriteSheet> getImagenes() {
