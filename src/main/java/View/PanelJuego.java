@@ -1,6 +1,7 @@
 package View;
 
 import Model.Burbuja;
+import Model.Entidades.Enemigo;
 import Model.Juego;
 import util.Observer;
 
@@ -68,6 +69,7 @@ public class PanelJuego extends JPanel implements Observer
                 g.drawImage(dbImage, 0, 0, null);
                 dibujarJugador(g);
                 dibujarBurbujas(g);
+                dibujarEnemigos(g);
             }
 
             Toolkit.getDefaultToolkit().sync(); // sync the display on some systems
@@ -78,7 +80,8 @@ public class PanelJuego extends JPanel implements Observer
     }
 
    private void dibujarJugador(Graphics g) { //capaz es innecesario pero me gusta mas asi
-       g.drawImage(juego.getJugador().getSprite(),
+       juego.getJugador().checkCollisions(juego.getEnemigos());
+        g.drawImage(juego.getJugador().getSprite(),
                juego.getJugador().getX(),
                juego.getJugador().getY(),
                juego.getJugador().getTamanio(),
@@ -87,6 +90,7 @@ public class PanelJuego extends JPanel implements Observer
    private void dibujarBurbujas(Graphics g){
        for (Burbuja burbuja:juego.getJugador().getBurbujas()) {
            burbuja.mover(); //esto no deberia estar aca, verdad?
+           burbuja.checkCollisions(juego.getEnemigos());
            g.drawImage(burbuja.getSprite(),
                    burbuja.getX(),
                    burbuja.getY(),
@@ -94,6 +98,18 @@ public class PanelJuego extends JPanel implements Observer
                    juego.getJugador().getHabilidad().getTamanio(), null);
        }
    }
+    private void dibujarEnemigos(Graphics g) { //capaz es innecesario pero me gusta mas asi
+        for (Enemigo enemigo:juego.getEnemigos()) {
+            enemigo.animacion();
+            enemigo.mover();
+            g.drawImage(enemigo.getSprite(),
+                    enemigo.getX(),
+                    enemigo.getY(),
+                    enemigo.getTamanio(),
+                    enemigo.getTamanio(), null);
+        }
+
+    }
     @Override
     public void update() {
         gameRender();
