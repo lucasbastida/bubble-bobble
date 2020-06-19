@@ -67,8 +67,8 @@ public class PanelJuego extends JPanel implements Observer {
         g.drawImage(imagenes.get("bub").getSpriteActual(), //usa los datos de sprite sheet,
                 juego.getJugador().getX(), //obtiene las coordenadas y su altura y anchura para dibujar del modelo
                 juego.getJugador().getY(),
-                100,
-                100, null);
+                juego.getJugador().getAncho(),
+                juego.getJugador().getAlto(), null);
     }
 
     private void dibujarBurbujas(Graphics g) {
@@ -76,8 +76,8 @@ public class PanelJuego extends JPanel implements Observer {
             g.drawImage(imagenes.get("burbuja").getSpriteActual(),//obtiene la imagen burbuja desde el objeto sprite sheet en el hashmap
                     burbuja.getX(), //obtiene las coordenadas y su altura y anchura para dibujar del modelo
                     burbuja.getY(),
-                    100,
-                    100, null);
+                    burbuja.getAncho(),
+                    burbuja.getAlto(), null);
         }
     }
 

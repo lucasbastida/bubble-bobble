@@ -6,12 +6,13 @@ public class Sprite {
     protected int y;
 
     protected int alto; //para colisiones entre objetos en el modelo. No tiene nada que ver con la vista.
-    protected int ancho;
+    public int ancho;
 
     public Sprite(int x, int y, int ancho, int alto) {
         this.x = x;
         this.y = y;
-
+        this.ancho = ancho;
+        this.alto = alto;
     }
 
     public int getAlto() {
