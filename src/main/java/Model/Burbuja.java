@@ -1,5 +1,7 @@
 package Model;
 
+import Model.Entidades.Sprite;
+
 import java.awt.image.BufferedImage;
 
 public interface Burbuja { //Esto deberia ser una clase, no una interfaz
@@ -9,7 +11,8 @@ public interface Burbuja { //Esto deberia ser una clase, no una interfaz
     BufferedImage getSprite();
     int getX();
     int getY();
-    Sprite getSpriteSheet();
     void animacionStop();
     void mover();
+    public BufferedImage cargarSprite();
+    public int getTamanio();
 }

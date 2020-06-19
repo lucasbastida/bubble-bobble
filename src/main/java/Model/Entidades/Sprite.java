@@ -1,28 +1,42 @@
-package Model;
+package Model.Entidades;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Sprite {
-    private final int alto;
-    private final int ancho;
-    private final int filas;
-    private final int columnas;
-    private final String dir;
-    private final int tamanio;
-    private BufferedImage img;
+    protected int x;
+    protected int y;
+    protected int alto; //alto de la hoja de sprites en px
+    protected int ancho;
+    protected int filas;
+    protected int columnas;
+    protected String dir;
+    protected final int tamanio;
+    protected BufferedImage img;
 
-    public Sprite(final int alto,final int ancho, final int filas,
+    public Sprite(int x, int y, final int alto,final int ancho, final int filas,
                   final int columnas, String dir){
+        this.x = x;
+        this.y = y;
         this.alto = alto;
         this.ancho = ancho;
         this.filas = filas;
         this.columnas = columnas;
         this.dir = dir;
         tamanio = ancho/columnas;
+    }
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setX(int x){
+        this.x = x;
     }
 
     public BufferedImage cargarSprite(){
@@ -34,9 +48,7 @@ public class Sprite {
         return img;
     }
 
-    public int getTamanio(){
-        return tamanio;
-    }
+    public int getTamanio(){ return tamanio; }
 
     public int getColumnas() {return columnas;};
 
@@ -60,7 +72,5 @@ public class Sprite {
         return newImage;
     }
 
-    public BufferedImage getBufferedImage(){
-        return img;
-    }
+    public BufferedImage getSpriteSheet(){ return img; }
 }

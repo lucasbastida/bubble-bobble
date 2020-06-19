@@ -2,28 +2,32 @@ package Model.Entidades;
 
 import Model.Burbuja;
 import Model.BurbujaNormal;
-import Model.Sprite;
 
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 
-public class Jugador extends GameObject {
+public class Jugador extends Sprite {
 
+    /*private static final String dir = "/bub.png";
+    private static final int filas = 3;
+    private static final int columnas = 5;
+    private static final int alto = 192;
+    private static final int ancho = 320;
+    */
     private int dy, dx;
-    public static Sprite sprite = new Sprite(128, 320, 3, 5, "/bub.png");
+    //public static Sprite sprite = new Sprite(128, 320, 3, 5, "/bub.png");
     public BufferedImage spriteActual;
     //esto se usa solamente para la animacion
     private static int index = 0;
     private boolean mirandoDerecha = true;
 
     private Burbuja habilidad;
-    private ArrayList<Burbuja> burbujas;
+    private final ArrayList<Burbuja> burbujas;
 
-    public Jugador(int x, int y, int width, int height) {
-        super(x, y, width, height);
-        setHabilidad(new BurbujaNormal(x+30, y, 64,64,1));//cambiar esto
+    public Jugador(int x, int y) {
+        super(x, y, 192, 320, 3, 5, "/bub.png");
+        setHabilidad(new BurbujaNormal(x+30, y,1));//cambiar esto
         burbujas = new ArrayList<>();
     }
 
@@ -47,14 +51,10 @@ public class Jugador extends GameObject {
         this.dx = dx;
     }
 
-    public Sprite getSpriteSheet(){
-        return sprite;
-    }
-
     public void animacionPressed(int keyCode){
         if (keyCode == KeyEvent.VK_LEFT) {
             mirandoDerecha = false;
-            if(index < getSpriteSheet().getColumnas()-1){
+            if(index < getColumnas()-1){
                 index++;
                 setSprite(0, index);
             }else {
@@ -64,7 +64,7 @@ public class Jugador extends GameObject {
         }
         if (keyCode == KeyEvent.VK_RIGHT) {
             mirandoDerecha = true;
-            if(index < getSpriteSheet().getColumnas()-1){
+            if(index < getColumnas()-1){
                 index++;
                 setSprite(1, index);
             }else {
@@ -102,12 +102,12 @@ public class Jugador extends GameObject {
         int direccion;
         if(mirandoDerecha) direccion = 1;
         else direccion = -1;
-        setHabilidad(new BurbujaNormal(x,y, width, height,direccion));
+        setHabilidad(new BurbujaNormal(x,y,direccion));
         burbujas.add(getHabilidad());
     }
 
     private void setSprite(int x, int y){
-        BufferedImage[][] array = sprite.splitImage();
+        BufferedImage[][] array = splitImage();
         spriteActual = array[x][y];
     }
 

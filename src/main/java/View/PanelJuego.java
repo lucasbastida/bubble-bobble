@@ -32,8 +32,8 @@ public class PanelJuego extends JPanel implements Observer
         setFocusable(true);
         requestFocus(); // JPanel now receives key events
 
-        img = juego.getJugador().getSpriteSheet().cargarSprite();
-        juego.getJugador().getHabilidad().getSpriteSheet().cargarSprite();
+        img = juego.getJugador().cargarSprite();
+        juego.getJugador().getHabilidad().cargarSprite();
     }
 
     public void addNotify()
@@ -81,8 +81,8 @@ public class PanelJuego extends JPanel implements Observer
        g.drawImage(juego.getJugador().getSprite(),
                juego.getJugador().getX(),
                juego.getJugador().getY(),
-               juego.getJugador().getSpriteSheet().getTamanio(),
-               juego.getJugador().getSpriteSheet().getTamanio(), null);
+               juego.getJugador().getTamanio(),
+               juego.getJugador().getTamanio(), null);
    }
    private void dibujarBurbujas(Graphics g){
        for (Burbuja burbuja:juego.getJugador().getBurbujas()) {
@@ -90,8 +90,8 @@ public class PanelJuego extends JPanel implements Observer
            g.drawImage(burbuja.getSprite(),
                    burbuja.getX(),
                    burbuja.getY(),
-                   juego.getJugador().getHabilidad().getSpriteSheet().getTamanio(),
-                   juego.getJugador().getHabilidad().getSpriteSheet().getTamanio(), null);
+                   juego.getJugador().getHabilidad().getTamanio(),
+                   juego.getJugador().getHabilidad().getTamanio(), null);
        }
    }
     @Override
