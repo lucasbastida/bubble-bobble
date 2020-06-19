@@ -8,65 +8,102 @@ import java.awt.event.KeyEvent;
 
 public class ControladorPanelJuego {
 
-    PanelJuego panelJuego;
-    //Juego juego;
+    private PanelJuego panelJuego;
+    private Juego juego;
+
+    private int index = 0;
 
     public ControladorPanelJuego(PanelJuego panelJuego, Juego juego) {
         this.panelJuego = panelJuego;
-        //this.juego = juego;
+        this.juego = juego;
 
         panelJuego.addKeyListener(new KeyAdapter() {
 
             public void keyPressed(KeyEvent e) {
                 int keyCode = e.getKeyCode();
-                juego.getJugador().animacionPressed(keyCode);
+
+                movementPressed(keyCode);
 
                 if ((keyCode == KeyEvent.VK_ESCAPE) || (keyCode == KeyEvent.VK_Q)) {
                     juego.stopGame();
-                }
-
-                if (keyCode == KeyEvent.VK_LEFT) {
-                    juego.getJugador().setDx(-2);
-                }
-
-                if (keyCode == KeyEvent.VK_RIGHT) {
-                    juego.getJugador().setDx(2);
-                }
-
-                if (keyCode == KeyEvent.VK_UP) {
-                    juego.getJugador().setDy(-2);
-                }
-
-                if (keyCode == KeyEvent.VK_DOWN) {
-                    juego.getJugador().setDy(2);
-                }
-                if (keyCode == KeyEvent.VK_F) {
-                    juego.getJugador().disparar();
                 }
             }
 
             public void keyReleased(KeyEvent e) {
                 int keyCode = e.getKeyCode();
-                juego.getJugador().animacionRelease(keyCode);
-                if (keyCode == KeyEvent.VK_LEFT) {
-                    juego.getJugador().setDx(0);
-                }
 
-                if (keyCode == KeyEvent.VK_RIGHT) {
-                    juego.getJugador().setDx(0);
-                }
-
-                if (keyCode == KeyEvent.VK_UP) {
-                    juego.getJugador().setDy(0);
-                }
-
-                if (keyCode == KeyEvent.VK_DOWN) {
-                    juego.getJugador().setDy(0);
-                }
-                if (keyCode == KeyEvent.VK_F) {
-                    juego.getJugador().getHabilidad().animacionStop();
-                }
+                movementReleased(keyCode);
             }
         });
     }
+
+    private void movementPressed(int keyCode) {
+        if (keyCode == KeyEvent.VK_LEFT) {
+            juego.getJugador().setDx(-2);
+            juego.getJugador().mirandoDerecha = false;
+            if (index < panelJuego.getImagenes().get("bub").getColumnas() - 1) {
+                index++;
+                panelJuego.getImagenes().get("bub").setSpriteActual(0, index);
+            } else {
+                index = 0;
+                panelJuego.getImagenes().get("bub").setSpriteActual(0, index);
+            }
+        }
+
+        if (keyCode == KeyEvent.VK_RIGHT) {
+            juego.getJugador().setDx(2);
+            juego.getJugador().mirandoDerecha = true;
+            if (index < panelJuego.getImagenes().get("bub").getColumnas() - 1) {
+                index++;
+                panelJuego.getImagenes().get("bub").setSpriteActual(1, index);
+            } else {
+                index = 0;
+                panelJuego.getImagenes().get("bub").setSpriteActual(1, index);
+            }
+        }
+
+        if (keyCode == KeyEvent.VK_UP) {
+            juego.getJugador().setDy(-2);
+            if (juego.getJugador().mirandoDerecha) {
+                panelJuego.getImagenes().get("bub").setSpriteActual(2, 3);
+            } else panelJuego.getImagenes().get("bub").setSpriteActual(2, 2);
+        }
+
+        if (keyCode == KeyEvent.VK_DOWN) {
+            juego.getJugador().setDy(2);
+        }
+        if (keyCode == KeyEvent.VK_F) {
+            juego.getJugador().disparar();
+            if (juego.getJugador().mirandoDerecha) {
+                panelJuego.getImagenes().get("bub").setSpriteActual(2, 1);
+            } else panelJuego.getImagenes().get("bub").setSpriteActual(2, 0);
+        }
+    }
+
+    private void movementReleased(int keyCode) {
+        if (keyCode == KeyEvent.VK_LEFT) {
+            juego.getJugador().setDx(0);
+        }
+
+        if (keyCode == KeyEvent.VK_RIGHT) {
+            juego.getJugador().setDx(0);
+        }
+
+        if (keyCode == KeyEvent.VK_UP) {
+            juego.getJugador().setDy(0);
+            if (juego.getJugador().mirandoDerecha) {
+                panelJuego.getImagenes().get("bub").setSpriteActual(1, 0);
+            } else panelJuego.getImagenes().get("bub").setSpriteActual(0, 0);
+        }
+
+        if (keyCode == KeyEvent.VK_DOWN) {
+            juego.getJugador().setDy(0);
+        }
+        if (keyCode == KeyEvent.VK_F) {
+            if (juego.getJugador().mirandoDerecha) {
+                panelJuego.getImagenes().get("bub").setSpriteActual(1, 0);
+            } else panelJuego.getImagenes().get("bub").setSpriteActual(0, 0);
+        }
+    }
+
 }

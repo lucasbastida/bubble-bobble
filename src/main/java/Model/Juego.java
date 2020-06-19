@@ -1,5 +1,6 @@
 package Model;
 
+import Model.Entidades.Burbujas.Burbuja;
 import Model.Entidades.Jugador;
 import util.Observer;
 import util.Subject;
@@ -98,13 +99,6 @@ public class Juego implements Runnable, Subject {
                 jugador.getBurbujas()) {
             b.mover();
         }
-    }
-
-    public void moverJugadorHorizontal(int dx){
-        jugador.setDx(dx);
-    }
-    public void moverJugadorVertical(int dy){
-        jugador.setDy(dy);
     }
 
     public void stopGame() // called by the user to stop execution
