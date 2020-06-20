@@ -27,9 +27,12 @@ public class Jugador extends Sprite {
         setHabilidad(new Burbuja(x + 30, y, 1));//cambiar esto
     }
 
-    public void mover() {
-        x += dx*speed;
-        y += dy*speed;
+    public void mover(CopyOnWriteArrayList<Bloque> walls) {
+
+        if(!checkCollisionsWall(walls)){
+            x += dx*speed;
+            y += dy*speed;
+        }
         System.out.println("posicion jugador: " + x + ":" + y);
     }
 
@@ -73,7 +76,7 @@ public class Jugador extends Sprite {
             }
         }
     }
-    public void checkCollisionsWall(CopyOnWriteArrayList<Bloque> walls) {
+    public boolean checkCollisionsWall(CopyOnWriteArrayList<Bloque> walls) {
     //TODO: hacer un metodo que funcione
         Rectangle r1 = this.getOffsetBounds();
 
@@ -82,10 +85,10 @@ public class Jugador extends Sprite {
             Rectangle r2 = b.getBounds();
 
             if (r1.intersects(r2)) {
-                setDx(0);
-                setDy(0);
+                return true;
             }
         }
+        return false;
     }
 
     public void morir() {

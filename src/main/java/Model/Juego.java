@@ -103,12 +103,12 @@ public class Juego implements Runnable, Subject {
 
     private void gameUpdate() { //if (!gameOver)
         // update game state ...
-        jugador.mover();
+        jugador.mover(getWalls());
         //jugador.caerPorGravedad();
         moverBurbujas();
         moverEnemigos();
         jugador.checkCollisions(enemigos);
-        jugador.checkCollisionsWall(getWalls());
+        //jugador.checkCollisionsWall(getWalls());
     }
 
     public void moverBurbujas() {
