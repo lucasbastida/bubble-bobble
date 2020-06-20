@@ -68,6 +68,10 @@ public class SpriteSheet {
         return spriteActual;
     }
 
+    public BufferedImage getSpriteImage(int fila, int columna) {
+        return imageArray[fila][columna];
+    }
+
     public int getFilas() {
         return filas;
     }

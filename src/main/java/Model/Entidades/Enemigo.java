@@ -15,4 +15,8 @@ public class Enemigo extends Sprite {
         if(x<10) direccion = 1;
         x = x + speed*direccion;
     }
+
+    public int getDireccion() {
+        return direccion;
+    }
 }

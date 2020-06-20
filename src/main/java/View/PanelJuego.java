@@ -20,21 +20,19 @@ public class PanelJuego extends JPanel implements Observer {
     private HashMap<String, SpriteSheet> imagenes;
 
     private BufferedImage backBuffer;
-
-    public int indexAnimacionJugador; //index usado para la animacion de la imagen
+    private EnemyAnimation enemyAnimation;
 
     public PanelJuego(Juego juego) {
         this.juego = juego;
         setBackground(Color.white);
-        setSize(new Dimension(PWIDTH, PHEIGHT));
         setPreferredSize(new Dimension(PWIDTH, PHEIGHT));
         setFocusable(true);
         requestFocus(); // JPanel now receives key events
 
+        backBuffer = new BufferedImage(PWIDTH, PHEIGHT, BufferedImage.TYPE_INT_RGB); //crea un buffer para pintar
         imagenes = new HashMap<String, SpriteSheet>();
         cargarImagenes();
-
-        backBuffer = new BufferedImage(PWIDTH, PHEIGHT, BufferedImage.TYPE_INT_RGB); //crea un buffer para pintar
+        enemyAnimation = new EnemyAnimation(imagenes.get("walker"));
     }
 
     //creamos un sprite sheet para cada diferente objeto y usamos las imagenes de el.
@@ -54,8 +52,6 @@ public class PanelJuego extends JPanel implements Observer {
         bbg.setColor(Color.WHITE);
         bbg.fillRect(0, 0, PWIDTH, PHEIGHT);
 
-        //TODO no entiendo nada de la logica de la animacion, no carga al inicio porque la imagen esta en blanco debido a esto
-        //TODO refactorear jugador y burbuja porque esta todo acoplado y no se entiende nada
         //todos los numeros magicos contribuye al quilombo
         dibujarJugador(bbg);
         dibujarBurbujas(bbg);
@@ -85,15 +81,14 @@ public class PanelJuego extends JPanel implements Observer {
     }
 
     private void dibujarEnemigos(Graphics g) { //capaz es innecesario pero me gusta mas asi
+        enemyAnimation.tickAnimation();
         for (Enemigo enemigo : juego.getEnemigos()) {
-            //enemigo.animacion(); TODO actualizar
-            g.drawImage(imagenes.get("walker").getSpriteActual(),
+            g.drawImage(enemyAnimation.imagenAnimacion(enemigo.getDireccion()),
                     enemigo.getX(),
                     enemigo.getY(),
                     enemigo.getAncho(),
                     enemigo.getAlto(), null);
         }
-
     }
 
     @Override

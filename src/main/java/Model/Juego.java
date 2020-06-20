@@ -26,7 +26,7 @@ public class Juego implements Runnable, Subject {
 
     //TODO cargar valores desde un archivo o clase que tenga las configuraciones?
     private Jugador jugador = new Jugador(20, 20);
-    public CopyOnWriteArrayList<Enemigo> enemigos = new CopyOnWriteArrayList<>(); //TODO cambiar esto
+    public CopyOnWriteArrayList<Enemigo> enemigos = new CopyOnWriteArrayList<>();
     //private ArrayList<Burbuja> burbujas = jugador.getBurbujas();
     public Juego(){
         enemigos.add(new Enemigo(300,300));
