@@ -7,6 +7,7 @@ import util.Observer;
 import util.Subject;
 
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Juego implements Runnable, Subject {
 
@@ -25,7 +26,7 @@ public class Juego implements Runnable, Subject {
 
     //TODO cargar valores desde un archivo o clase que tenga las configuraciones?
     private Jugador jugador = new Jugador(20, 20);
-    public ArrayList<Enemigo> enemigos = new ArrayList<>(); //TODO cambiar esto
+    public CopyOnWriteArrayList<Enemigo> enemigos = new CopyOnWriteArrayList<>(); //TODO cambiar esto
     //private ArrayList<Burbuja> burbujas = jugador.getBurbujas();
     public Juego(){
         enemigos.add(new Enemigo(300,300));
@@ -100,12 +101,22 @@ public class Juego implements Runnable, Subject {
         // update game state ...
         jugador.mover();
         moverBurbujas();
+        moverEnemigos();
+        jugador.checkCollisions(enemigos);
     }
 
     public void moverBurbujas() {
         for (Burbuja b :
                 jugador.getBurbujas()) {
             b.mover();
+            b.checkCollisions(enemigos);
+        }
+    }
+
+    public void moverEnemigos() {
+        for (Enemigo e :
+                enemigos) {
+            e.mover();
         }
     }
 
@@ -114,9 +125,10 @@ public class Juego implements Runnable, Subject {
         running = false;
     }
 
-    public ArrayList<Enemigo> getEnemigos(){
+    public CopyOnWriteArrayList<Enemigo> getEnemigos(){
         return enemigos;
     }
+
     @Override
     public boolean registerObserver(Observer observer) {
         return observers.add(observer);

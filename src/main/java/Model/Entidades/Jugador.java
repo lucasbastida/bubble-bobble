@@ -2,6 +2,7 @@ package Model.Entidades;
 
 import Model.Entidades.Burbujas.Burbuja;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -9,16 +10,16 @@ public class Jugador extends Sprite {
 
     private int dy, dx;
 
-    //esto se usa solamente para la animacion
-    private static int index = 0;
     public boolean mirandoDerecha = true;
     public boolean disparando = false;
 
     private Burbuja habilidad;
     private final CopyOnWriteArrayList<Burbuja> burbujas;
 
+    private boolean alive = true;
+
     public Jugador(int x, int y) {
-        super(x, y, 320/5, 192/3);
+        super(x, y, 320 / 5, 192 / 3);
         burbujas = new CopyOnWriteArrayList<>();
         setHabilidad(new Burbuja(x + 30, y, 1));//cambiar esto
     }
@@ -59,7 +60,7 @@ public class Jugador extends Sprite {
         this.dx = dx;
     }
 
-    public void checkCollisions(ArrayList<Enemigo> enemigos) {
+    public void checkCollisions(CopyOnWriteArrayList<Enemigo> enemigos) {
 
         Rectangle r1 = this.getBounds();
 
@@ -73,7 +74,13 @@ public class Jugador extends Sprite {
         }
     }
 
-    public void morir(){
-        setSprite(2,4);
+    public void morir() {
+        //TODO actialiar animacion
+//        setSprite(2,4);
+        alive = false;
+    }
+
+    public boolean isAlive() {
+        return alive;
     }
 }

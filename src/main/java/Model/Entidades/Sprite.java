@@ -1,5 +1,7 @@
 package Model.Entidades;
 
+import java.awt.*;
+
 public class Sprite {
 
     protected int x;
@@ -32,6 +34,6 @@ public class Sprite {
     }
 
     public Rectangle getBounds() {
-        return new Rectangle(x, y, tamanio, tamanio);
+        return new Rectangle(x, y, ancho, alto);
     }
 }

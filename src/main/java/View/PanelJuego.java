@@ -1,6 +1,7 @@
 package View;
 
 import Model.Entidades.Burbujas.Burbuja;
+import Model.Entidades.Enemigo;
 import Model.Juego;
 import util.Observer;
 
@@ -41,6 +42,7 @@ public class PanelJuego extends JPanel implements Observer {
     private void cargarImagenes() {
         imagenes.put("bub", new SpriteSheet(192, 320, 3, 5, "/bub.png"));
         imagenes.put("burbuja", new SpriteSheet(64, 128, 1, 2, "/burbuja.png"));
+        imagenes.put("walker", new SpriteSheet(128, 256, 2, 4, "/walker.png"));
     }
 
 
@@ -57,7 +59,7 @@ public class PanelJuego extends JPanel implements Observer {
         //todos los numeros magicos contribuye al quilombo
         dibujarJugador(bbg);
         dibujarBurbujas(bbg);
-        dibujarEnemigos(bgg);
+        dibujarEnemigos(bbg);
 
         g.drawImage(backBuffer, 0 , 0, null);
     }
@@ -65,7 +67,6 @@ public class PanelJuego extends JPanel implements Observer {
 
     //TODO usar enum en vez de literales?
     private void dibujarJugador(Graphics g) {
-        //TODO juego.getJugador().checkCollisions(juego.getEnemigos());
         g.drawImage(imagenes.get("bub").getSpriteActual(), //usa los datos de sprite sheet,
                 juego.getJugador().getX(), //obtiene las coordenadas y su altura y anchura para dibujar del modelo
                 juego.getJugador().getY(),
@@ -75,7 +76,6 @@ public class PanelJuego extends JPanel implements Observer {
 
     private void dibujarBurbujas(Graphics g) {
         for (Burbuja burbuja : juego.getJugador().getBurbujas()) {
-            //TODO burbuja.checkCollisions(juego.getEnemigos());
             g.drawImage(imagenes.get("burbuja").getSpriteActual(),//obtiene la imagen burbuja desde el objeto sprite sheet en el hashmap
                     burbuja.getX(), //obtiene las coordenadas y su altura y anchura para dibujar del modelo
                     burbuja.getY(),
@@ -85,14 +85,13 @@ public class PanelJuego extends JPanel implements Observer {
     }
 
     private void dibujarEnemigos(Graphics g) { //capaz es innecesario pero me gusta mas asi
-        for (Enemigo enemigo:juego.getEnemigos()) {
-            enemigo.animacion();
-            enemigo.mover();
-            g.drawImage(enemigo.getSprite(),
+        for (Enemigo enemigo : juego.getEnemigos()) {
+            //enemigo.animacion(); TODO actualizar
+            g.drawImage(imagenes.get("walker").getSpriteActual(),
                     enemigo.getX(),
                     enemigo.getY(),
-                    enemigo.getTamanio(),
-                    enemigo.getTamanio(), null);
+                    enemigo.getAncho(),
+                    enemigo.getAlto(), null);
         }
 
     }
