@@ -7,6 +7,7 @@ import Model.Entidades.Burbujas.Burbuja;
 import Model.Entidades.Enemigo;
 import Model.Juego;
 import View.Images.AnimatedImage;
+import View.Images.LevelImage;
 import View.Images.PlayerImage;
 import View.Images.SpriteSheet;
 import util.Observer;
@@ -43,6 +44,7 @@ public class PanelJuego extends JPanel implements Observer {
 
         cargarImagenes();
         createEnemyImages();
+        creatWalls();
     }
 
     /**
@@ -64,13 +66,14 @@ public class PanelJuego extends JPanel implements Observer {
         Graphics g = getGraphics();
         Graphics bbg = backBuffer.getGraphics();
 
-        bbg.setColor(Color.WHITE);
+        bbg.setColor(Color.BLACK);
         bbg.fillRect(0, 0, PWIDTH, PHEIGHT);
 
 
         dibujarJugador(bbg);
         dibujarBurbujas(bbg);
         dibujarEnemigos(bbg);
+        dibujarWalls(bbg);
 
         g.drawImage(backBuffer, 0 , 0, null);
     }
@@ -118,6 +121,15 @@ public class PanelJuego extends JPanel implements Observer {
                     enemigo.getAlto(), null);
         }
     }
+    private void dibujarWalls(Graphics g) {
+        for (Burbuja burbuja : juego.bloques) {
+            g.drawImage(spriteSheets.get("burbuja").getSpriteActual(),//obtiene la imagen burbuja desde el objeto sprite sheet en el hashmap
+                    burbuja.getX(), //obtiene las coordenadas y su altura y anchura para dibujar del modelo
+                    burbuja.getY(),
+                    burbuja.getAncho(),
+                    burbuja.getAlto(), null);
+        }
+    }
 
     /**
      * Para cada enemigo en el modelo, se crea una imagen animada correspondiente. No crea una imagen en si de cada enemigo
@@ -133,6 +145,10 @@ public class PanelJuego extends JPanel implements Observer {
         }
     }
 
+    public void creatWalls(){
+        LevelImage level = new LevelImage("/Nivel1.png");
+        level.loadImageLevel(juego.bloques);
+    }
 
     @Override
     public void update() {
