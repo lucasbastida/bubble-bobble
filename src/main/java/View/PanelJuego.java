@@ -1,118 +1,109 @@
 package View;
 
-import Model.Burbuja;
+import Model.Entidades.Burbujas.Burbuja;
 import Model.Entidades.Enemigo;
 import Model.Juego;
 import util.Observer;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.util.HashMap;
 
-public class PanelJuego extends JPanel implements Observer
-{
-    private static final int PWIDTH = 1280; // size of panel
+public class PanelJuego extends JPanel implements Observer {
+
+    private static final int PWIDTH = 1280; //tamanio de la ventana
     private static final int PHEIGHT = 720;
 
-    // global variables for off-screen rendering
-    private Graphics dbg;
-    private Image dbImage = null;
+    private Juego juego;//modelo Juego
 
-    private BufferedImage img = null;
+    private HashMap<String, SpriteSheet> imagenes;
 
-    Juego juego;
+    private BufferedImage backBuffer;
+
+    public int indexAnimacionJugador; //index usado para la animacion de la imagen
 
     public PanelJuego(Juego juego) {
         this.juego = juego;
         setBackground(Color.white);
-        setPreferredSize( new Dimension(PWIDTH, PHEIGHT));
+        setSize(new Dimension(PWIDTH, PHEIGHT));
+        setPreferredSize(new Dimension(PWIDTH, PHEIGHT));
         setFocusable(true);
         requestFocus(); // JPanel now receives key events
 
-        img = juego.getJugador().cargarSprite();
-        juego.getJugador().getHabilidad().cargarSprite();
+        imagenes = new HashMap<String, SpriteSheet>();
+        cargarImagenes();
+
+        backBuffer = new BufferedImage(PWIDTH, PHEIGHT, BufferedImage.TYPE_INT_RGB); //crea un buffer para pintar
     }
 
-    public void addNotify()
-        /* Wait for the JPanel to be added to the
-        JFrame/JApplet before starting. */
-    {
-        super.addNotify(); // creates the peer
-        juego.startGame(); // start the thread
+    //creamos un sprite sheet para cada diferente objeto y usamos las imagenes de el.
+    //deja de mezclar la vista, el modelo y el controlador, el modelo no tiene nada que ver con la vista, solo notifica.
+    private void cargarImagenes() {
+        imagenes.put("bub", new SpriteSheet(192, 320, 3, 5, "/bub.png"));
+        imagenes.put("burbuja", new SpriteSheet(64, 128, 1, 2, "/burbuja.png"));
+        imagenes.put("walker", new SpriteSheet(128, 256, 2, 4, "/walker.png"));
     }
 
 
-    private void gameRender(){ // draw the current frame to an image buffer
-        if (dbImage == null){ // create the buffer
-            dbImage = createImage(PWIDTH, PHEIGHT);
-            if (dbImage == null) {
-                System.out.println("dbImage is null");
-                return;
-            }
-            else dbg = dbImage.getGraphics( );
+    public void paintScreen() { // actively render the buffer image to the screen
+//        super.(g); //alternativa para pintar (tambien doble buffered) -> renombrar paintScreen a paintComponent(Grap
+        Graphics g = getGraphics();
+        Graphics bbg = backBuffer.getGraphics();
+
+        bbg.setColor(Color.WHITE);
+        bbg.fillRect(0, 0, PWIDTH, PHEIGHT);
+
+        //TODO no entiendo nada de la logica de la animacion, no carga al inicio porque la imagen esta en blanco debido a esto
+        //TODO refactorear jugador y burbuja porque esta todo acoplado y no se entiende nada
+        //todos los numeros magicos contribuye al quilombo
+        dibujarJugador(bbg);
+        dibujarBurbujas(bbg);
+        dibujarEnemigos(bbg);
+
+        g.drawImage(backBuffer, 0 , 0, null);
+    }
+
+
+    //TODO usar enum en vez de literales?
+    private void dibujarJugador(Graphics g) {
+        g.drawImage(imagenes.get("bub").getSpriteActual(), //usa los datos de sprite sheet,
+                juego.getJugador().getX(), //obtiene las coordenadas y su altura y anchura para dibujar del modelo
+                juego.getJugador().getY(),
+                juego.getJugador().getAncho(),
+                juego.getJugador().getAlto(), null);
+    }
+
+    private void dibujarBurbujas(Graphics g) {
+        for (Burbuja burbuja : juego.getJugador().getBurbujas()) {
+            g.drawImage(imagenes.get("burbuja").getSpriteActual(),//obtiene la imagen burbuja desde el objeto sprite sheet en el hashmap
+                    burbuja.getX(), //obtiene las coordenadas y su altura y anchura para dibujar del modelo
+                    burbuja.getY(),
+                    burbuja.getAncho(),
+                    burbuja.getAlto(), null);
         }
-        // clear the background
-        dbg.setColor(new Color(44, 70, 121));
-        dbg.fillRect (0, 0, PWIDTH, PHEIGHT);
-        // draw game elements
     }
 
-    private void paintScreen( ){ // actively render the buffer image to the screen
-        Graphics g;
-        try {
-            g = this.getGraphics(); // get the panel's graphic context
-            if ((g != null) && (dbImage != null)){
-                g.drawImage(dbImage, 0, 0, null);
-                dibujarJugador(g);
-                dibujarBurbujas(g);
-                dibujarEnemigos(g);
-            }
-
-            Toolkit.getDefaultToolkit().sync(); // sync the display on some systems
-            g.dispose();
-        }
-        catch (Exception e)
-        { System.out.println("Graphics context error: " + e); }
-    }
-
-   private void dibujarJugador(Graphics g) { //capaz es innecesario pero me gusta mas asi
-       juego.getJugador().checkCollisions(juego.getEnemigos());
-        g.drawImage(juego.getJugador().getSprite(),
-               juego.getJugador().getX(),
-               juego.getJugador().getY(),
-               juego.getJugador().getTamanio(),
-               juego.getJugador().getTamanio(), null);
-   }
-   private void dibujarBurbujas(Graphics g){
-       for (Burbuja burbuja:juego.getJugador().getBurbujas()) {
-           burbuja.mover(); //esto no deberia estar aca, verdad?
-           burbuja.checkCollisions(juego.getEnemigos());
-           g.drawImage(burbuja.getSprite(),
-                   burbuja.getX(),
-                   burbuja.getY(),
-                   juego.getJugador().getHabilidad().getTamanio(),
-                   juego.getJugador().getHabilidad().getTamanio(), null);
-       }
-   }
     private void dibujarEnemigos(Graphics g) { //capaz es innecesario pero me gusta mas asi
-        for (Enemigo enemigo:juego.getEnemigos()) {
-            enemigo.animacion();
-            enemigo.mover();
-            g.drawImage(enemigo.getSprite(),
+        for (Enemigo enemigo : juego.getEnemigos()) {
+            //enemigo.animacion(); TODO actualizar
+            g.drawImage(imagenes.get("walker").getSpriteActual(),
                     enemigo.getX(),
                     enemigo.getY(),
-                    enemigo.getTamanio(),
-                    enemigo.getTamanio(), null);
+                    enemigo.getAncho(),
+                    enemigo.getAlto(), null);
         }
 
     }
+
     @Override
     public void update() {
-        gameRender();
         paintScreen();
+//        repaint();//alternativa para pintar (tambien doble buffered)
     }
+
+    public HashMap<String, SpriteSheet> getImagenes() {
+        return imagenes;
+    }
+
 }
