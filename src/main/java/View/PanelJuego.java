@@ -45,7 +45,6 @@ public class PanelJuego extends JPanel implements Observer {
 
         cargarImagenes();
         createEnemyImages();
-        createWalls();
     }
 
     /**
@@ -124,7 +123,7 @@ public class PanelJuego extends JPanel implements Observer {
         }
     }
     private void dibujarWalls(Graphics g) {
-        for (Bloque bloque : juego.bloques) {
+        for (Bloque bloque : juego.getWalls()) {
             g.drawImage(spriteSheets.get("wall").getSpriteActual(),
                     bloque.getX(),
                     bloque.getY(),
@@ -147,10 +146,6 @@ public class PanelJuego extends JPanel implements Observer {
         }
     }
 
-    public void createWalls(){
-        LevelImage level = new LevelImage("/Nivel1.png");
-        level.loadImageLevel(juego.getWalls());
-    }
 
     @Override
     public void update() {

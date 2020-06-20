@@ -13,6 +13,8 @@ public class Jugador extends Sprite {
     private boolean mirandoDerecha = true;
     private boolean disparando = false;
     private int direccion = 1;
+    private int speed = 2;
+    private int gravedad =1; //esta variable debe ser igual para los enemigos
 
     private Burbuja habilidad;
     private final CopyOnWriteArrayList<Burbuja> burbujas;
@@ -26,8 +28,8 @@ public class Jugador extends Sprite {
     }
 
     public void mover() {
-        x += dx;
-        y += dy;
+        x += dx*speed;
+        y += dy*speed;
         System.out.println("posicion jugador: " + x + ":" + y);
     }
 
@@ -71,6 +73,20 @@ public class Jugador extends Sprite {
             }
         }
     }
+    public void checkCollisionsWall(CopyOnWriteArrayList<Bloque> walls) {
+    //TODO: hacer un metodo que funcione
+        Rectangle r1 = this.getOffsetBounds();
+
+        for (Bloque b : walls) {
+
+            Rectangle r2 = b.getBounds();
+
+            if (r1.intersects(r2)) {
+                setDx(0);
+                setDy(0);
+            }
+        }
+    }
 
     public void morir() {
         //TODO actialiar animacion
@@ -82,10 +98,18 @@ public class Jugador extends Sprite {
         return direccion;
     }
 
+    public Rectangle getOffsetBounds() {
+        return new Rectangle(x + dx, y + dy, alto, ancho);
+    }
+
     public void setMirandoDerecha(boolean mirandoDerecha) {
         this.mirandoDerecha = mirandoDerecha;
         if (mirandoDerecha) direccion = 1;
         else direccion = -1;
+    }
+
+    public void caerPorGravedad(){
+        y += gravedad;
     }
 
     public boolean isAlive() {
