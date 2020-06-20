@@ -10,8 +10,9 @@ public class Jugador extends Sprite {
 
     private int dy, dx;
 
-    public boolean mirandoDerecha = true;
-    public boolean disparando = false;
+    private boolean mirandoDerecha = true;
+    private boolean disparando = false;
+    private int direccion = 1;
 
     private Burbuja habilidad;
     private final CopyOnWriteArrayList<Burbuja> burbujas;
@@ -32,9 +33,6 @@ public class Jugador extends Sprite {
 
     public void disparar() {
         disparando = true;
-        int direccion;
-        if (mirandoDerecha) direccion = 1;
-        else direccion = -1;
         setHabilidad(new Burbuja(x, y, direccion));
         burbujas.add(getHabilidad());
     }
@@ -78,6 +76,16 @@ public class Jugador extends Sprite {
         //TODO actialiar animacion
 //        setSprite(2,4);
         alive = false;
+    }
+
+    public int getDireccion() {
+        return direccion;
+    }
+
+    public void setMirandoDerecha(boolean mirandoDerecha) {
+        this.mirandoDerecha = mirandoDerecha;
+        if (mirandoDerecha) direccion = 1;
+        else direccion = -1;
     }
 
     public boolean isAlive() {

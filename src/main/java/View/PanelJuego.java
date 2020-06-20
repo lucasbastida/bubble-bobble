@@ -6,12 +6,14 @@ package View;
 import Model.Entidades.Burbujas.Burbuja;
 import Model.Entidades.Enemigo;
 import Model.Juego;
+import View.Images.AnimatedImage;
+import View.Images.PlayerImage;
+import View.Images.SpriteSheet;
 import util.Observer;
 
 import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PanelJuego extends JPanel implements Observer {
@@ -24,7 +26,7 @@ public class PanelJuego extends JPanel implements Observer {
 
     private HashMap<String, SpriteSheet> spriteSheets;
     private HashMap<Enemigo, AnimatedImage> enemyImages;
-
+    private PlayerImage playerImage;
 
     private BufferedImage backBuffer;//buffer donde se dibujan las imagenes
 
@@ -49,7 +51,9 @@ public class PanelJuego extends JPanel implements Observer {
      * value es un Objeto SpriteSheet para almacenar todas las imagenes en memoria.
      */
     private void cargarImagenes() {
-        spriteSheets.put("bub", new SpriteSheet(192, 320, 3, 5, "/bub.png"));
+        SpriteSheet bub = new SpriteSheet(192, 320, 3, 5, "/bub.png");
+        spriteSheets.put("bub", bub);
+        playerImage = new PlayerImage(bub);
         spriteSheets.put("burbuja", new SpriteSheet(64, 128, 1, 2, "/burbuja.png"));
         spriteSheets.put("walker", new SpriteSheet(128, 256, 2, 4, "/walker.png"));
     }
@@ -77,7 +81,8 @@ public class PanelJuego extends JPanel implements Observer {
      * @param g el buffer
      */
     private void dibujarJugador(Graphics g) {
-        g.drawImage(spriteSheets.get("bub").getSpriteActual(), //usa los datos de sprite sheet,
+        playerImage.animate(juego.getJugador().getDireccion());
+        g.drawImage(playerImage.getSpriteActual(), //usa los datos de sprite sheet,
                 juego.getJugador().getX(), //obtiene las coordenadas y su altura y anchura para dibujar del modelo
                 juego.getJugador().getY(),
                 juego.getJugador().getAncho(),
@@ -139,4 +144,7 @@ public class PanelJuego extends JPanel implements Observer {
         return spriteSheets;
     }
 
+    public PlayerImage getPlayerImage() {
+        return playerImage;
+    }
 }
