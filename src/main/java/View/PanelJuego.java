@@ -1,5 +1,8 @@
 package View;
 
+//TODO usar enum en vez de literales?
+//todos los numeros magicos contribuye al quilombo
+
 import Model.Entidades.Burbujas.Burbuja;
 import Model.Entidades.Enemigo;
 import Model.Juego;
@@ -8,45 +11,51 @@ import util.Observer;
 import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PanelJuego extends JPanel implements Observer {
 
-    private static final int PWIDTH = 1280; //tamanio de la ventana
+    //tamanio de la ventana
+    private static final int PWIDTH = 1280;
     private static final int PHEIGHT = 720;
 
-    private Juego juego;//modelo Juego
+    private Juego juego;//referencia a modelo Juego
 
-    private HashMap<String, SpriteSheet> imagenes;
+    private HashMap<String, SpriteSheet> spriteSheets;
+    private HashMap<Enemigo, AnimatedImage> enemyImages;
 
-    private BufferedImage backBuffer;
 
-    public int indexAnimacionJugador; //index usado para la animacion de la imagen
+    private BufferedImage backBuffer;//buffer donde se dibujan las imagenes
 
     public PanelJuego(Juego juego) {
         this.juego = juego;
+
         setBackground(Color.white);
-        setSize(new Dimension(PWIDTH, PHEIGHT));
         setPreferredSize(new Dimension(PWIDTH, PHEIGHT));
         setFocusable(true);
         requestFocus(); // JPanel now receives key events
 
-        imagenes = new HashMap<String, SpriteSheet>();
-        cargarImagenes();
-
         backBuffer = new BufferedImage(PWIDTH, PHEIGHT, BufferedImage.TYPE_INT_RGB); //crea un buffer para pintar
+        spriteSheets = new HashMap<String, SpriteSheet>();
+
+        cargarImagenes();
+        createEnemyImages();
     }
 
-    //creamos un sprite sheet para cada diferente objeto y usamos las imagenes de el.
-    //deja de mezclar la vista, el modelo y el controlador, el modelo no tiene nada que ver con la vista, solo notifica.
+    /**
+     * Coloca un key,value pair en el HashMap spriteSheets.
+     * key es el nombre de la entidad
+     * value es un Objeto SpriteSheet para almacenar todas las imagenes en memoria.
+     */
     private void cargarImagenes() {
-        imagenes.put("bub", new SpriteSheet(192, 320, 3, 5, "/bub.png"));
-        imagenes.put("burbuja", new SpriteSheet(64, 128, 1, 2, "/burbuja.png"));
-        imagenes.put("walker", new SpriteSheet(128, 256, 2, 4, "/walker.png"));
+        spriteSheets.put("bub", new SpriteSheet(192, 320, 3, 5, "/bub.png"));
+        spriteSheets.put("burbuja", new SpriteSheet(64, 128, 1, 2, "/burbuja.png"));
+        spriteSheets.put("walker", new SpriteSheet(128, 256, 2, 4, "/walker.png"));
     }
 
 
-    public void paintScreen() { // actively render the buffer image to the screen
+    public void paintScreen() {
 //        super.(g); //alternativa para pintar (tambien doble buffered) -> renombrar paintScreen a paintComponent(Grap
         Graphics g = getGraphics();
         Graphics bbg = backBuffer.getGraphics();
@@ -54,9 +63,7 @@ public class PanelJuego extends JPanel implements Observer {
         bbg.setColor(Color.WHITE);
         bbg.fillRect(0, 0, PWIDTH, PHEIGHT);
 
-        //TODO no entiendo nada de la logica de la animacion, no carga al inicio porque la imagen esta en blanco debido a esto
-        //TODO refactorear jugador y burbuja porque esta todo acoplado y no se entiende nada
-        //todos los numeros magicos contribuye al quilombo
+
         dibujarJugador(bbg);
         dibujarBurbujas(bbg);
         dibujarEnemigos(bbg);
@@ -65,18 +72,26 @@ public class PanelJuego extends JPanel implements Observer {
     }
 
 
-    //TODO usar enum en vez de literales?
+    /**
+     * Dibuja al jugador segun en g segun la informacion del modelo jugador
+     * @param g el buffer
+     */
     private void dibujarJugador(Graphics g) {
-        g.drawImage(imagenes.get("bub").getSpriteActual(), //usa los datos de sprite sheet,
+        g.drawImage(spriteSheets.get("bub").getSpriteActual(), //usa los datos de sprite sheet,
                 juego.getJugador().getX(), //obtiene las coordenadas y su altura y anchura para dibujar del modelo
                 juego.getJugador().getY(),
                 juego.getJugador().getAncho(),
                 juego.getJugador().getAlto(), null);
     }
 
+    /**
+     * Dada todas las burbujas que disparo el jugador, dibuja una imagen en g sugun la informacion de cada modelo burbuja
+     * TODO animar la burbuja igual que el enemigo.
+     * @param g el buffer
+     */
     private void dibujarBurbujas(Graphics g) {
         for (Burbuja burbuja : juego.getJugador().getBurbujas()) {
-            g.drawImage(imagenes.get("burbuja").getSpriteActual(),//obtiene la imagen burbuja desde el objeto sprite sheet en el hashmap
+            g.drawImage(spriteSheets.get("burbuja").getSpriteActual(),//obtiene la imagen burbuja desde el objeto sprite sheet en el hashmap
                     burbuja.getX(), //obtiene las coordenadas y su altura y anchura para dibujar del modelo
                     burbuja.getY(),
                     burbuja.getAncho(),
@@ -84,17 +99,35 @@ public class PanelJuego extends JPanel implements Observer {
         }
     }
 
+    /**
+     * hace un tick de animacion de la imagen correspondiente y luego la dibuja segun la informacion del modelo enemigo
+     * @param g el buffer a donde dibujara
+     */
     private void dibujarEnemigos(Graphics g) { //capaz es innecesario pero me gusta mas asi
         for (Enemigo enemigo : juego.getEnemigos()) {
-            //enemigo.animacion(); TODO actualizar
-            g.drawImage(imagenes.get("walker").getSpriteActual(),
+            enemyImages.get(enemigo).animate(enemigo.getDireccion());
+            g.drawImage(enemyImages.get(enemigo).getSpriteActual(),
                     enemigo.getX(),
                     enemigo.getY(),
                     enemigo.getAncho(),
                     enemigo.getAlto(), null);
         }
-
     }
+
+    /**
+     * Para cada enemigo en el modelo, se crea una imagen animada correspondiente. No crea una imagen en si de cada enemigo
+     * sino que el objeto AnimatedImage tiene una referncia al SpriteSheet con las imagenes ya cargadas.
+     * TODO como los mapas van a tener diferentes enemigos, que el metodo checkee si El hashmap es null o existe,
+     * en caso de existir o ser null, crear un nuevo hashmap de imagenes para los nuevos enemigos.
+     */
+    public void createEnemyImages(){
+        juego.getEnemigos().size();
+        enemyImages = new HashMap<Enemigo, AnimatedImage>();
+        for (Enemigo e : juego.getEnemigos()){
+            enemyImages.put(e, new AnimatedImage(spriteSheets.get("walker")));
+        }
+    }
+
 
     @Override
     public void update() {
@@ -102,8 +135,8 @@ public class PanelJuego extends JPanel implements Observer {
 //        repaint();//alternativa para pintar (tambien doble buffered)
     }
 
-    public HashMap<String, SpriteSheet> getImagenes() {
-        return imagenes;
+    public HashMap<String, SpriteSheet> getSpriteSheets() {
+        return spriteSheets;
     }
 
 }
