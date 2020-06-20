@@ -1,6 +1,6 @@
 package View.Images;
 
-import Model.Entidades.Burbujas.Burbuja;
+import Model.Entidades.Bloque;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -15,7 +15,7 @@ public class LevelImage{
         image = cargarSprite(dir);
     }
 
-    public void loadImageLevel(CopyOnWriteArrayList<Burbuja> bloques){
+    public void loadImageLevel(CopyOnWriteArrayList<Bloque> bloques){
         int h = image.getHeight();
         int w = image.getWidth();
 
@@ -27,7 +27,7 @@ public class LevelImage{
                 int blue = (pixel >> 0) & 0xff;
 
                 if(red == 255 & green == 255 & blue == 255){
-                    bloques.add(new Burbuja(x*64,y*64,1));
+                    bloques.add(new Bloque(x*32,y*32)); //coordenadas*tamanio de sprite
                 }
             }
         }
@@ -40,4 +40,5 @@ public class LevelImage{
         }
         return image;
     }
+    //NOTA para la creacion de nuevos niveles: en la pantalla entran 22x39 pixeles (panelSize/tamanioSprite aprox)
 }

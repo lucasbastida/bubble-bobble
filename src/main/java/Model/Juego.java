@@ -1,5 +1,6 @@
 package Model;
 
+import Model.Entidades.Bloque;
 import Model.Entidades.Burbujas.Burbuja;
 import Model.Entidades.Enemigo;
 import Model.Entidades.Jugador;
@@ -27,7 +28,7 @@ public class Juego implements Runnable, Subject {
     //TODO cargar valores desde un archivo o clase que tenga las configuraciones?
     private Jugador jugador = new Jugador(20, 20);
     public CopyOnWriteArrayList<Enemigo> enemigos = new CopyOnWriteArrayList<>();
-    public CopyOnWriteArrayList<Burbuja> bloques = new CopyOnWriteArrayList<>();
+    public CopyOnWriteArrayList<Bloque> bloques = new CopyOnWriteArrayList<>();
     //private ArrayList<Burbuja> burbujas = jugador.getBurbujas();
     public Juego(){
         enemigos.add(new Enemigo(300,300));
@@ -128,6 +129,9 @@ public class Juego implements Runnable, Subject {
 
     public CopyOnWriteArrayList<Enemigo> getEnemigos(){
         return enemigos;
+    }
+    public CopyOnWriteArrayList<Bloque> getWalls(){
+        return bloques;
     }
 
     @Override

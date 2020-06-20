@@ -3,6 +3,7 @@ package View;
 //TODO usar enum en vez de literales?
 //todos los numeros magicos contribuye al quilombo
 
+import Model.Entidades.Bloque;
 import Model.Entidades.Burbujas.Burbuja;
 import Model.Entidades.Enemigo;
 import Model.Juego;
@@ -44,7 +45,7 @@ public class PanelJuego extends JPanel implements Observer {
 
         cargarImagenes();
         createEnemyImages();
-        creatWalls();
+        createWalls();
     }
 
     /**
@@ -58,6 +59,7 @@ public class PanelJuego extends JPanel implements Observer {
         playerImage = new PlayerImage(bub);
         spriteSheets.put("burbuja", new SpriteSheet(64, 128, 1, 2, "/burbuja.png"));
         spriteSheets.put("walker", new SpriteSheet(128, 256, 2, 4, "/walker.png"));
+        spriteSheets.put("wall", new SpriteSheet(32, 32, 1, 1, "/wall.png"));
     }
 
 
@@ -122,12 +124,12 @@ public class PanelJuego extends JPanel implements Observer {
         }
     }
     private void dibujarWalls(Graphics g) {
-        for (Burbuja burbuja : juego.bloques) {
-            g.drawImage(spriteSheets.get("burbuja").getSpriteActual(),//obtiene la imagen burbuja desde el objeto sprite sheet en el hashmap
-                    burbuja.getX(), //obtiene las coordenadas y su altura y anchura para dibujar del modelo
-                    burbuja.getY(),
-                    burbuja.getAncho(),
-                    burbuja.getAlto(), null);
+        for (Bloque bloque : juego.bloques) {
+            g.drawImage(spriteSheets.get("wall").getSpriteActual(),
+                    bloque.getX(),
+                    bloque.getY(),
+                    bloque.getAncho(),
+                    bloque.getAlto(), null);
         }
     }
 
@@ -145,9 +147,9 @@ public class PanelJuego extends JPanel implements Observer {
         }
     }
 
-    public void creatWalls(){
+    public void createWalls(){
         LevelImage level = new LevelImage("/Nivel1.png");
-        level.loadImageLevel(juego.bloques);
+        level.loadImageLevel(juego.getWalls());
     }
 
     @Override
