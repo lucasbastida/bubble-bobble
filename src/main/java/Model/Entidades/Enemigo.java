@@ -19,4 +19,5 @@ public class Enemigo extends Sprite {
     public int getDireccion() {
         return direccion;
     }
+
 }

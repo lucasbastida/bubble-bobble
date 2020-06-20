@@ -8,6 +8,7 @@ import util.Observer;
 import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PanelJuego extends JPanel implements Observer {
@@ -18,12 +19,14 @@ public class PanelJuego extends JPanel implements Observer {
     private Juego juego;//modelo Juego
 
     private HashMap<String, SpriteSheet> imagenes;
+    private HashMap<Enemigo, AnimatedImage> enemyImages;
+
 
     private BufferedImage backBuffer;
-    private EnemyAnimation enemyAnimation;
 
     public PanelJuego(Juego juego) {
         this.juego = juego;
+
         setBackground(Color.white);
         setPreferredSize(new Dimension(PWIDTH, PHEIGHT));
         setFocusable(true);
@@ -32,7 +35,7 @@ public class PanelJuego extends JPanel implements Observer {
         backBuffer = new BufferedImage(PWIDTH, PHEIGHT, BufferedImage.TYPE_INT_RGB); //crea un buffer para pintar
         imagenes = new HashMap<String, SpriteSheet>();
         cargarImagenes();
-        enemyAnimation = new EnemyAnimation(imagenes.get("walker"));
+        createEnemyImages();
     }
 
     //creamos un sprite sheet para cada diferente objeto y usamos las imagenes de el.
@@ -81,15 +84,24 @@ public class PanelJuego extends JPanel implements Observer {
     }
 
     private void dibujarEnemigos(Graphics g) { //capaz es innecesario pero me gusta mas asi
-        enemyAnimation.tickAnimation();
         for (Enemigo enemigo : juego.getEnemigos()) {
-            g.drawImage(enemyAnimation.imagenAnimacion(enemigo.getDireccion()),
+            enemyImages.get(enemigo).animate(enemigo.getDireccion());
+            g.drawImage(enemyImages.get(enemigo).getSpriteActual(),
                     enemigo.getX(),
                     enemigo.getY(),
                     enemigo.getAncho(),
                     enemigo.getAlto(), null);
         }
     }
+
+    public void createEnemyImages(){
+        juego.getEnemigos().size();
+        enemyImages = new HashMap<Enemigo, AnimatedImage>();
+        for (Enemigo e : juego.getEnemigos()){
+            enemyImages.put(e, new AnimatedImage(imagenes.get("walker")));
+        }
+    }
+
 
     @Override
     public void update() {
