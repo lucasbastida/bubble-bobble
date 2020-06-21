@@ -1,11 +1,10 @@
 package Model.Entidades.Burbujas;
 
 import Model.Entidades.Enemigo;
-import Model.Entidades.Item;
+import Model.Entidades.Items.Item;
 import Model.Entidades.Sprite;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Burbuja extends Sprite { //Esto deberia ser una clase, no una interfaz

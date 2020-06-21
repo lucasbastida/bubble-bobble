@@ -1,10 +1,9 @@
 package Model;
 
-import Model.Entidades.Bloque;
+import Model.Entidades.*;
 import Model.Entidades.Burbujas.Burbuja;
-import Model.Entidades.Enemigo;
-import Model.Entidades.Item;
-import Model.Entidades.Jugador;
+import Model.Entidades.Items.Item;
+import Model.Entidades.Items.ItemEspecial;
 import View.Images.LevelImage;
 import util.Observer;
 import util.Subject;
@@ -32,6 +31,7 @@ public class Juego implements Runnable, Subject {
     private CopyOnWriteArrayList<Enemigo> enemigos = new CopyOnWriteArrayList<>();
     private CopyOnWriteArrayList<Bloque> bloques = new CopyOnWriteArrayList<>();
     private CopyOnWriteArrayList<Item> items = new CopyOnWriteArrayList<>();
+    private Item itemEspecial = new ItemEspecial(200, 200); //Lo creo aca para que se pueda agregar solo uno
 
     public Juego(){
         enemigos.add(new Enemigo(300,300));
@@ -109,6 +109,9 @@ public class Juego implements Runnable, Subject {
         moverBurbujas();
         moverEnemigos();
         jugador.checkCollisions(enemigos);
+        if(jugador.getPuntajeAcumulado()==4000 & !items.contains(itemEspecial)){
+            crearItemEspecial();
+        }
     }
 
     public void moverBurbujas() {
@@ -124,6 +127,10 @@ public class Juego implements Runnable, Subject {
                 enemigos) {
             e.mover();
         }
+    }
+
+    private void crearItemEspecial(){
+        items.add(itemEspecial);
     }
 
     public void stopGame() // called by the user to stop execution

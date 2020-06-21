@@ -1,9 +1,10 @@
 package Model.Entidades;
 
 import Model.Entidades.Burbujas.Burbuja;
+import Model.Entidades.Items.Item;
+import Model.Entidades.Items.ItemEspecial;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Jugador extends Sprite {
@@ -95,8 +96,7 @@ public class Jugador extends Sprite {
         }
         return false;
     }
-    public boolean checkCollisionsItems(CopyOnWriteArrayList<Item> items) {
-        //TODO: hacer un metodo que funcione
+    public void checkCollisionsItems(CopyOnWriteArrayList<Item> items) {
         Rectangle r1 = this.getOffsetBounds();
 
         for (Item i : items) {
@@ -106,9 +106,13 @@ public class Jugador extends Sprite {
             if (r1.intersects(r2)) {
                 items.remove(i);
                 sumarPuntaje(i.getPuntaje());
+                if(i instanceof ItemEspecial){
+                    System.out.println("Nueva Habilidad");
+                    //TODO: aca se setearia la nueva habilidad
+                }
+
             }
         }
-        return false;
     }
 
     public void morir() {
@@ -143,4 +147,6 @@ public class Jugador extends Sprite {
         puntajeAcumulado += puntos;
         System.out.println("Puntaje: " + puntajeAcumulado);
     }
+
+    public int getPuntajeAcumulado(){return puntajeAcumulado;}
 }

@@ -6,10 +6,10 @@ package View;
 import Model.Entidades.Bloque;
 import Model.Entidades.Burbujas.Burbuja;
 import Model.Entidades.Enemigo;
-import Model.Entidades.Item;
+import Model.Entidades.Items.Item;
+import Model.Entidades.Items.ItemEspecial;
 import Model.Juego;
 import View.Images.AnimatedImage;
-import View.Images.LevelImage;
 import View.Images.PlayerImage;
 import View.Images.SpriteSheet;
 import util.Observer;
@@ -60,7 +60,8 @@ public class PanelJuego extends JPanel implements Observer {
         spriteSheets.put("burbuja", new SpriteSheet(64, 128, 1, 2, "/burbuja.png"));
         spriteSheets.put("walker", new SpriteSheet(128, 256, 2, 4, "/walker.png"));
         spriteSheets.put("wall", new SpriteSheet(32, 32, 1, 1, "/wall.png"));
-        spriteSheets.put("item",  new SpriteSheet(64, 112, 1, 2, "/items.png"));
+        spriteSheets.put("item",  new SpriteSheet(64, 56, 1, 1, "/itemComun.png"));
+        spriteSheets.put("itemEspecial",  new SpriteSheet(64, 56, 1, 1, "/itemEspecial.png"));
     }
 
 
@@ -136,8 +137,12 @@ public class PanelJuego extends JPanel implements Observer {
     }
 
     private void dibujarItems(Graphics g){
+        BufferedImage image;
         for (Item i: juego.getItems()) {
-            g.drawImage(spriteSheets.get("item").getSpriteActual(),
+            if(i instanceof ItemEspecial)
+                image = spriteSheets.get("itemEspecial").getSpriteActual();
+            else image = spriteSheets.get("item").getSpriteActual();
+            g.drawImage(image,
                     i.getX(),
                     i.getY(),
                     i.getAncho(),
