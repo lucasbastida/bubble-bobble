@@ -1,9 +1,9 @@
 package Model;
 
-import Model.Entidades.Bloque;
+import Model.Entidades.*;
 import Model.Entidades.Burbujas.Burbuja;
-import Model.Entidades.Enemigo;
-import Model.Entidades.Jugador;
+import Model.Entidades.Items.Item;
+import Model.Entidades.Items.ItemEspecial;
 import View.Images.LevelImage;
 import util.Observer;
 import util.Subject;
@@ -30,7 +30,9 @@ public class Juego implements Runnable, Subject {
     private Jugador jugador = new Jugador(64, 608);
     private CopyOnWriteArrayList<Enemigo> enemigos = new CopyOnWriteArrayList<>();
     private CopyOnWriteArrayList<Bloque> bloques = new CopyOnWriteArrayList<>();
-    //private ArrayList<Burbuja> burbujas = jugador.getBurbujas();
+    private CopyOnWriteArrayList<Item> items = new CopyOnWriteArrayList<>();
+    private Item itemEspecial = new ItemEspecial(200, 200); //Lo creo aca para que se pueda agregar solo uno
+
     public Juego(){
         enemigos.add(new Enemigo(300,300));
         enemigos.add(new Enemigo(200,200));
@@ -103,19 +105,20 @@ public class Juego implements Runnable, Subject {
 
     private void gameUpdate() { //if (!gameOver)
         // update game state ...
-        jugador.mover(getWalls());
-        //jugador.caerPorGravedad();
+        jugador.mover(getWalls(), getItems());
         moverBurbujas();
         moverEnemigos();
         jugador.checkCollisions(enemigos);
-        //jugador.checkCollisionsWall(getWalls());
+        if(jugador.getPuntajeAcumulado()==4000 & !items.contains(itemEspecial)){
+            crearItemEspecial();
+        }
     }
 
     public void moverBurbujas() {
         for (Burbuja b :
                 jugador.getBurbujas()) {
             b.mover();
-            b.checkCollisions(enemigos);
+            b.checkCollisions(enemigos, items);
         }
     }
 
@@ -124,6 +127,10 @@ public class Juego implements Runnable, Subject {
                 enemigos) {
             e.mover();
         }
+    }
+
+    private void crearItemEspecial(){
+        items.add(itemEspecial);
     }
 
     public void stopGame() // called by the user to stop execution
@@ -142,6 +149,8 @@ public class Juego implements Runnable, Subject {
     public CopyOnWriteArrayList<Bloque> getWalls(){
         return bloques;
     }
+
+    public CopyOnWriteArrayList<Item> getItems(){return items;}
 
     @Override
     public boolean registerObserver(Observer observer) {

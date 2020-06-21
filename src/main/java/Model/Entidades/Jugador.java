@@ -1,9 +1,10 @@
 package Model.Entidades;
 
 import Model.Entidades.Burbujas.Burbuja;
+import Model.Entidades.Items.Item;
+import Model.Entidades.Items.ItemEspecial;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Jugador extends Sprite {
@@ -16,6 +17,8 @@ public class Jugador extends Sprite {
     private int speed = 2;
     private int gravedad =1; //esta variable debe ser igual para los enemigos
 
+    private int puntajeAcumulado = 0;
+
     private Burbuja habilidad;
     private final CopyOnWriteArrayList<Burbuja> burbujas;
 
@@ -27,13 +30,16 @@ public class Jugador extends Sprite {
         setHabilidad(new Burbuja(x + 30, y, 1));//cambiar esto
     }
 
-    public void mover(CopyOnWriteArrayList<Bloque> walls) {
+    public void mover(CopyOnWriteArrayList<Bloque> walls,
+                      CopyOnWriteArrayList<Item> items) {
 
         if(!checkCollisionsWall(walls)){
             x += dx*speed;
             y += dy*speed;
+            checkCollisionsItems(items);
         }
-        System.out.println("posicion jugador: " + x + ":" + y);
+
+        //System.out.println("posicion jugador: " + x + ":" + y);
     }
 
     public void disparar() {
@@ -90,6 +96,24 @@ public class Jugador extends Sprite {
         }
         return false;
     }
+    public void checkCollisionsItems(CopyOnWriteArrayList<Item> items) {
+        Rectangle r1 = this.getOffsetBounds();
+
+        for (Item i : items) {
+
+            Rectangle r2 = i.getBounds();
+
+            if (r1.intersects(r2)) {
+                items.remove(i);
+                sumarPuntaje(i.getPuntaje());
+                if(i instanceof ItemEspecial){
+                    System.out.println("Nueva Habilidad");
+                    //TODO: aca se setearia la nueva habilidad
+                }
+
+            }
+        }
+    }
 
     public void morir() {
         //TODO actialiar animacion
@@ -118,4 +142,11 @@ public class Jugador extends Sprite {
     public boolean isAlive() {
         return alive;
     }
+
+    public void sumarPuntaje(int puntos){
+        puntajeAcumulado += puntos;
+        System.out.println("Puntaje: " + puntajeAcumulado);
+    }
+
+    public int getPuntajeAcumulado(){return puntajeAcumulado;}
 }
