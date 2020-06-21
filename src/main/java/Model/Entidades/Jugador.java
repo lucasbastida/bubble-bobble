@@ -16,6 +16,8 @@ public class Jugador extends Sprite {
     private int speed = 2;
     private int gravedad =1; //esta variable debe ser igual para los enemigos
 
+    private int puntajeAcumulado = 0;
+
     private Burbuja habilidad;
     private final CopyOnWriteArrayList<Burbuja> burbujas;
 
@@ -103,6 +105,7 @@ public class Jugador extends Sprite {
 
             if (r1.intersects(r2)) {
                 items.remove(i);
+                sumarPuntaje(i.getPuntaje());
             }
         }
         return false;
@@ -134,5 +137,10 @@ public class Jugador extends Sprite {
 
     public boolean isAlive() {
         return alive;
+    }
+
+    public void sumarPuntaje(int puntos){
+        puntajeAcumulado += puntos;
+        System.out.println("Puntaje: " + puntajeAcumulado);
     }
 }
