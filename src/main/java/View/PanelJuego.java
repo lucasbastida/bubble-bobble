@@ -6,6 +6,7 @@ package View;
 import Model.Entidades.Bloque;
 import Model.Entidades.Burbujas.Burbuja;
 import Model.Entidades.Enemigo;
+import Model.Entidades.Item;
 import Model.Juego;
 import View.Images.AnimatedImage;
 import View.Images.LevelImage;
@@ -59,6 +60,7 @@ public class PanelJuego extends JPanel implements Observer {
         spriteSheets.put("burbuja", new SpriteSheet(64, 128, 1, 2, "/burbuja.png"));
         spriteSheets.put("walker", new SpriteSheet(128, 256, 2, 4, "/walker.png"));
         spriteSheets.put("wall", new SpriteSheet(32, 32, 1, 1, "/wall.png"));
+        spriteSheets.put("item",  new SpriteSheet(64, 128, 1, 2, "/burbuja.png")); //Uso este sprite porque es el tengo mano
     }
 
 
@@ -75,6 +77,7 @@ public class PanelJuego extends JPanel implements Observer {
         dibujarBurbujas(bbg);
         dibujarEnemigos(bbg);
         dibujarWalls(bbg);
+        dibujarItems(bbg);
 
         g.drawImage(backBuffer, 0 , 0, null);
     }
@@ -129,6 +132,16 @@ public class PanelJuego extends JPanel implements Observer {
                     bloque.getY(),
                     bloque.getAncho(),
                     bloque.getAlto(), null);
+        }
+    }
+
+    private void dibujarItems(Graphics g){
+        for (Item i: juego.getItems()) {
+            g.drawImage(spriteSheets.get("item").getSpriteActual(),
+                    i.getX(),
+                    i.getY(),
+                    i.getAncho(),
+                    i.getAlto(), null);
         }
     }
 

@@ -3,6 +3,7 @@ package Model;
 import Model.Entidades.Bloque;
 import Model.Entidades.Burbujas.Burbuja;
 import Model.Entidades.Enemigo;
+import Model.Entidades.Item;
 import Model.Entidades.Jugador;
 import View.Images.LevelImage;
 import util.Observer;
@@ -30,7 +31,8 @@ public class Juego implements Runnable, Subject {
     private Jugador jugador = new Jugador(64, 608);
     private CopyOnWriteArrayList<Enemigo> enemigos = new CopyOnWriteArrayList<>();
     private CopyOnWriteArrayList<Bloque> bloques = new CopyOnWriteArrayList<>();
-    //private ArrayList<Burbuja> burbujas = jugador.getBurbujas();
+    private CopyOnWriteArrayList<Item> items = new CopyOnWriteArrayList<>();
+
     public Juego(){
         enemigos.add(new Enemigo(300,300));
         enemigos.add(new Enemigo(200,200));
@@ -104,18 +106,16 @@ public class Juego implements Runnable, Subject {
     private void gameUpdate() { //if (!gameOver)
         // update game state ...
         jugador.mover(getWalls());
-        //jugador.caerPorGravedad();
         moverBurbujas();
         moverEnemigos();
         jugador.checkCollisions(enemigos);
-        //jugador.checkCollisionsWall(getWalls());
     }
 
     public void moverBurbujas() {
         for (Burbuja b :
                 jugador.getBurbujas()) {
             b.mover();
-            b.checkCollisions(enemigos);
+            b.checkCollisions(enemigos, items);
         }
     }
 
@@ -142,6 +142,8 @@ public class Juego implements Runnable, Subject {
     public CopyOnWriteArrayList<Bloque> getWalls(){
         return bloques;
     }
+
+    public CopyOnWriteArrayList<Item> getItems(){return items;}
 
     @Override
     public boolean registerObserver(Observer observer) {

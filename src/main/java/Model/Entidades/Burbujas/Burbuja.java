@@ -1,6 +1,7 @@
 package Model.Entidades.Burbujas;
 
 import Model.Entidades.Enemigo;
+import Model.Entidades.Item;
 import Model.Entidades.Sprite;
 
 import java.awt.*;
@@ -23,7 +24,7 @@ public class Burbuja extends Sprite { //Esto deberia ser una clase, no una inter
 
     }
 
-    public void checkCollisions(CopyOnWriteArrayList<Enemigo> enemigos) {
+    public void checkCollisions(CopyOnWriteArrayList<Enemigo> enemigos,CopyOnWriteArrayList<Item> items ) {
 
         Rectangle r1 = this.getBounds();
         for (Enemigo enemigo : enemigos) {
@@ -33,6 +34,7 @@ public class Burbuja extends Sprite { //Esto deberia ser una clase, no una inter
             if (r1.intersects(r2)) {
                 atraparEnemigo(enemigo);
                 enemigos.remove(enemigo);
+                items.add(new Item(enemigo.getX(), enemigo.getY()));
             }
         }
     }
