@@ -15,6 +15,8 @@ public class VistaMenu extends JFrame {
 
 
     public VistaMenu() {
+        this.setIconImage(new ImageIcon(getClass().getResource("/logo.png")).getImage());
+
         setTitle("Menu");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(menuPanel);
@@ -60,10 +62,10 @@ public class VistaMenu extends JFrame {
         menuPanel = new JPanel();
         menuPanel.setLayout(new GridLayoutManager(3, 1, new Insets(0, 0, 0, 0), -1, -1));
         exitButton = new JButton();
-        exitButton.setText("Exit");
+        exitButton.setText("Salir");
         menuPanel.add(exitButton, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         newGameButton = new JButton();
-        newGameButton.setText("New Game");
+        newGameButton.setText("Nuevo Juego");
         menuPanel.add(newGameButton, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label1 = new JLabel();
         label1.setIcon(new ImageIcon(getClass().getResource("/logo.png")));
