@@ -1,8 +1,10 @@
 package Model;
 
+import Model.Entidades.Bloque;
 import Model.Entidades.Burbujas.Burbuja;
 import Model.Entidades.Enemigo;
 import Model.Entidades.Jugador;
+import View.Images.LevelImage;
 import util.Observer;
 import util.Subject;
 
@@ -25,14 +27,16 @@ public class Juego implements Runnable, Subject {
     private ArrayList<Observer> observers = new ArrayList<>();
 
     //TODO cargar valores desde un archivo o clase que tenga las configuraciones?
-    private Jugador jugador = new Jugador(20, 20);
-    public CopyOnWriteArrayList<Enemigo> enemigos = new CopyOnWriteArrayList<>();
+    private Jugador jugador = new Jugador(64, 608);
+    private CopyOnWriteArrayList<Enemigo> enemigos = new CopyOnWriteArrayList<>();
+    private CopyOnWriteArrayList<Bloque> bloques = new CopyOnWriteArrayList<>();
     //private ArrayList<Burbuja> burbujas = jugador.getBurbujas();
     public Juego(){
         enemigos.add(new Enemigo(300,300));
         enemigos.add(new Enemigo(200,200));
         enemigos.add(new Enemigo(500,500));
         enemigos.add(new Enemigo(500,400));
+        createWalls();
     }
 
     public void run() {
@@ -99,10 +103,12 @@ public class Juego implements Runnable, Subject {
 
     private void gameUpdate() { //if (!gameOver)
         // update game state ...
-        jugador.mover();
+        jugador.mover(getWalls());
+        //jugador.caerPorGravedad();
         moverBurbujas();
         moverEnemigos();
         jugador.checkCollisions(enemigos);
+        //jugador.checkCollisionsWall(getWalls());
     }
 
     public void moverBurbujas() {
@@ -127,6 +133,14 @@ public class Juego implements Runnable, Subject {
 
     public CopyOnWriteArrayList<Enemigo> getEnemigos(){
         return enemigos;
+    }
+
+    public void createWalls(){
+        LevelImage level = new LevelImage("/Nivel1.png");
+        level.loadImageLevel(bloques);
+    }
+    public CopyOnWriteArrayList<Bloque> getWalls(){
+        return bloques;
     }
 
     @Override

@@ -3,10 +3,12 @@ package View;
 //TODO usar enum en vez de literales?
 //todos los numeros magicos contribuye al quilombo
 
+import Model.Entidades.Bloque;
 import Model.Entidades.Burbujas.Burbuja;
 import Model.Entidades.Enemigo;
 import Model.Juego;
 import View.Images.AnimatedImage;
+import View.Images.LevelImage;
 import View.Images.PlayerImage;
 import View.Images.SpriteSheet;
 import util.Observer;
@@ -56,6 +58,7 @@ public class PanelJuego extends JPanel implements Observer {
         playerImage = new PlayerImage(bub);
         spriteSheets.put("burbuja", new SpriteSheet(64, 128, 1, 2, "/burbuja.png"));
         spriteSheets.put("walker", new SpriteSheet(128, 256, 2, 4, "/walker.png"));
+        spriteSheets.put("wall", new SpriteSheet(32, 32, 1, 1, "/wall.png"));
     }
 
 
@@ -64,13 +67,14 @@ public class PanelJuego extends JPanel implements Observer {
         Graphics g = getGraphics();
         Graphics bbg = backBuffer.getGraphics();
 
-        bbg.setColor(Color.WHITE);
+        bbg.setColor(Color.BLACK);
         bbg.fillRect(0, 0, PWIDTH, PHEIGHT);
 
 
         dibujarJugador(bbg);
         dibujarBurbujas(bbg);
         dibujarEnemigos(bbg);
+        dibujarWalls(bbg);
 
         g.drawImage(backBuffer, 0 , 0, null);
     }
@@ -116,6 +120,15 @@ public class PanelJuego extends JPanel implements Observer {
                     enemigo.getY(),
                     enemigo.getAncho(),
                     enemigo.getAlto(), null);
+        }
+    }
+    private void dibujarWalls(Graphics g) {
+        for (Bloque bloque : juego.getWalls()) {
+            g.drawImage(spriteSheets.get("wall").getSpriteActual(),
+                    bloque.getX(),
+                    bloque.getY(),
+                    bloque.getAncho(),
+                    bloque.getAlto(), null);
         }
     }
 
