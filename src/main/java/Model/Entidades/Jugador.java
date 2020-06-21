@@ -27,13 +27,16 @@ public class Jugador extends Sprite {
         setHabilidad(new Burbuja(x + 30, y, 1));//cambiar esto
     }
 
-    public void mover(CopyOnWriteArrayList<Bloque> walls) {
+    public void mover(CopyOnWriteArrayList<Bloque> walls,
+                      CopyOnWriteArrayList<Item> items) {
 
         if(!checkCollisionsWall(walls)){
             x += dx*speed;
             y += dy*speed;
+            checkCollisionsItems(items);
         }
-        System.out.println("posicion jugador: " + x + ":" + y);
+
+        //System.out.println("posicion jugador: " + x + ":" + y);
     }
 
     public void disparar() {
@@ -86,6 +89,20 @@ public class Jugador extends Sprite {
 
             if (r1.intersects(r2)) {
                 return true;
+            }
+        }
+        return false;
+    }
+    public boolean checkCollisionsItems(CopyOnWriteArrayList<Item> items) {
+        //TODO: hacer un metodo que funcione
+        Rectangle r1 = this.getOffsetBounds();
+
+        for (Item i : items) {
+
+            Rectangle r2 = i.getBounds();
+
+            if (r1.intersects(r2)) {
+                items.remove(i);
             }
         }
         return false;

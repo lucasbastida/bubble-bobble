@@ -60,7 +60,7 @@ public class PanelJuego extends JPanel implements Observer {
         spriteSheets.put("burbuja", new SpriteSheet(64, 128, 1, 2, "/burbuja.png"));
         spriteSheets.put("walker", new SpriteSheet(128, 256, 2, 4, "/walker.png"));
         spriteSheets.put("wall", new SpriteSheet(32, 32, 1, 1, "/wall.png"));
-        spriteSheets.put("item",  new SpriteSheet(64, 128, 1, 2, "/burbuja.png")); //Uso este sprite porque es el tengo mano
+        spriteSheets.put("item",  new SpriteSheet(64, 112, 1, 2, "/items.png"));
     }
 
 
