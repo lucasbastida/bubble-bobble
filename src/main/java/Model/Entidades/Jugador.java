@@ -1,6 +1,7 @@
 package Model.Entidades;
 
 import Model.Entidades.Burbujas.Burbuja;
+import Model.Entidades.Burbujas.BurbujaNormal;
 import Model.Entidades.Items.Item;
 import Model.Entidades.Items.ItemEspecial;
 
@@ -27,7 +28,7 @@ public class Jugador extends Sprite {
     public Jugador(int x, int y) {
         super(x, y, 320 / 5, 192 / 3);
         burbujas = new CopyOnWriteArrayList<>();
-        setHabilidad(new Burbuja(x + 30, y, 1));//cambiar esto
+        setHabilidad(new BurbujaNormal(x + 30, y, 1));//cambiar esto
     }
 
     public void mover(CopyOnWriteArrayList<Bloque> walls,
@@ -44,7 +45,7 @@ public class Jugador extends Sprite {
 
     public void disparar() {
         disparando = true;
-        setHabilidad(new Burbuja(x, y, direccion));
+        setHabilidad(new BurbujaNormal(x, y, direccion));
         burbujas.add(getHabilidad());
     }
 
