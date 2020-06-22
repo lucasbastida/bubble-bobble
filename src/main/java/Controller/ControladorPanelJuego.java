@@ -1,8 +1,10 @@
 package Controller;
 
 import Model.Juego;
+import View.PanelEstadistica;
 import View.PanelJuego;
 import View.Images.PlayerState;
+import View.VistaEstadistica;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -66,6 +68,11 @@ public class ControladorPanelJuego {
         if (keyCode == KeyEvent.VK_F) {
             juego.getJugador().disparar();
             panelJuego.getPlayerImage().setState(PlayerState.ATTACKING);
+        }
+        if (keyCode == KeyEvent.VK_E) {
+            PanelEstadistica panelEstadistica = new PanelEstadistica(juego);
+            juego.registerObserver(panelEstadistica);
+            VistaEstadistica vistaEstadistica = new VistaEstadistica(panelEstadistica);
         }
     }
 

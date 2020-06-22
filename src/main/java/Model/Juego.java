@@ -24,7 +24,7 @@ public class Juego implements Runnable, Subject {
     private long lastFpsTime;  //The last time at which we recorded the frame rate
     private int fps;  //The current number of frames recorded
 
-    private ArrayList<Observer> observers = new ArrayList<>();
+    private CopyOnWriteArrayList<Observer> observers = new CopyOnWriteArrayList<>();
 
     //TODO cargar valores desde un archivo o clase que tenga las configuraciones?
     private Jugador jugador = new Jugador(64, 608);
