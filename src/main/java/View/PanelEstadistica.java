@@ -39,10 +39,10 @@ public class PanelEstadistica extends JPanel implements Observer {
         bbg.setColor(Color.GREEN);
         bbg.setFont(font);
 
-        bbg.drawString("Puntaje: " + juego.getJugador().getPuntajeAcumulado(), 115, 60);
-        bbg.drawString("Enemigos: " + juego.getEnemigos().size(), 95, 130);
-        bbg.drawString("Items: " + juego.getItems().size(), 125, 210);
-        bbg.drawString("Vidas: ", 130, 290);
+            g.drawString("Puntaje: " + juego.getJugador().getPuntajeAcumulado(), 95, 60);
+            g.drawString("Enemigos: " + juego.getEnemigos().size(),95,130);
+            g.drawString("Items: " + juego.getItems().size(), 95,210);
+            g.drawString("Vidas: " + juego.getJugador().getVidasRestantes(),95,290);
 
 
         g.drawImage(backBuffer, 0, 0, null);

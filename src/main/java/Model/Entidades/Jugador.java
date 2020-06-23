@@ -18,6 +18,7 @@ public class Jugador extends Sprite {
     private int gravedad =1; //esta variable debe ser igual para los enemigos
 
     private int puntajeAcumulado = 0;
+    private int vidas;
 
     private Burbuja habilidad;
     private final CopyOnWriteArrayList<Burbuja> burbujas;
@@ -28,6 +29,7 @@ public class Jugador extends Sprite {
         super(x, y, 320 / 5, 192 / 3);
         burbujas = new CopyOnWriteArrayList<>();
         setHabilidad(new Burbuja(x + 30, y, 1));//cambiar esto
+        vidas = 3;
     }
 
     public void mover(CopyOnWriteArrayList<Bloque> walls,
@@ -149,4 +151,8 @@ public class Jugador extends Sprite {
     }
 
     public int getPuntajeAcumulado(){return puntajeAcumulado;}
+
+    public int getVidasRestantes(){
+        return vidas;
+    }
 }
