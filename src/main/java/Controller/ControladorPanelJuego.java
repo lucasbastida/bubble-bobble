@@ -30,14 +30,14 @@ public class ControladorPanelJuego {
     public void teclaPresionada(int keyCode) {
         if ((keyCode == KeyEvent.VK_ESCAPE) || (keyCode == KeyEvent.VK_Q)) {
             juego.stopGame();
-            //return;
+            return;
         }
 
         if (keyCode == KeyEvent.VK_LEFT) {
             juego.getJugador().setDx(-2);
             juego.getJugador().setMirandoDerecha(false);
             panelJuego.getPlayerImage().setState(PlayerState.MOVING_LEFT);
-            //return; //si ya entró a este if no es necesario que siga haciendo todas las otras
+            return; //si ya entró a este if no es necesario que siga haciendo todas las otras
             //comparaciones porque le van a dar falso
         }
 
@@ -45,24 +45,27 @@ public class ControladorPanelJuego {
             juego.getJugador().setDx(2);
             juego.getJugador().setMirandoDerecha(true);
             panelJuego.getPlayerImage().setState(PlayerState.MOVING_RIGHT);
-            //return;
+            return;
         }
 
         if (keyCode == KeyEvent.VK_UP) {
             juego.getJugador().setDy(-2);
             panelJuego.getPlayerImage().setState(PlayerState.JUMPING);
-            //return;
+            return;
         }
 
         if (keyCode == KeyEvent.VK_DOWN) {
             juego.getJugador().setDy(2);
+            return;
         }
         if (keyCode == KeyEvent.VK_F) {
             panelJuego.getPlayerImage().setState(PlayerState.ATTACKING);
+            return;
         }
         if (keyCode== KeyEvent.VK_SPACE) {
             juego.getJugador().jump(15);
             panelJuego.getPlayerImage().setState(PlayerState.JUMPING);
+            return;
         }
     }
 
@@ -71,15 +74,18 @@ public class ControladorPanelJuego {
                 || keyCode == KeyEvent.VK_RIGHT) {
             juego.getJugador().setDx(0);
             panelJuego.getPlayerImage().setState(PlayerState.IDLE);
+            return;
         }
         if (keyCode == KeyEvent.VK_F){
             panelJuego.getPlayerImage().setState(PlayerState.IDLE);
             juego.getJugador().disparar();
+            return;
         }
         if (keyCode == KeyEvent.VK_UP
                 || keyCode == KeyEvent.VK_DOWN) {
             juego.getJugador().setDy(0);
             panelJuego.getPlayerImage().setState(PlayerState.IDLE);
+            return;
         }
     }
 
