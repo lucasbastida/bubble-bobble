@@ -27,10 +27,11 @@ public class Juego implements Runnable, Subject {
     private ArrayList<Observer> observers = new ArrayList<>();
 
     //TODO cargar valores desde un archivo o clase que tenga las configuraciones?
-    private Jugador jugador = new Jugador(64, 608);
+    private Jugador jugador;
     private CopyOnWriteArrayList<Enemigo> enemigos = new CopyOnWriteArrayList<>();
     private CopyOnWriteArrayList<Bloque> bloques = new CopyOnWriteArrayList<>();
     private CopyOnWriteArrayList<Item> items = new CopyOnWriteArrayList<>();
+    private CopyOnWriteArrayList<EnemigoBurbuja> enemigosBurbuja = new CopyOnWriteArrayList<>();
     private Item itemEspecial = new ItemEspecial(200, 200); //Lo creo aca para que se pueda agregar solo uno
 
     public Juego(){
@@ -38,6 +39,7 @@ public class Juego implements Runnable, Subject {
         enemigos.add(new Enemigo(200,200));
         enemigos.add(new Enemigo(500,500));
         enemigos.add(new Enemigo(500,400));
+        jugador = new Jugador (200, 200);
         createWalls();
     }
 
@@ -105,11 +107,11 @@ public class Juego implements Runnable, Subject {
 
     private void gameUpdate() { //if (!gameOver)
         // update game state ...
-        jugador.mover(getWalls(), getItems());
+        jugador.mover(getWalls(), getItems(), getEnemigosBurbuja());
         moverBurbujas();
         moverEnemigos();
         jugador.checkCollisions(enemigos);
-        if(jugador.getPuntajeAcumulado()==4000 & !items.contains(itemEspecial)){
+        if(jugador.getPuntajeAcumulado()==2000 & !items.contains(itemEspecial)){
             crearItemEspecial();
         }
     }
@@ -118,7 +120,7 @@ public class Juego implements Runnable, Subject {
         for (Burbuja b :
                 jugador.getBurbujas()) {
             b.mover();
-            b.checkCollisions(enemigos, items);
+            b.checkCollisions(enemigos, items, enemigosBurbuja);
         }
     }
 
@@ -151,6 +153,8 @@ public class Juego implements Runnable, Subject {
     }
 
     public CopyOnWriteArrayList<Item> getItems(){return items;}
+
+    public CopyOnWriteArrayList<EnemigoBurbuja> getEnemigosBurbuja(){return enemigosBurbuja;}
 
     @Override
     public boolean registerObserver(Observer observer) {
