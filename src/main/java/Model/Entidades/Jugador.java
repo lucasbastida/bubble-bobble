@@ -34,12 +34,14 @@ public class Jugador extends Sprite {
     }
 
     public void mover(CopyOnWriteArrayList<Bloque> walls,
-                      CopyOnWriteArrayList<Item> items) {
+                      CopyOnWriteArrayList<Item> items,
+                      CopyOnWriteArrayList<EnemigoBurbuja> enemigosBurbuja) {
 
         if(!checkCollisionsWall(walls)){
             x += dx*speed;
             y += dy*speed;
             checkCollisionsItems(items);
+            checkCollisionsEnemigoBurbuja(enemigosBurbuja, items);
         }
 
         //System.out.println("posicion jugador: " + x + ":" + y);
@@ -107,6 +109,19 @@ public class Jugador extends Sprite {
                     //TODO: aca se setearia la nueva habilidad
                 }
 
+            }
+        }
+    }
+    public void checkCollisionsEnemigoBurbuja(CopyOnWriteArrayList<EnemigoBurbuja> enemigosBurbuja,
+                                              CopyOnWriteArrayList items) {
+        Rectangle r1 = this.getBounds();
+        for (EnemigoBurbuja e : enemigosBurbuja) {
+
+            Rectangle r2 = e.getBounds();
+
+            if (r1.intersects(r2)) {
+                enemigosBurbuja.remove(e);
+                items.add(new Item(e.getX(), e.getY()));
             }
         }
     }

@@ -106,11 +106,11 @@ public class Juego implements Runnable, Subject {
 
     private void gameUpdate() { //if (!gameOver)
         // update game state ...
-        jugador.mover(getWalls(), getItems());
+        jugador.mover(getWalls(), getItems(), getEnemigosBurbuja());
         moverBurbujas();
         moverEnemigos();
         jugador.checkCollisions(enemigos);
-        if(jugador.getPuntajeAcumulado()==4000 & !items.contains(itemEspecial)){
+        if(jugador.getPuntajeAcumulado()==2000 & !items.contains(itemEspecial)){
             crearItemEspecial();
         }
     }
