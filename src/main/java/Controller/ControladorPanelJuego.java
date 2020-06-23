@@ -40,7 +40,7 @@ public class ControladorPanelJuego {
     /**
      * Controlador interactua con el modelo, le comunica que debe hacer el jugador
      * tambien comunica a la vista que tecla apreto para cargar la animacion correspondiente.
-     * @param keyCode
+     * @param keyCode tecla
      */
     private void movementPressed(int keyCode) {
         if (keyCode == KeyEvent.VK_LEFT) {
@@ -69,18 +69,24 @@ public class ControladorPanelJuego {
             return;
         }
         if (keyCode == KeyEvent.VK_F) {
-            juego.getJugador().disparar();
             panelJuego.getPlayerImage().setState(PlayerState.ATTACKING);
             return;
+        }
+        if (keyCode== KeyEvent.VK_SPACE) {
+            juego.getJugador().jump(15);
+            panelJuego.getPlayerImage().setState(PlayerState.JUMPING);
         }
     }
 
     private void movementReleased(int keyCode) {
         if (keyCode == KeyEvent.VK_LEFT
-                || keyCode == KeyEvent.VK_RIGHT
-                || keyCode == KeyEvent.VK_F) {
+                || keyCode == KeyEvent.VK_RIGHT) {
             juego.getJugador().setDx(0);
             panelJuego.getPlayerImage().setState(PlayerState.IDLE);
+        }
+        if (keyCode == KeyEvent.VK_F){
+            panelJuego.getPlayerImage().setState(PlayerState.IDLE);
+            juego.getJugador().disparar();
         }
         if (keyCode == KeyEvent.VK_UP
                 || keyCode == KeyEvent.VK_DOWN) {
