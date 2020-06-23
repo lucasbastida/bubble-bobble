@@ -1,6 +1,9 @@
 package Model.Entidades;
 
 import Model.Entidades.Burbujas.Burbuja;
+import Model.Entidades.Burbujas.Elemento;
+import Model.Entidades.Burbujas.ElementoAire;
+import Model.Entidades.Burbujas.ElementoFuego;
 import Model.Entidades.Items.Item;
 import Model.Entidades.Items.ItemEspecial;
 
@@ -18,8 +21,8 @@ public class Jugador extends Sprite {
     private int gravedad =1; //esta variable debe ser igual para los enemigos
 
     private int puntajeAcumulado = 0;
+    private Elemento habilidad;
 
-    private Burbuja habilidad;
     private final CopyOnWriteArrayList<Burbuja> burbujas;
 
     private boolean alive = true;
@@ -27,16 +30,18 @@ public class Jugador extends Sprite {
     public Jugador(int x, int y) {
         super(x, y, 320 / 5, 192 / 3);
         burbujas = new CopyOnWriteArrayList<>();
-        setHabilidad(new Burbuja(x + 30, y, 1));//cambiar esto
+        habilidad = new ElementoAire();
     }
 
     public void mover(CopyOnWriteArrayList<Bloque> walls,
-                      CopyOnWriteArrayList<Item> items) {
+                      CopyOnWriteArrayList<Item> items,
+                      CopyOnWriteArrayList<EnemigoBurbuja> enemigosBurbuja) {
 
         if(!checkCollisionsWall(walls)){
             x += dx*speed;
             y += dy*speed;
             checkCollisionsItems(items);
+            checkCollisionsEnemigoBurbuja(enemigosBurbuja, items);
         }
 
         //System.out.println("posicion jugador: " + x + ":" + y);
@@ -44,17 +49,9 @@ public class Jugador extends Sprite {
 
     public void disparar() {
         disparando = true;
-        setHabilidad(new Burbuja(x, y, direccion));
-        burbujas.add(getHabilidad());
+        burbujas.add(crearBurbuja(habilidad));
     }
 
-    private void setHabilidad(Burbuja burbuja) {
-        habilidad = burbuja;
-    }
-
-    public Burbuja getHabilidad() {
-        return habilidad;
-    }
 
     public CopyOnWriteArrayList<Burbuja> getBurbujas() {
         return burbujas;
@@ -108,9 +105,23 @@ public class Jugador extends Sprite {
                 sumarPuntaje(i.getPuntaje());
                 if(i instanceof ItemEspecial){
                     System.out.println("Nueva Habilidad");
+                    cambiarHabilidad();
                     //TODO: aca se setearia la nueva habilidad
                 }
 
+            }
+        }
+    }
+    public void checkCollisionsEnemigoBurbuja(CopyOnWriteArrayList<EnemigoBurbuja> enemigosBurbuja,
+                                              CopyOnWriteArrayList items) {
+        Rectangle r1 = this.getBounds();
+        for (EnemigoBurbuja e : enemigosBurbuja) {
+
+            Rectangle r2 = e.getBounds();
+
+            if (r1.intersects(r2)) {
+                enemigosBurbuja.remove(e);
+                items.add(new Item(e.getX(), e.getY()));
             }
         }
     }
@@ -149,4 +160,15 @@ public class Jugador extends Sprite {
     }
 
     public int getPuntajeAcumulado(){return puntajeAcumulado;}
+
+    private Burbuja crearBurbuja(Elemento elemento){
+        Burbuja b = new Burbuja(x,y,direccion);
+        b.setElemento(elemento);
+        return b;
+    }
+
+    private void cambiarHabilidad(){
+        habilidad = new ElementoFuego();
+    }
+
 }

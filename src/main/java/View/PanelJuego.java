@@ -5,7 +5,9 @@ package View;
 
 import Model.Entidades.Bloque;
 import Model.Entidades.Burbujas.Burbuja;
+import Model.Entidades.Burbujas.ElementoFuego;
 import Model.Entidades.Enemigo;
+import Model.Entidades.EnemigoBurbuja;
 import Model.Entidades.Items.Item;
 import Model.Entidades.Items.ItemEspecial;
 import Model.Juego;
@@ -15,6 +17,7 @@ import View.Images.SpriteSheet;
 import util.Observer;
 
 import javax.swing.JPanel;
+import javax.swing.text.Element;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -58,7 +61,9 @@ public class PanelJuego extends JPanel implements Observer {
         spriteSheets.put("bub", bub);
         playerImage = new PlayerImage(bub);
         spriteSheets.put("burbuja", new SpriteSheet(64, 128, 1, 2, "/burbuja.png"));
+        spriteSheets.put("burbujaFuego", new SpriteSheet(64,64,1,1,"/burbujaFuego.png"));
         spriteSheets.put("walker", new SpriteSheet(128, 256, 2, 4, "/walker.png"));
+        spriteSheets.put("walkerBurbuja", new SpriteSheet(64,192,1,3, "/walkerBurbuja.png"));
         spriteSheets.put("wall", new SpriteSheet(32, 32, 1, 1, "/wall.png"));
         spriteSheets.put("item",  new SpriteSheet(64, 56, 1, 1, "/itemComun.png"));
         spriteSheets.put("itemEspecial",  new SpriteSheet(64, 56, 1, 1, "/itemEspecial.png"));
@@ -79,6 +84,7 @@ public class PanelJuego extends JPanel implements Observer {
         dibujarEnemigos(bbg);
         dibujarWalls(bbg);
         dibujarItems(bbg);
+        dibujarEnemigosEnBurbujas(bbg);
 
         g.drawImage(backBuffer, 0 , 0, null);
     }
@@ -103,8 +109,12 @@ public class PanelJuego extends JPanel implements Observer {
      * @param g el buffer
      */
     private void dibujarBurbujas(Graphics g) {
+        BufferedImage image;
         for (Burbuja burbuja : juego.getJugador().getBurbujas()) {
-            g.drawImage(spriteSheets.get("burbuja").getSpriteActual(),//obtiene la imagen burbuja desde el objeto sprite sheet en el hashmap
+            if(burbuja.getElemento() instanceof ElementoFuego)
+                image = spriteSheets.get("burbujaFuego").getSpriteActual();
+            else  image = spriteSheets.get("burbuja").getSpriteActual();
+            g.drawImage(image,//obtiene la imagen burbuja desde el objeto sprite sheet en el hashmap
                     burbuja.getX(), //obtiene las coordenadas y su altura y anchura para dibujar del modelo
                     burbuja.getY(),
                     burbuja.getAncho(),
@@ -147,6 +157,16 @@ public class PanelJuego extends JPanel implements Observer {
                     i.getY(),
                     i.getAncho(),
                     i.getAlto(), null);
+        }
+    }
+
+    private void dibujarEnemigosEnBurbujas(Graphics g) {
+        for (EnemigoBurbuja eb : juego.getEnemigosBurbuja()) {
+            g.drawImage(spriteSheets.get("walkerBurbuja").getSpriteActual(),
+                    eb.getX(),
+                    eb.getY(),
+                    eb.getAncho(),
+                    eb.getAlto(), null);
         }
     }
 
