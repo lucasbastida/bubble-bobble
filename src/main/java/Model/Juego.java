@@ -27,7 +27,7 @@ public class Juego implements Runnable, Subject {
     private ArrayList<Observer> observers = new ArrayList<>();
 
     //TODO cargar valores desde un archivo o clase que tenga las configuraciones?
-    private Jugador jugador = new Jugador(64, 608);
+    private Jugador jugador;
     private CopyOnWriteArrayList<Enemigo> enemigos = new CopyOnWriteArrayList<>();
     private CopyOnWriteArrayList<Bloque> bloques = new CopyOnWriteArrayList<>();
     private CopyOnWriteArrayList<Item> items = new CopyOnWriteArrayList<>();
@@ -39,6 +39,7 @@ public class Juego implements Runnable, Subject {
         enemigos.add(new Enemigo(200,200));
         enemigos.add(new Enemigo(500,500));
         enemigos.add(new Enemigo(500,400));
+        jugador = new Jugador (200, 200);
         createWalls();
     }
 
