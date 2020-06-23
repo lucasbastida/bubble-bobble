@@ -4,11 +4,10 @@ package View;
 //todos los numeros magicos contribuye al quilombo
 
 import Model.Entidades.Bloque;
-import Model.Entidades.Burbujas.BurbujaNormal;
+import Model.Entidades.Burbujas.Burbuja;
 import Model.Entidades.Enemigo;
 import Model.Entidades.Items.Item;
 import Model.Entidades.Items.ItemEspecial;
-import Model.Entidades.Sprite;
 import Model.Juego;
 import View.Images.AnimatedImage;
 import View.Images.PlayerImage;
@@ -104,7 +103,7 @@ public class PanelJuego extends JPanel implements Observer {
      * @param g el buffer
      */
     private void dibujarBurbujas(Graphics g) {
-        for (Sprite burbuja : juego.getJugador().getBurbujas()) {
+        for (Burbuja burbuja : juego.getJugador().getBurbujas()) {
             g.drawImage(spriteSheets.get("burbuja").getSpriteActual(),//obtiene la imagen burbuja desde el objeto sprite sheet en el hashmap
                     burbuja.getX(), //obtiene las coordenadas y su altura y anchura para dibujar del modelo
                     burbuja.getY(),

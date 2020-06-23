@@ -2,7 +2,6 @@ package Model;
 
 import Model.Entidades.*;
 import Model.Entidades.Burbujas.Burbuja;
-import Model.Entidades.Burbujas.BurbujaNormal;
 import Model.Entidades.Items.Item;
 import Model.Entidades.Items.ItemEspecial;
 import View.Images.LevelImage;

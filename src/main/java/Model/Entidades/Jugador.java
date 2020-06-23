@@ -1,7 +1,9 @@
 package Model.Entidades;
 
 import Model.Entidades.Burbujas.Burbuja;
-import Model.Entidades.Burbujas.BurbujaNormal;
+import Model.Entidades.Burbujas.Elemento;
+import Model.Entidades.Burbujas.ElementoAire;
+import Model.Entidades.Burbujas.ElementoFuego;
 import Model.Entidades.Items.Item;
 import Model.Entidades.Items.ItemEspecial;
 
@@ -21,6 +23,8 @@ public class Jugador extends Sprite {
     private int puntajeAcumulado = 0;
 
     private Burbuja habilidad;
+    private Elemento hab;
+
     private final CopyOnWriteArrayList<Burbuja> burbujas;
 
     private boolean alive = true;
@@ -28,7 +32,7 @@ public class Jugador extends Sprite {
     public Jugador(int x, int y) {
         super(x, y, 320 / 5, 192 / 3);
         burbujas = new CopyOnWriteArrayList<>();
-        setHabilidad(new BurbujaNormal(x + 30, y, 1));//cambiar esto
+        hab = new ElementoAire();
     }
 
     public void mover(CopyOnWriteArrayList<Bloque> walls,
@@ -45,17 +49,9 @@ public class Jugador extends Sprite {
 
     public void disparar() {
         disparando = true;
-        setHabilidad(new BurbujaNormal(x, y, direccion));
-        burbujas.add(getHabilidad());
+        burbujas.add(crearBurbuja(hab));
     }
 
-    private void setHabilidad(Burbuja burbuja) {
-        habilidad = burbuja;
-    }
-
-    public Burbuja getHabilidad() {
-        return habilidad;
-    }
 
     public CopyOnWriteArrayList<Burbuja> getBurbujas() {
         return burbujas;
@@ -109,6 +105,7 @@ public class Jugador extends Sprite {
                 sumarPuntaje(i.getPuntaje());
                 if(i instanceof ItemEspecial){
                     System.out.println("Nueva Habilidad");
+                    cambiarHabilidad();
                     //TODO: aca se setearia la nueva habilidad
                 }
 
@@ -150,4 +147,15 @@ public class Jugador extends Sprite {
     }
 
     public int getPuntajeAcumulado(){return puntajeAcumulado;}
+
+    private Burbuja crearBurbuja(Elemento elemento){
+        Burbuja b = new Burbuja(x,y,direccion);
+        b.setElemento(elemento);
+        return b;
+    }
+
+    private void cambiarHabilidad(){
+        hab = new ElementoFuego();
+    }
+
 }
