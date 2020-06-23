@@ -18,35 +18,34 @@ public class PanelEstadistica extends JPanel implements Observer {
 
     private Font font;
 
-    public PanelEstadistica(Juego juego){
+    public PanelEstadistica(Juego juego) {
         this.juego = juego;
 
         setBackground(Color.BLACK);
         setPreferredSize(new Dimension(PWIDTH, PHEIGHT));
         setFocusable(true);
         requestFocus();
-        font = new Font("Arial",Font.BOLD,40);
+        font = new Font("Arial", Font.BOLD, 40);
         backBuffer = new BufferedImage(PWIDTH, PHEIGHT, BufferedImage.TYPE_INT_RGB); //crea un buffer para pintar
     }
 
     public void paintScreen() {
-            Graphics g = getGraphics();
-            Graphics bbg = backBuffer.getGraphics();
+        Graphics g = getGraphics();
 
-           // bbg.setColor(Color.BLACK);
-            bbg.fillRect(0, 0, PWIDTH, PHEIGHT);
-            g.setColor(Color.GREEN);
-            g.setFont(font);
+        Graphics bbg = backBuffer.getGraphics();
 
-            g.drawString("Puntaje: " + juego.getJugador().getPuntajeAcumulado(), 115, 60);
-            g.drawString("Enemigos: " + juego.getEnemigos().size(),95,130);
-            g.drawString("Items: " + juego.getItems().size(), 125,210);
-            g.drawString("Vidas: ",130,290);
+        bbg.setColor(Color.BLACK);
+        bbg.fillRect(0, 0, PWIDTH, PHEIGHT);
+        bbg.setColor(Color.GREEN);
+        bbg.setFont(font);
+
+        bbg.drawString("Puntaje: " + juego.getJugador().getPuntajeAcumulado(), 115, 60);
+        bbg.drawString("Enemigos: " + juego.getEnemigos().size(), 95, 130);
+        bbg.drawString("Items: " + juego.getItems().size(), 125, 210);
+        bbg.drawString("Vidas: ", 130, 290);
 
 
-
-           // g.drawImage(backBuffer, 0, 0, null);
-            g.dispose();
+        g.drawImage(backBuffer, 0, 0, null);
     }
 
 

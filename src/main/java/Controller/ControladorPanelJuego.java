@@ -73,9 +73,10 @@ public class ControladorPanelJuego {
         }
         if (keyCode == KeyEvent.VK_E) {
             panelEstadistica = new PanelEstadistica(juego);
-            juego.registerObserver(panelEstadistica);
             vistaEstadistica = new VistaEstadistica(panelEstadistica);
             controladorEstadisticas = new ControladorEstadisticas(panelEstadistica, vistaEstadistica, juego);
+
+            juego.registerObserver(panelEstadistica);
         }
     }
 
