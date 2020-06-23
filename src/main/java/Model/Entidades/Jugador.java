@@ -38,7 +38,7 @@ public class Jugador extends Sprite {
         habilidad = new ElementoAire();
 
         gravity = 0.5;
-        maxDY= 7;
+        maxDY= 5;
     }
 
     public void mover(CopyOnWriteArrayList<Bloque> walls,
@@ -46,7 +46,7 @@ public class Jugador extends Sprite {
                       CopyOnWriteArrayList<EnemigoBurbuja> enemigosBurbuja) {
 
         if (!hasHorizonatlCollison(walls)) {
-            x += dx;
+            x += dx*2;
         }
         if (!hasVerticalCollision(walls)) {
             y += dy;

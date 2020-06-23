@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bubble-bobble.iml" filepath="$PROJECT_DIR$/.idea/modules/bubble-bobble.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bubble-bobble.main.iml" filepath="$PROJECT_DIR$/.idea/modules/bubble-bobble.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bubble-bobble.test.iml" filepath="$PROJECT_DIR$/.idea/modules/bubble-bobble.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/bubble-bobble.iml" filepath="$PROJECT_DIR$/.idea/bubble-bobble.iml" />
     </modules>
   </component>
 </project>
