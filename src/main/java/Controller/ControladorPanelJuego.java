@@ -13,7 +13,9 @@ public class ControladorPanelJuego {
 
     private PanelJuego panelJuego;//referencia al View panelJuego
     private Juego juego;//referencia al Modelo juego
-
+    PanelEstadistica panelEstadistica;
+    VistaEstadistica vistaEstadistica;
+    ControladorEstadisticas controladorEstadisticas;
 
     public ControladorPanelJuego(PanelJuego panelJuego, Juego juego) {
         this.panelJuego = panelJuego;
@@ -70,9 +72,10 @@ public class ControladorPanelJuego {
             panelJuego.getPlayerImage().setState(PlayerState.ATTACKING);
         }
         if (keyCode == KeyEvent.VK_E) {
-            PanelEstadistica panelEstadistica = new PanelEstadistica(juego);
+            panelEstadistica = new PanelEstadistica(juego);
             juego.registerObserver(panelEstadistica);
-            VistaEstadistica vistaEstadistica = new VistaEstadistica(panelEstadistica);
+            vistaEstadistica = new VistaEstadistica(panelEstadistica);
+            controladorEstadisticas = new ControladorEstadisticas(panelEstadistica, vistaEstadistica, juego);
         }
     }
 

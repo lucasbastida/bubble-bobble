@@ -23,6 +23,8 @@ public class PanelEstadistica extends JPanel implements Observer {
 
         setBackground(Color.BLACK);
         setPreferredSize(new Dimension(PWIDTH, PHEIGHT));
+        setFocusable(true);
+        requestFocus();
         font = new Font("Arial",Font.BOLD,40);
         backBuffer = new BufferedImage(PWIDTH, PHEIGHT, BufferedImage.TYPE_INT_RGB); //crea un buffer para pintar
     }
