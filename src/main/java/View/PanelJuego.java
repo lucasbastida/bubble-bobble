@@ -10,6 +10,7 @@ import Model.Entidades.Enemigo;
 import Model.Entidades.EnemigoBurbuja;
 import Model.Entidades.Items.Item;
 import Model.Entidades.Items.ItemEspecial;
+import Model.Entidades.Sprite;
 import Model.Juego;
 import View.Images.AnimatedImage;
 import View.Images.PlayerImage;
@@ -61,12 +62,12 @@ public class PanelJuego extends JPanel implements Observer {
         spriteSheets.put("bub", bub);
         playerImage = new PlayerImage(bub);
         spriteSheets.put("burbuja", new SpriteSheet(64, 128, 1, 2, "/burbuja.png"));
-        spriteSheets.put("burbujaFuego", new SpriteSheet(64,64,1,1,"/burbujaFuego.png"));
+        spriteSheets.put("burbujaFuego", new SpriteSheet(64, 64, 1, 1, "/burbujaFuego.png"));
         spriteSheets.put("walker", new SpriteSheet(128, 256, 2, 4, "/walker.png"));
-        spriteSheets.put("walkerBurbuja", new SpriteSheet(64,192,1,3, "/walkerBurbuja.png"));
+        spriteSheets.put("walkerBurbuja", new SpriteSheet(64, 192, 1, 3, "/walkerBurbuja.png"));
         spriteSheets.put("wall", new SpriteSheet(32, 32, 1, 1, "/wall.png"));
-        spriteSheets.put("item",  new SpriteSheet(64, 56, 1, 1, "/itemComun.png"));
-        spriteSheets.put("itemEspecial",  new SpriteSheet(64, 56, 1, 1, "/itemEspecial.png"));
+        spriteSheets.put("item", new SpriteSheet(64, 56, 1, 1, "/itemComun.png"));
+        spriteSheets.put("itemEspecial", new SpriteSheet(64, 56, 1, 1, "/itemEspecial.png"));
     }
 
 
@@ -86,12 +87,13 @@ public class PanelJuego extends JPanel implements Observer {
         dibujarItems(bbg);
         dibujarEnemigosEnBurbujas(bbg);
 
-        g.drawImage(backBuffer, 0 , 0, null);
+        g.drawImage(backBuffer, 0, 0, null);
     }
 
 
     /**
      * Dibuja al jugador segun en g segun la informacion del modelo jugador
+     *
      * @param g el buffer
      */
     private void dibujarJugador(Graphics g) {
@@ -101,19 +103,21 @@ public class PanelJuego extends JPanel implements Observer {
                 juego.getJugador().getY(),
                 juego.getJugador().getAncho(),
                 juego.getJugador().getAlto(), null);
+        drawBounds(juego.getJugador(), g);
     }
 
     /**
      * Dada todas las burbujas que disparo el jugador, dibuja una imagen en g sugun la informacion de cada modelo burbuja
      * TODO animar la burbuja igual que el enemigo.
+     *
      * @param g el buffer
      */
     private void dibujarBurbujas(Graphics g) {
         BufferedImage image;
         for (Burbuja burbuja : juego.getJugador().getBurbujas()) {
-            if(burbuja.getElemento() instanceof ElementoFuego)
+            if (burbuja.getElemento() instanceof ElementoFuego)
                 image = spriteSheets.get("burbujaFuego").getSpriteActual();
-            else  image = spriteSheets.get("burbuja").getSpriteActual();
+            else image = spriteSheets.get("burbuja").getSpriteActual();
             g.drawImage(image,//obtiene la imagen burbuja desde el objeto sprite sheet en el hashmap
                     burbuja.getX(), //obtiene las coordenadas y su altura y anchura para dibujar del modelo
                     burbuja.getY(),
@@ -124,6 +128,7 @@ public class PanelJuego extends JPanel implements Observer {
 
     /**
      * hace un tick de animacion de la imagen correspondiente y luego la dibuja segun la informacion del modelo enemigo
+     *
      * @param g el buffer a donde dibujara
      */
     private void dibujarEnemigos(Graphics g) { //capaz es innecesario pero me gusta mas asi
@@ -136,6 +141,7 @@ public class PanelJuego extends JPanel implements Observer {
                     enemigo.getAlto(), null);
         }
     }
+
     private void dibujarWalls(Graphics g) {
         for (Bloque bloque : juego.getWalls()) {
             g.drawImage(spriteSheets.get("wall").getSpriteActual(),
@@ -143,13 +149,26 @@ public class PanelJuego extends JPanel implements Observer {
                     bloque.getY(),
                     bloque.getAncho(),
                     bloque.getAlto(), null);
+            drawBounds(bloque, g);
         }
     }
 
-    private void dibujarItems(Graphics g){
+    public void drawBounds(Sprite sprite, Graphics g) {
+        g.setColor(Color.GREEN);
+        g.drawRect((int) sprite.getBottom().getX(), (int) sprite.getBottom().getY(),
+                (int) sprite.getBottom().getWidth(), (int) sprite.getBottom().getHeight());
+        g.drawRect((int) sprite.getTop().getX(), (int) sprite.getTop().getY(),
+                (int) sprite.getTop().getWidth(), (int) sprite.getTop().getHeight());
+        g.drawRect((int) sprite.getLeft().getX(), (int) sprite.getLeft().getY(),
+                (int) sprite.getLeft().getWidth(), (int) sprite.getLeft().getHeight());
+        g.drawRect((int) sprite.getRight().getX(), (int) sprite.getRight().getY(),
+                (int) sprite.getRight().getWidth(), (int) sprite.getRight().getHeight());
+    }
+
+    private void dibujarItems(Graphics g) {
         BufferedImage image;
-        for (Item i: juego.getItems()) {
-            if(i instanceof ItemEspecial)
+        for (Item i : juego.getItems()) {
+            if (i instanceof ItemEspecial)
                 image = spriteSheets.get("itemEspecial").getSpriteActual();
             else image = spriteSheets.get("item").getSpriteActual();
             g.drawImage(image,
@@ -176,10 +195,9 @@ public class PanelJuego extends JPanel implements Observer {
      * TODO como los mapas van a tener diferentes enemigos, que el metodo checkee si El hashmap es null o existe,
      * en caso de existir o ser null, crear un nuevo hashmap de imagenes para los nuevos enemigos.
      */
-    public void createEnemyImages(){
-        juego.getEnemigos().size();
+    public void createEnemyImages() {
         enemyImages = new HashMap<Enemigo, AnimatedImage>();
-        for (Enemigo e : juego.getEnemigos()){
+        for (Enemigo e : juego.getEnemigos()) {
             enemyImages.put(e, new AnimatedImage(spriteSheets.get("walker")));
         }
     }
