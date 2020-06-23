@@ -64,17 +64,20 @@ public class ControladorPanelJuego {
             juego.getJugador().setDy(2);
         }
         if (keyCode == KeyEvent.VK_F) {
-            juego.getJugador().disparar();
+            ;
             panelJuego.getPlayerImage().setState(PlayerState.ATTACKING);
         }
     }
 
     private void movementReleased(int keyCode) {
         if (keyCode == KeyEvent.VK_LEFT
-                || keyCode == KeyEvent.VK_RIGHT
-                || keyCode == KeyEvent.VK_F) {
+                || keyCode == KeyEvent.VK_RIGHT) {
             juego.getJugador().setDx(0);
             panelJuego.getPlayerImage().setState(PlayerState.IDLE);
+        }
+        if (keyCode == KeyEvent.VK_F){
+            panelJuego.getPlayerImage().setState(PlayerState.IDLE);
+            juego.getJugador().disparar();
         }
         if (keyCode == KeyEvent.VK_UP
                 || keyCode == KeyEvent.VK_DOWN) {
