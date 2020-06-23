@@ -29,6 +29,7 @@ public class BurbujaTest {
         assertTrue("burbuja doesnt move", moved);
     }
 
+    //test integracion burbuja con habilidad normal
     @Test
     public void testCollisionBurbujaNormalConEnemigo() {
         Enemigo enemigo = new Enemigo(10, 10);
@@ -49,7 +50,7 @@ public class BurbujaTest {
 
     }
 
-    //test integracion burbuja y el elemento/habilidad
+    //test integracion burbuja y el elemento/habilidad fuego
     @Test
     public void testCollisionBurbujaFuegoConEnemigo() {
         Enemigo enemigo = new Enemigo(10, 10);
