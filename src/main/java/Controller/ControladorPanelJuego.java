@@ -40,7 +40,7 @@ public class ControladorPanelJuego {
     /**
      * Controlador interactua con el modelo, le comunica que debe hacer el jugador
      * tambien comunica a la vista que tecla apreto para cargar la animacion correspondiente.
-     * @param keyCode valor del teclado
+     * @param keyCode tecla
      */
     private void movementPressed(int keyCode) {
         if (keyCode == KeyEvent.VK_LEFT) {
@@ -66,6 +66,10 @@ public class ControladorPanelJuego {
         if (keyCode == KeyEvent.VK_F) {
             panelJuego.getPlayerImage().setState(PlayerState.ATTACKING);
         }
+        if (keyCode== KeyEvent.VK_SPACE) {
+            juego.getJugador().jump(15);
+            panelJuego.getPlayerImage().setState(PlayerState.JUMPING);
+        }
     }
 
     private void movementReleased(int keyCode) {
@@ -82,10 +86,6 @@ public class ControladorPanelJuego {
                 || keyCode == KeyEvent.VK_DOWN) {
             juego.getJugador().setDy(0);
             panelJuego.getPlayerImage().setState(PlayerState.IDLE);
-        }
-        if (keyCode== KeyEvent.VK_SPACE){
-            juego.getJugador().jump(15);
-            panelJuego.getPlayerImage().setState(PlayerState.JUMPING);
         }
     }
 

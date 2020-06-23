@@ -38,7 +38,7 @@ public class Sprite {
     }
 
     public Rectangle getTop() {
-        return new Rectangle(x + 6, y, ancho - 6*2 , 10);
+        return new Rectangle(x + 6, y, ancho - 6*2 , 4);
     }
 
     public Rectangle getBottom() {

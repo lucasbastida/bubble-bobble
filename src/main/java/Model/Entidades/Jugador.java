@@ -112,11 +112,9 @@ public class Jugador extends Sprite {
     public boolean hasHorizonatlCollison(CopyOnWriteArrayList<Bloque> walls) {
         for (Bloque b : walls) {
             if (getBounds().intersects(b.getLeft()) && dx > 0) {
-                dx = 0;
                 return true;
             }
             if (getBounds().intersects(b.getRight()) && dx < 0) {
-                dx = 0;
                 return true;
             }
         }
@@ -137,6 +135,9 @@ public class Jugador extends Sprite {
         }
     }
 
+    public void moveRight(boolean moveRight){
+
+    }
 
     public void checkCollisionsItems(CopyOnWriteArrayList<Item> items) {
         Rectangle r1 = this.getOffsetBounds();
