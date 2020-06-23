@@ -29,8 +29,9 @@ public class PanelEstadistica extends JPanel implements Observer {
         backBuffer = new BufferedImage(PWIDTH, PHEIGHT, BufferedImage.TYPE_INT_RGB); //crea un buffer para pintar
     }
 
-    public void paintScreen() {
-        Graphics g = getGraphics();
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+//        Graphics g = getGraphics();
 
         Graphics bbg = backBuffer.getGraphics();
 
@@ -51,6 +52,6 @@ public class PanelEstadistica extends JPanel implements Observer {
 
     @Override
     public void update() {
-        paintScreen();
+        repaint();
     }
 }
