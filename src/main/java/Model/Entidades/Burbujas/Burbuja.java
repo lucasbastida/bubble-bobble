@@ -1,6 +1,7 @@
 package Model.Entidades.Burbujas;
 
 import Model.Entidades.Enemigo;
+import Model.Entidades.EnemigoBurbuja;
 import Model.Entidades.Items.Item;
 import Model.Entidades.Sprite;
 
@@ -24,7 +25,8 @@ public class Burbuja extends Sprite{
         x = x + speed * direccion;
     }
 
-    public void checkCollisions(CopyOnWriteArrayList<Enemigo> enemigos,CopyOnWriteArrayList<Item> items ) {
+    public void checkCollisions(CopyOnWriteArrayList<Enemigo> enemigos,CopyOnWriteArrayList<Item> items,
+                                    CopyOnWriteArrayList<EnemigoBurbuja> enemigosBurbuja) {
 
         Rectangle r1 = this.getBounds();
         for (Enemigo enemigo : enemigos) {
@@ -32,8 +34,7 @@ public class Burbuja extends Sprite{
             Rectangle r2 = enemigo.getBounds();
 
             if (r1.intersects(r2)) {
-                elemento.eliminarEnemigo(enemigos, enemigo);
-                items.add(new Item(enemigo.getX(), enemigo.getY()));
+                elemento.eliminarEnemigo(enemigos, enemigosBurbuja, enemigo, items);
             }
         }
     }

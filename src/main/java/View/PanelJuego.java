@@ -7,6 +7,7 @@ import Model.Entidades.Bloque;
 import Model.Entidades.Burbujas.Burbuja;
 import Model.Entidades.Burbujas.ElementoFuego;
 import Model.Entidades.Enemigo;
+import Model.Entidades.EnemigoBurbuja;
 import Model.Entidades.Items.Item;
 import Model.Entidades.Items.ItemEspecial;
 import Model.Juego;
@@ -62,6 +63,7 @@ public class PanelJuego extends JPanel implements Observer {
         spriteSheets.put("burbuja", new SpriteSheet(64, 128, 1, 2, "/burbuja.png"));
         spriteSheets.put("burbujaFuego", new SpriteSheet(64,64,1,1,"/burbujaFuego.png"));
         spriteSheets.put("walker", new SpriteSheet(128, 256, 2, 4, "/walker.png"));
+        spriteSheets.put("walkerBurbuja", new SpriteSheet(64,192,1,3, "/walkerBurbuja.png"));
         spriteSheets.put("wall", new SpriteSheet(32, 32, 1, 1, "/wall.png"));
         spriteSheets.put("item",  new SpriteSheet(64, 56, 1, 1, "/itemComun.png"));
         spriteSheets.put("itemEspecial",  new SpriteSheet(64, 56, 1, 1, "/itemEspecial.png"));
@@ -82,6 +84,7 @@ public class PanelJuego extends JPanel implements Observer {
         dibujarEnemigos(bbg);
         dibujarWalls(bbg);
         dibujarItems(bbg);
+        dibujarEnemigosEnBurbujas(bbg);
 
         g.drawImage(backBuffer, 0 , 0, null);
     }
@@ -154,6 +157,16 @@ public class PanelJuego extends JPanel implements Observer {
                     i.getY(),
                     i.getAncho(),
                     i.getAlto(), null);
+        }
+    }
+
+    private void dibujarEnemigosEnBurbujas(Graphics g) {
+        for (EnemigoBurbuja eb : juego.getEnemigosBurbuja()) {
+            g.drawImage(spriteSheets.get("walkerBurbuja").getSpriteActual(),
+                    eb.getX(),
+                    eb.getY(),
+                    eb.getAncho(),
+                    eb.getAlto(), null);
         }
     }
 

@@ -31,6 +31,7 @@ public class Juego implements Runnable, Subject {
     private CopyOnWriteArrayList<Enemigo> enemigos = new CopyOnWriteArrayList<>();
     private CopyOnWriteArrayList<Bloque> bloques = new CopyOnWriteArrayList<>();
     private CopyOnWriteArrayList<Item> items = new CopyOnWriteArrayList<>();
+    private CopyOnWriteArrayList<EnemigoBurbuja> enemigosBurbuja = new CopyOnWriteArrayList<>();
     private Item itemEspecial = new ItemEspecial(200, 200); //Lo creo aca para que se pueda agregar solo uno
 
     public Juego(){
@@ -118,7 +119,7 @@ public class Juego implements Runnable, Subject {
         for (Burbuja b :
                 jugador.getBurbujas()) {
             b.mover();
-            b.checkCollisions(enemigos, items);
+            b.checkCollisions(enemigos, items, enemigosBurbuja);
         }
     }
 
@@ -151,6 +152,8 @@ public class Juego implements Runnable, Subject {
     }
 
     public CopyOnWriteArrayList<Item> getItems(){return items;}
+
+    public CopyOnWriteArrayList<EnemigoBurbuja> getEnemigosBurbuja(){return enemigosBurbuja;}
 
     @Override
     public boolean registerObserver(Observer observer) {
