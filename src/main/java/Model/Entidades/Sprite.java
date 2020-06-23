@@ -36,4 +36,21 @@ public class Sprite {
     public Rectangle getBounds() {
         return new Rectangle(x, y, ancho, alto);
     }
+
+    public Rectangle getTop() {
+        return new Rectangle(x + 6, y, ancho - 6*2 , 10);
+    }
+
+    public Rectangle getBottom() {
+        return new Rectangle(x + 6, y + alto - 4, ancho - 6*2, 4);
+    }
+
+    public Rectangle getRight() {
+        return new Rectangle(x + ancho - 6, y + 4, 6, alto - 4*2);
+    }
+
+    public Rectangle getLeft() {
+        return new Rectangle(x, y + 4, 6, alto - 4*2);
+    }
+
 }

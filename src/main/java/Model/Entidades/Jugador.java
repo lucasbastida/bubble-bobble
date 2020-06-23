@@ -12,13 +12,15 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Jugador extends Sprite {
 
-    private int dy, dx;
+    private double dy, dx;
+    protected double maxDY; //limit to fastest we can go falling or jumping
+    protected double gravity;
+    protected boolean falling = true;
+    protected boolean canJump;
 
     private boolean mirandoDerecha = true;
     private boolean disparando = false;
     private int direccion = 1;
-    private int speed = 2;
-    private int gravedad =1; //esta variable debe ser igual para los enemigos
 
     private int puntajeAcumulado = 0;
     private Elemento habilidad;
@@ -31,19 +33,26 @@ public class Jugador extends Sprite {
         super(x, y, 320 / 5, 192 / 3);
         burbujas = new CopyOnWriteArrayList<>();
         habilidad = new ElementoAire();
+
+        gravity = 0.5;
+        maxDY= 7;
     }
 
     public void mover(CopyOnWriteArrayList<Bloque> walls,
                       CopyOnWriteArrayList<Item> items,
                       CopyOnWriteArrayList<EnemigoBurbuja> enemigosBurbuja) {
 
-        if(!checkCollisionsWall(walls)){
-            x += dx*speed;
-            y += dy*speed;
-            checkCollisionsItems(items);
-            checkCollisionsEnemigoBurbuja(enemigosBurbuja, items);
+        if (!hasHorizonatlCollison(walls)) {
+            x += dx;
         }
+        if (!hasVerticalCollision(walls)) {
+            y += dy;
+        }
+        checkCollisionsItems(items);
+        checkCollisionsEnemigoBurbuja(enemigosBurbuja, items);
+        // luego modificar para queenemigos hagan lo mismo
 
+        fall();
         //System.out.println("posicion jugador: " + x + ":" + y);
     }
 
@@ -58,11 +67,11 @@ public class Jugador extends Sprite {
     }
 
 
-    public void setDy(int dy) {
+    public synchronized void setDy(int dy) {
         this.dy = dy;
     }
 
-    public void setDx(int dx) {
+    public synchronized void setDx(int dx) {
         this.dx = dx;
     }
 
@@ -79,20 +88,56 @@ public class Jugador extends Sprite {
             }
         }
     }
-    public boolean checkCollisionsWall(CopyOnWriteArrayList<Bloque> walls) {
-    //TODO: hacer un metodo que funcione
-        Rectangle r1 = this.getOffsetBounds();
 
+    public boolean hasVerticalCollision(CopyOnWriteArrayList<Bloque> walls) {
         for (Bloque b : walls) {
-
-            Rectangle r2 = b.getBounds();
-
-            if (r1.intersects(r2)) {
+            if (getOffsetBounds().intersects(b.getTop()) && dy > 0) {
+                canJump = true;
+                falling = false;
+                dy = 0;
+                gravity = 0;
+                return true;
+            } else {
+                falling = true;
+                gravity = 0.5;
+            }
+            if (getBounds().intersects(b.getBottom()) && dy < 0) {
+                dy = 0;
                 return true;
             }
         }
         return false;
     }
+
+    public boolean hasHorizonatlCollison(CopyOnWriteArrayList<Bloque> walls) {
+        for (Bloque b : walls) {
+            if (getBounds().intersects(b.getLeft()) && dx > 0) {
+                dx = 0;
+                return true;
+            }
+            if (getBounds().intersects(b.getRight()) && dx < 0) {
+                dx = 0;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void fall(){
+        if(falling){
+            dy += gravity;
+            if(dy >maxDY) dy = maxDY;
+        }
+    }
+
+    public void jump(double acceleration){
+        if(canJump){
+            dy -= acceleration;
+            canJump = false;
+        }
+    }
+
+
     public void checkCollisionsItems(CopyOnWriteArrayList<Item> items) {
         Rectangle r1 = this.getOffsetBounds();
 
@@ -103,7 +148,7 @@ public class Jugador extends Sprite {
             if (r1.intersects(r2)) {
                 items.remove(i);
                 sumarPuntaje(i.getPuntaje());
-                if(i instanceof ItemEspecial){
+                if (i instanceof ItemEspecial) {
                     System.out.println("Nueva Habilidad");
                     cambiarHabilidad();
                     //TODO: aca se setearia la nueva habilidad
@@ -112,8 +157,9 @@ public class Jugador extends Sprite {
             }
         }
     }
+
     public void checkCollisionsEnemigoBurbuja(CopyOnWriteArrayList<EnemigoBurbuja> enemigosBurbuja,
-                                              CopyOnWriteArrayList items) {
+                                              CopyOnWriteArrayList<Item> items) {
         Rectangle r1 = this.getBounds();
         for (EnemigoBurbuja e : enemigosBurbuja) {
 
@@ -137,7 +183,7 @@ public class Jugador extends Sprite {
     }
 
     public Rectangle getOffsetBounds() {
-        return new Rectangle(x + dx, y + dy, alto, ancho);
+        return new Rectangle(x + (int) dx, y + (int) dy, alto, ancho);
     }
 
     public void setMirandoDerecha(boolean mirandoDerecha) {
@@ -146,28 +192,26 @@ public class Jugador extends Sprite {
         else direccion = -1;
     }
 
-    public void caerPorGravedad(){
-        y += gravedad;
-    }
-
     public boolean isAlive() {
         return alive;
     }
 
-    public void sumarPuntaje(int puntos){
+    public void sumarPuntaje(int puntos) {
         puntajeAcumulado += puntos;
         System.out.println("Puntaje: " + puntajeAcumulado);
     }
 
-    public int getPuntajeAcumulado(){return puntajeAcumulado;}
+    public int getPuntajeAcumulado() {
+        return puntajeAcumulado;
+    }
 
-    private Burbuja crearBurbuja(Elemento elemento){
-        Burbuja b = new Burbuja(x,y,direccion);
+    private Burbuja crearBurbuja(Elemento elemento) {
+        Burbuja b = new Burbuja(x, y, direccion);
         b.setElemento(elemento);
         return b;
     }
 
-    private void cambiarHabilidad(){
+    private void cambiarHabilidad() {
         habilidad = new ElementoFuego();
     }
 
