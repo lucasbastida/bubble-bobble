@@ -23,6 +23,7 @@ public class Jugador extends Sprite {
     private int direccion = 1;
 
     private int puntajeAcumulado = 0;
+    private int vidas;
     private Elemento habilidad;
 
     private final CopyOnWriteArrayList<Burbuja> burbujas;
@@ -32,6 +33,8 @@ public class Jugador extends Sprite {
     public Jugador(int x, int y) {
         super(x, y, 320 / 5, 192 / 3);
         burbujas = new CopyOnWriteArrayList<>();
+
+        vidas = 3;
         habilidad = new ElementoAire();
 
         gravity = 0.5;
@@ -216,4 +219,7 @@ public class Jugador extends Sprite {
         habilidad = new ElementoFuego();
     }
 
+    public int getVidasRestantes(){
+        return vidas;
+    }
 }

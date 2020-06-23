@@ -1,8 +1,10 @@
 package Controller;
 
 import Model.Juego;
+import View.PanelEstadistica;
 import View.PanelJuego;
 import View.Images.PlayerState;
+import View.VistaEstadistica;
 import View.VistaJuego;
 
 import java.awt.event.KeyAdapter;
@@ -12,6 +14,9 @@ public class ControladorPanelJuego {
 
     private PanelJuego panelJuego;//referencia al View panelJuego
     private Juego juego;//referencia al Modelo juego
+    private PanelEstadistica panelEstadistica;
+    private VistaEstadistica vistaEstadistica;
+    private ControladorEstadisticas controladorEstadisticas;
     private VistaJuego vistaJuego;
 
 
@@ -61,6 +66,13 @@ public class ControladorPanelJuego {
         if (keyCode == KeyEvent.VK_F) {
             panelJuego.getPlayerImage().setState(PlayerState.ATTACKING);
             return;
+        }
+        if (keyCode == KeyEvent.VK_E) {
+            panelEstadistica = new PanelEstadistica(juego);
+            vistaEstadistica = new VistaEstadistica(panelEstadistica);
+            controladorEstadisticas = new ControladorEstadisticas(panelEstadistica, vistaEstadistica, juego);
+
+            juego.registerObserver(panelEstadistica);
         }
         if (keyCode== KeyEvent.VK_SPACE) {
             juego.getJugador().jump(15);
