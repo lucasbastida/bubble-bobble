@@ -33,7 +33,7 @@ public class Jugador extends Sprite {
     public Jugador(int x, int y) {
         super(x, y, 320 / 5, 192 / 3);
         burbujas = new CopyOnWriteArrayList<>();
-        setHabilidad(new Burbuja(x + 30, y, 1));//cambiar esto
+
         vidas = 3;
         habilidad = new ElementoAire();
 
@@ -218,8 +218,6 @@ public class Jugador extends Sprite {
     private void cambiarHabilidad() {
         habilidad = new ElementoFuego();
     }
-
-    public int getPuntajeAcumulado(){return puntajeAcumulado;}
 
     public int getVidasRestantes(){
         return vidas;
