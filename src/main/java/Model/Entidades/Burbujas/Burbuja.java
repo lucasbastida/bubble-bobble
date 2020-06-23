@@ -41,4 +41,6 @@ public class Burbuja extends Sprite{
     public void setElemento(Elemento elemento){
         this.elemento = elemento;
     }
+
+    public Elemento getElemento(){return elemento;}
 }

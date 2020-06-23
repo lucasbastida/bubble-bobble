@@ -21,9 +21,7 @@ public class Jugador extends Sprite {
     private int gravedad =1; //esta variable debe ser igual para los enemigos
 
     private int puntajeAcumulado = 0;
-
-    private Burbuja habilidad;
-    private Elemento hab;
+    private Elemento habilidad;
 
     private final CopyOnWriteArrayList<Burbuja> burbujas;
 
@@ -32,7 +30,7 @@ public class Jugador extends Sprite {
     public Jugador(int x, int y) {
         super(x, y, 320 / 5, 192 / 3);
         burbujas = new CopyOnWriteArrayList<>();
-        hab = new ElementoAire();
+        habilidad = new ElementoAire();
     }
 
     public void mover(CopyOnWriteArrayList<Bloque> walls,
@@ -49,7 +47,7 @@ public class Jugador extends Sprite {
 
     public void disparar() {
         disparando = true;
-        burbujas.add(crearBurbuja(hab));
+        burbujas.add(crearBurbuja(habilidad));
     }
 
 
@@ -155,7 +153,7 @@ public class Jugador extends Sprite {
     }
 
     private void cambiarHabilidad(){
-        hab = new ElementoFuego();
+        habilidad = new ElementoFuego();
     }
 
 }
