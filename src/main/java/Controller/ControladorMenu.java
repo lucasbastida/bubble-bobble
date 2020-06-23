@@ -14,7 +14,9 @@ import java.awt.event.ActionListener;
  */
 public class ControladorMenu {
 
-    VistaMenu vistaMenu;
+    private VistaMenu vistaMenu;
+    private ControladorPanelJuego controladorPanelJuego;
+    private Juego juego;
 
     public ControladorMenu() {
         this.vistaMenu = new VistaMenu();
@@ -32,11 +34,8 @@ public class ControladorMenu {
         public void actionPerformed(ActionEvent e) {
             System.out.println("Nuevo juego");
 
-            Juego juego = new Juego();
-            PanelJuego panelJuego = new PanelJuego(juego);
-            juego.registerObserver(panelJuego);
-            VistaJuego vistaJuego = new VistaJuego(panelJuego);
-            ControladorPanelJuego controladorPanelJuego = new ControladorPanelJuego(panelJuego, juego);
+            juego = new Juego();
+            controladorPanelJuego = new ControladorPanelJuego(juego);
             juego.startGame(); // start the thread
         }
     }

@@ -3,6 +3,7 @@ package View;
 //TODO usar enum en vez de literales?
 //todos los numeros magicos contribuye al quilombo
 
+import Controller.ControladorPanelJuego;
 import Model.Entidades.Bloque;
 import Model.Entidades.Burbujas.Burbuja;
 import Model.Entidades.Burbujas.ElementoFuego;
@@ -20,6 +21,8 @@ import util.Observer;
 import javax.swing.JPanel;
 import javax.swing.text.Element;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
@@ -30,6 +33,7 @@ public class PanelJuego extends JPanel implements Observer {
     private static final int PHEIGHT = 720;
 
     private Juego juego;//referencia a modelo Juego
+    private ControladorPanelJuego controladorPanelJuego;
 
     private HashMap<String, SpriteSheet> spriteSheets;
     private HashMap<Enemigo, AnimatedImage> enemyImages;
@@ -37,8 +41,9 @@ public class PanelJuego extends JPanel implements Observer {
 
     private BufferedImage backBuffer;//buffer donde se dibujan las imagenes
 
-    public PanelJuego(Juego juego) {
+    public PanelJuego(Juego juego, ControladorPanelJuego controlPanelJuego) {
         this.juego = juego;
+        controladorPanelJuego = controlPanelJuego;
 
         setBackground(Color.white);
         setPreferredSize(new Dimension(PWIDTH, PHEIGHT));
@@ -47,6 +52,20 @@ public class PanelJuego extends JPanel implements Observer {
 
         backBuffer = new BufferedImage(PWIDTH, PHEIGHT, BufferedImage.TYPE_INT_RGB); //crea un buffer para pintar
         spriteSheets = new HashMap<String, SpriteSheet>();
+
+        addKeyListener(new KeyAdapter() {
+
+            public void keyPressed(KeyEvent e) {
+                int keyCode = e.getKeyCode();
+                controladorPanelJuego.teclaPresionada(keyCode);
+            }
+
+            public void keyReleased(KeyEvent e) {
+                int keyCode = e.getKeyCode();
+
+                controladorPanelJuego.movementReleased(keyCode);
+            }
+        });
 
         cargarImagenes();
         createEnemyImages();
