@@ -47,25 +47,31 @@ public class ControladorPanelJuego {
             juego.getJugador().setDx(-2);
             juego.getJugador().setMirandoDerecha(false);
             panelJuego.getPlayerImage().setState(PlayerState.MOVING_LEFT);
+            return; //si ya entró a este if no es necesario que siga haciendo todas las otras
+            //comparaciones porque le van a dar falso
         }
 
         if (keyCode == KeyEvent.VK_RIGHT) {
             juego.getJugador().setDx(2);
             juego.getJugador().setMirandoDerecha(true);
             panelJuego.getPlayerImage().setState(PlayerState.MOVING_RIGHT);
+            return;
         }
 
         if (keyCode == KeyEvent.VK_UP) {
             juego.getJugador().setDy(-2);
             panelJuego.getPlayerImage().setState(PlayerState.JUMPING);
+            return;
         }
 
         if (keyCode == KeyEvent.VK_DOWN) {
             juego.getJugador().setDy(2);
+            return;
         }
         if (keyCode == KeyEvent.VK_F) {
             juego.getJugador().disparar();
             panelJuego.getPlayerImage().setState(PlayerState.ATTACKING);
+            return;
         }
     }
 
