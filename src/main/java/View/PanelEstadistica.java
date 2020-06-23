@@ -16,40 +16,37 @@ public class PanelEstadistica extends JPanel implements Observer {
 
     private BufferedImage backBuffer;//buffer donde se dibujan las imagenes
 
+    private Font font;
+
     public PanelEstadistica(Juego juego){
         this.juego = juego;
 
-        setBackground(Color.white);
+        setBackground(Color.BLACK);
         setPreferredSize(new Dimension(PWIDTH, PHEIGHT));
-       // setFocusable(true);
-        // requestFocus(); // JPanel now receives key events
-
+        font = new Font("Arial",Font.BOLD,40);
         backBuffer = new BufferedImage(PWIDTH, PHEIGHT, BufferedImage.TYPE_INT_RGB); //crea un buffer para pintar
     }
 
     public void paintScreen() {
-//        super.(g); //alternativa para pintar (tambien doble buffered) -> renombrar paintScreen a paintComponent(Grap
-        if (backBuffer == null){
-            backBuffer = new BufferedImage(PWIDTH, PHEIGHT, BufferedImage.TYPE_INT_RGB);
-        }
-        Graphics g;
-        try {
-            g = this.getGraphics();
-            if ((g != null) && (backBuffer != null))
-                g.drawImage(backBuffer, 0, 0, null);
-            g.setColor(Color.GREEN);
-            g.drawString("Puntaje: " + juego.getJugador().getPuntajeAcumulado(), 20, 20);
-            Toolkit.getDefaultToolkit().sync();
+            Graphics g = getGraphics();
+            Graphics bbg = backBuffer.getGraphics();
 
+           // bbg.setColor(Color.BLACK);
+            bbg.fillRect(0, 0, PWIDTH, PHEIGHT);
+            g.setColor(Color.GREEN);
+            g.setFont(font);
+
+            g.drawString("Puntaje: " + juego.getJugador().getPuntajeAcumulado(), 115, 60);
+            g.drawString("Enemigos: " + juego.getEnemigos().size(),95,130);
+            g.drawString("Items: " + juego.getItems().size(), 125,210);
+            g.drawString("Vidas: ",130,290);
 
 
 
            // g.drawImage(backBuffer, 0, 0, null);
             g.dispose();
-        }
-        catch (Exception e)
-        {System.out.println("Graphics context error : " + e );}
     }
+
 
     @Override
     public void update() {
