@@ -6,11 +6,15 @@ import Model.Entidades.Burbujas.ElementoAire;
 import Model.Entidades.Burbujas.ElementoFuego;
 import Model.Entidades.Items.Item;
 import Model.Entidades.Items.ItemEspecial;
+import util.Observer;
+import util.ObserverEstadisticas;
+import util.Subject;
+import util.SujetoEstadisticas;
 
 import java.awt.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class Jugador extends Sprite {
+public class Jugador extends Sprite implements SujetoEstadisticas {
 
     private double dy, dx;
     protected double maxDY; //limit to fastest we can go falling or jumping
@@ -29,6 +33,8 @@ public class Jugador extends Sprite {
     private final CopyOnWriteArrayList<Burbuja> burbujas;
 
     private boolean alive = true;
+
+    private CopyOnWriteArrayList<ObserverEstadisticas> observersEstadisticas = new CopyOnWriteArrayList<>();
 
     public Jugador(int x, int y) {
         super(x, y, 320 / 5, 192 / 3);
@@ -51,8 +57,8 @@ public class Jugador extends Sprite {
         if (!hasVerticalCollision(walls)) {
             y += dy;
         }
-        checkCollisionsItems(items);
-        checkCollisionsEnemigoBurbuja(enemigosBurbuja, items);
+        //checkCollisionsItems(items);
+        //checkCollisionsEnemigoBurbuja(enemigosBurbuja, items);
         // luego modificar para queenemigos hagan lo mismo
 
         fall();
@@ -142,44 +148,11 @@ public class Jugador extends Sprite {
 
     }
 
-    public void checkCollisionsItems(CopyOnWriteArrayList<Item> items) {
-        Rectangle r1 = this.getOffsetBounds();
-
-        for (Item i : items) {
-
-            Rectangle r2 = i.getBounds();
-
-            if (r1.intersects(r2)) {
-                items.remove(i);
-                sumarPuntaje(i.getPuntaje());
-                if (i instanceof ItemEspecial) {
-                    System.out.println("Nueva Habilidad");
-                    cambiarHabilidad();
-                    //TODO: aca se setearia la nueva habilidad
-                }
-
-            }
-        }
-    }
-
-    public void checkCollisionsEnemigoBurbuja(CopyOnWriteArrayList<EnemigoBurbuja> enemigosBurbuja,
-                                              CopyOnWriteArrayList<Item> items) {
-        Rectangle r1 = this.getBounds();
-        for (EnemigoBurbuja e : enemigosBurbuja) {
-
-            Rectangle r2 = e.getBounds();
-
-            if (r1.intersects(r2)) {
-                enemigosBurbuja.remove(e);
-                items.add(new Item(e.getX(), e.getY()));
-            }
-        }
-    }
-
     public void morir() {
         //TODO actialiar animacion
 //        setSprite(2,4);
         alive = false;
+        //notifyObserversEstadisticas(); esto se haría pero cuando se empiecen a restar vidas
     }
 
     public int getDireccion() {
@@ -205,6 +178,7 @@ public class Jugador extends Sprite {
             throw new IllegalArgumentException("no pasar puntajes negativos");
         }
         puntajeAcumulado += puntos;
+        notifyObserversEstadisticas();
         System.out.println("Puntaje: " + puntajeAcumulado);
     }
 
@@ -218,11 +192,29 @@ public class Jugador extends Sprite {
         return b;
     }
 
-    private void cambiarHabilidad() {
+    public void cambiarHabilidad() {
         habilidad = new ElementoFuego();
     }
 
     public int getVidasRestantes(){
         return vidas;
+    }
+
+    @Override
+    public boolean registerObserver(ObserverEstadisticas observerEstadisticas) {
+
+        return observersEstadisticas.add(observerEstadisticas);
+    }
+
+    @Override
+    public boolean removeObserver(ObserverEstadisticas observerEstadisticas) {
+     return observersEstadisticas.remove(observerEstadisticas);
+    }
+
+    public void notifyObserversEstadisticas() {
+        for (ObserverEstadisticas o :
+                observersEstadisticas) {
+            o.updateEstadisticas();
+        }
     }
 }

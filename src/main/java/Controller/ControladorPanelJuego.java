@@ -6,6 +6,7 @@ import View.PanelJuego;
 import View.Images.PlayerState;
 import View.VistaEstadistica;
 import View.VistaJuego;
+import util.ObserverEstadisticas;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -72,7 +73,8 @@ public class ControladorPanelJuego {
             vistaEstadistica = new VistaEstadistica(panelEstadistica);
             controladorEstadisticas = new ControladorEstadisticas(panelEstadistica, vistaEstadistica, juego);
 
-            juego.registerObserver(panelEstadistica);
+            juego.registerObserver((ObserverEstadisticas) panelEstadistica);
+            juego.getJugador().registerObserver(panelEstadistica);
         }
         if (keyCode== KeyEvent.VK_SPACE) {
             juego.getJugador().jump(15);
