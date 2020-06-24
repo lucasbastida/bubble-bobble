@@ -97,7 +97,6 @@ public class ControladorPanelJuego {
         }
         if (keyCode == KeyEvent.VK_UP
                 || keyCode == KeyEvent.VK_DOWN) {
-            juego.getJugador().setDy(0);
             panelJuego.getPlayerImage().setState(PlayerState.IDLE);
             return;
         }
