@@ -69,12 +69,12 @@ public class ControladorPanelJuego {
             return;
         }
         if (keyCode == KeyEvent.VK_E) {
-            panelEstadistica = new PanelEstadistica(juego);
-            vistaEstadistica = new VistaEstadistica(panelEstadistica);
-            controladorEstadisticas = new ControladorEstadisticas(panelEstadistica, vistaEstadistica, juego);
+                panelEstadistica = new PanelEstadistica(juego);
+                vistaEstadistica = new VistaEstadistica(panelEstadistica);
+                controladorEstadisticas = new ControladorEstadisticas(panelEstadistica, vistaEstadistica, juego);
 
-            juego.registerObserver((ObserverEstadisticas) panelEstadistica);
-            juego.getJugador().registerObserver(panelEstadistica);
+                juego.registerObserver((ObserverEstadisticas) panelEstadistica);
+                juego.getJugador().registerObserver(panelEstadistica);
         }
         if (keyCode== KeyEvent.VK_SPACE) {
             juego.getJugador().jump(15);
