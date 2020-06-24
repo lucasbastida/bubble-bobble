@@ -27,9 +27,9 @@ public class ControladorEstadisticas {
                 int keyCode = e.getKeyCode();
 
                 if (keyCode == KeyEvent.VK_E){
-                        juego.registerObserver((util.Observer) panelEstadistica);
-                        vistaEstadistica.setVisible(false);
-                        vistaEstadistica.dispose();
+                    juego.registerObserver((util.Observer) panelEstadistica);//Capaz esto no iría
+                    vistaEstadistica.setVisible(false);
+                    vistaEstadistica.dispose();
                 }
             }
 
