@@ -28,14 +28,16 @@ Lo que fue enunciado se logro pasar ya sea manualmente o automaticamente.
 
 ### Número de defectos identificados y corregidos
 
-Severo:
 1. [mantener apretado f dispara infinitamente](https://github.com/lucasbastida/bubble-bobble/issues/19)
 2. Solucionar bug que hace que el jugador no aparezca hasta que se presione una tecla
+3. Si saltas y mantenes apretada la flecha para arriba el personaje vuela (v1.0.1)
 
 ### Defectos conocidos (no resueltos)
 
+Severo:
 1. [animaciones no concuerdan aveces con el movimiento](https://github.com/lucasbastida/bubble-bobble/issues/23)
 2. [saltar y mover al mismo tiempo](https://github.com/lucasbastida/bubble-bobble/issues/21)
+3. Los enemigos vuelan y atraviesan las plataformas
 
 
 ### Dirección de acceso o archivo con los archivos del proyecto 
@@ -44,11 +46,15 @@ https://github.com/lucasbastida/bubble-bobble
 
 ### instrucciones minimas de instalación y ejecución
 
+Descarga bubble-bobble-1.0.1.jar:
+
+https://github.com/lucasbastida/bubble-bobble/releases/tag/v1.0.1
+
 1. Instalar Java Runtime Environment 8 o mas nuevo, 
 2. Ejecutar el archivo utilizando java desde la carpeta donde lo descargo:
 
 ```shell script
->java -jar bubble-bobble-1.0.0.jar
+>java -jar bubble-bobble-1.0.1.jar
 ```
 
 
