@@ -46,12 +46,12 @@ public class JugadorTest {
         walls.add(pared);
         walls.add(piso);
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             jugador.setDx(2);
             jugador.mover(walls,items,enemigoBurbujas);
         }
 
-        assertTrue("el jugador atraveso la pared derecha", jugador.getX() <= 2);
+        assertTrue("el jugador atraveso la pared derecha", jugador.getX() <= 10);
     }
 
     @Test(expected=IllegalArgumentException.class)
