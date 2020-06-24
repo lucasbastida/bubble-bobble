@@ -174,6 +174,9 @@ public class Jugador extends Sprite implements SujetoEstadisticas {
     }
 
     public void sumarPuntaje(int puntos) {
+        if (puntos<0){
+            throw new IllegalArgumentException("no pasar puntajes negativos");
+        }
         puntajeAcumulado += puntos;
         notifyObserversEstadisticas();
         System.out.println("Puntaje: " + puntajeAcumulado);
