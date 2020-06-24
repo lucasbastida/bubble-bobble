@@ -55,7 +55,7 @@ public class ControladorPanelJuego {
         }
 
         if (keyCode == KeyEvent.VK_UP) {
-            juego.getJugador().setDy(-2);
+            juego.getJugador().jump(15);
             panelJuego.getPlayerImage().setState(PlayerState.JUMPING);
             return;
         }
