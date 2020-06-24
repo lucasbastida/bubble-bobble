@@ -122,7 +122,7 @@ public class PanelJuego extends JPanel implements Observer {
                 juego.getJugador().getY(),
                 juego.getJugador().getAncho(),
                 juego.getJugador().getAlto(), null);
-        drawBounds(juego.getJugador(), g);
+//        drawBounds(juego.getJugador(), g);
     }
 
     /**
@@ -168,7 +168,7 @@ public class PanelJuego extends JPanel implements Observer {
                     bloque.getY(),
                     bloque.getAncho(),
                     bloque.getAlto(), null);
-            drawBounds(bloque, g);
+//            drawBounds(bloque, g);
         }
     }
 
