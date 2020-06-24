@@ -6,12 +6,15 @@ import Model.Entidades.Items.Item;
 import Model.Entidades.Items.ItemEspecial;
 import View.Images.LevelImage;
 import util.Observer;
+import util.ObserverEstadisticas;
 import util.Subject;
+import util.SujetoEstadisticas;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class Juego implements Runnable, Subject {
+public class Juego implements Runnable, Subject, SujetoEstadisticas {
 
 //    private static final int PWIDTH = 1280; // size of panel
 //    private static final int PHEIGHT = 720;
@@ -25,6 +28,7 @@ public class Juego implements Runnable, Subject {
     private int fps;  //The current number of frames recorded
 
     private CopyOnWriteArrayList<Observer> observers = new CopyOnWriteArrayList<>();
+    private CopyOnWriteArrayList<ObserverEstadisticas> observersEstadisticas = new CopyOnWriteArrayList<>();
 
     //TODO cargar valores desde un archivo o clase que tenga las configuraciones?
     private Jugador jugador;
@@ -108,11 +112,14 @@ public class Juego implements Runnable, Subject {
     private void gameUpdate() { //if (!gameOver)
         // update game state ...
         jugador.mover(getWalls(), getItems(), getEnemigosBurbuja());
+        checkCollisionsItems();
+        checkCollisionsEnemigoBurbuja();
         moverBurbujas();
         moverEnemigos();
         jugador.checkCollisions(enemigos);
         if(jugador.getPuntajeAcumulado()==2000 & !items.contains(itemEspecial)){
             crearItemEspecial();
+            notifyObserversEstadisticas();
         }
     }
 
@@ -156,6 +163,41 @@ public class Juego implements Runnable, Subject {
 
     public CopyOnWriteArrayList<EnemigoBurbuja> getEnemigosBurbuja(){return enemigosBurbuja;}
 
+    public void checkCollisionsEnemigoBurbuja() {
+        Rectangle r1 = jugador.getBounds();
+        for (EnemigoBurbuja e : enemigosBurbuja) {
+
+            Rectangle r2 = e.getBounds();
+
+            if (r1.intersects(r2)) {
+                enemigosBurbuja.remove(e);
+                items.add(new Item(e.getX(), e.getY()));
+                notifyObserversEstadisticas();
+            }
+        }
+    }
+
+    public void checkCollisionsItems() {
+        Rectangle r1 = jugador.getOffsetBounds();
+
+        for (Item i : items) {
+
+            Rectangle r2 = i.getBounds();
+
+            if (r1.intersects(r2)) {
+                items.remove(i);
+                notifyObserversEstadisticas();
+                jugador.sumarPuntaje(i.getPuntaje());
+                if (i instanceof ItemEspecial) {
+                    System.out.println("Nueva Habilidad");
+                    jugador.cambiarHabilidad();
+                    //TODO: aca se setearia la nueva habilidad
+                }
+
+            }
+        }
+    }
+
     @Override
     public boolean registerObserver(Observer observer) {
         return observers.add(observer);
@@ -166,11 +208,30 @@ public class Juego implements Runnable, Subject {
         return observers.remove(observer);
     }
 
-    @Override
     public void notifyObservers() {
         for (Observer o :
                 observers) {
             o.update();
+        }
+    }
+
+    @Override
+    public boolean registerObserver(ObserverEstadisticas observer) {
+
+        return observersEstadisticas.add(observer);
+    }
+
+    @Override
+    public boolean removeObserver(ObserverEstadisticas observer) {
+
+        return observersEstadisticas.remove(observer);
+    }
+
+
+    public void notifyObserversEstadisticas() {
+        for (ObserverEstadisticas o :
+                observersEstadisticas) {
+            o.updateEstadisticas();
         }
     }
 }

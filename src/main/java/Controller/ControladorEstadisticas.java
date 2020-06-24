@@ -3,9 +3,11 @@ package Controller;
 import Model.Juego;
 import View.PanelEstadistica;
 import View.VistaEstadistica;
+import util.ObserverEstadisticas;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Observer;
 
 public class ControladorEstadisticas {
     private  PanelEstadistica panelEstadistica;
@@ -25,7 +27,7 @@ public class ControladorEstadisticas {
                 int keyCode = e.getKeyCode();
 
                 if (keyCode == KeyEvent.VK_E){
-                    juego.removeObserver(panelEstadistica);
+                    juego.registerObserver((util.Observer) panelEstadistica);
                     vistaEstadistica.setVisible(false);
                     vistaEstadistica.dispose();
                 }
