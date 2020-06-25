@@ -116,6 +116,7 @@ public class Juego implements Runnable, Subject, SujetoEstadisticas {
         checkCollisionsEnemigoBurbuja();
         moverBurbujas();
         moverEnemigos();
+        moverEnemigosBurbuja();
         jugador.checkCollisions(enemigos);
         if(jugador.getPuntajeAcumulado()==2000 & !items.contains(itemEspecial)){
             crearItemEspecial();
@@ -137,6 +138,16 @@ public class Juego implements Runnable, Subject, SujetoEstadisticas {
             e.mover();
         }
     }
+
+    public void moverEnemigosBurbuja() {
+        for (EnemigoBurbuja e :
+                enemigosBurbuja) {
+            e.checkCollisionsWalls(bloques);
+            e.mover();
+        }
+    }
+
+
 
     private void crearItemEspecial(){
         items.add(itemEspecial);
