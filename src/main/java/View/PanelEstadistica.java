@@ -68,5 +68,6 @@ public class PanelEstadistica extends JPanel implements Observer, ObserverEstadi
         cantidadDeEnemigos = juego.getEnemigos().size() + juego.getEnemigosBurbuja().size();
         cantidadDeItems = juego.getItems().size();
         cantidadDeVidas = juego.getJugador().getVidasRestantes();
+        repaint();
     }
 }
