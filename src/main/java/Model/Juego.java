@@ -11,7 +11,6 @@ import util.Subject;
 import util.SujetoEstadisticas;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Juego implements Runnable, Subject, SujetoEstadisticas {
@@ -40,9 +39,13 @@ public class Juego implements Runnable, Subject, SujetoEstadisticas {
 
     public Juego(){
         enemigos.add(new Enemigo(300,300));
-        enemigos.add(new Enemigo(200,200));
-        enemigos.add(new Enemigo(500,500));
-        enemigos.add(new Enemigo(500,400));
+        enemigos.add(new Enemigo(600,200));
+        enemigos.add(new Enemigo(500,300));
+        enemigos.add(new Enemigo(400,200));
+        //cambio la direccion de algunos enemigos
+        enemigos.get(0).setDireccion(1);
+        enemigos.get(1).setDireccion(1);
+
         jugador = new Jugador (200, 200);
         createWalls();
     }
@@ -109,13 +112,14 @@ public class Juego implements Runnable, Subject, SujetoEstadisticas {
         }
     }
 
-    private void gameUpdate() { //if (!gameOver)
-        // update game state ...
+    private void gameUpdate() {
+
         jugador.mover(getWalls(), getItems(), getEnemigosBurbuja());
         checkCollisionsItems();
         checkCollisionsEnemigoBurbuja();
         moverBurbujas();
         moverEnemigos();
+        moverEnemigosBurbuja();
         jugador.checkCollisions(enemigos);
         if(jugador.getPuntajeAcumulado()==2000 & !items.contains(itemEspecial)){
             crearItemEspecial();
@@ -134,9 +138,19 @@ public class Juego implements Runnable, Subject, SujetoEstadisticas {
     public void moverEnemigos() {
         for (Enemigo e :
                 enemigos) {
+            e.mover(getWalls());
+        }
+    }
+
+    public void moverEnemigosBurbuja() {
+        for (EnemigoBurbuja e :
+                enemigosBurbuja) {
+            e.checkCollisionsWalls(bloques);
             e.mover();
         }
     }
+
+
 
     private void crearItemEspecial(){
         items.add(itemEspecial);
