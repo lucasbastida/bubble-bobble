@@ -37,16 +37,16 @@ public class Juego implements Runnable, Subject, SujetoEstadisticas {
     private CopyOnWriteArrayList<EnemigoBurbuja> enemigosBurbuja = new CopyOnWriteArrayList<>();
     private Item itemEspecial = new ItemEspecial(200, 200); //Lo creo aca para que se pueda agregar solo uno
 
-    public Juego(){
-        enemigos.add(new Enemigo(300,300));
-        enemigos.add(new Enemigo(600,200));
-        enemigos.add(new Enemigo(500,300));
-        enemigos.add(new Enemigo(400,200));
+    public Juego() {
+        enemigos.add(new Enemigo(300, 300));
+        enemigos.add(new Enemigo(600, 200));
+        enemigos.add(new Enemigo(500, 300));
+        enemigos.add(new Enemigo(400, 200));
         //cambio la direccion de algunos enemigos
         enemigos.get(0).setDireccion(1);
         enemigos.get(1).setDireccion(1);
 
-        jugador = new Jugador (200, 200);
+        jugador = new Jugador(200, 200);
         createWalls();
     }
 
@@ -121,7 +121,7 @@ public class Juego implements Runnable, Subject, SujetoEstadisticas {
         moverEnemigos();
         moverEnemigosBurbuja();
         jugador.checkCollisions(enemigos);
-        if(jugador.getPuntajeAcumulado()==2000 & !items.contains(itemEspecial)){
+        if (jugador.getPuntajeAcumulado() == 2000 & !items.contains(itemEspecial)) {
             crearItemEspecial();
             notifyObserversEstadisticas();
         }
@@ -151,8 +151,7 @@ public class Juego implements Runnable, Subject, SujetoEstadisticas {
     }
 
 
-
-    private void crearItemEspecial(){
+    private void crearItemEspecial() {
         items.add(itemEspecial);
     }
 
@@ -161,21 +160,26 @@ public class Juego implements Runnable, Subject, SujetoEstadisticas {
         running = false;
     }
 
-    public CopyOnWriteArrayList<Enemigo> getEnemigos(){
+    public CopyOnWriteArrayList<Enemigo> getEnemigos() {
         return enemigos;
     }
 
-    public void createWalls(){
+    public void createWalls() {
         LevelImage level = new LevelImage("/Nivel1.png");
         level.loadImageLevel(bloques);
     }
-    public CopyOnWriteArrayList<Bloque> getWalls(){
+
+    public CopyOnWriteArrayList<Bloque> getWalls() {
         return bloques;
     }
 
-    public CopyOnWriteArrayList<Item> getItems(){return items;}
+    public CopyOnWriteArrayList<Item> getItems() {
+        return items;
+    }
 
-    public CopyOnWriteArrayList<EnemigoBurbuja> getEnemigosBurbuja(){return enemigosBurbuja;}
+    public CopyOnWriteArrayList<EnemigoBurbuja> getEnemigosBurbuja() {
+        return enemigosBurbuja;
+    }
 
     public void checkCollisionsEnemigoBurbuja() {
         Rectangle r1 = jugador.getBounds();
@@ -200,8 +204,8 @@ public class Juego implements Runnable, Subject, SujetoEstadisticas {
 
             if (r1.intersects(r2)) {
                 items.remove(i);
-                notifyObserversEstadisticas();
                 jugador.sumarPuntaje(i.getPuntaje());
+                notifyObserversEstadisticas();
                 if (i instanceof ItemEspecial) {
                     System.out.println("Nueva Habilidad");
                     jugador.cambiarHabilidad();
