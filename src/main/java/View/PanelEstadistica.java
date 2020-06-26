@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class PanelEstadistica extends JPanel implements Observer, ObserverEstadisticas {
+public class PanelEstadistica extends JPanel implements ObserverEstadisticas {
     //tamanio de la ventana
     private static final int PWIDTH = 400;
     private static final int PHEIGHT = 400;
@@ -40,33 +40,27 @@ public class PanelEstadistica extends JPanel implements Observer, ObserverEstadi
         super.paintComponent(g);
 //        Graphics g = getGraphics();
 
-        Graphics bbg = backBuffer.getGraphics();
 
-        bbg.setColor(Color.BLACK);
-        bbg.fillRect(0, 0, PWIDTH, PHEIGHT);
-        bbg.setColor(Color.GREEN);
-        bbg.setFont(font);
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, PWIDTH, PHEIGHT);
+        g.setColor(Color.GREEN);
+        g.setFont(font);
 
-        bbg.drawString("Puntaje: " + puntaje, 95, 60);
-        bbg.drawString("Enemigos: " + cantidadDeEnemigos, 95, 130);
-        bbg.drawString("Items: " + cantidadDeItems, 95, 210);
-        bbg.drawString("Vidas: " + cantidadDeVidas, 95, 290);
+        g.drawString("Puntaje: " + puntaje, 95, 60);
+        g.drawString("Enemigos: " + cantidadDeEnemigos, 95, 130);
+        g.drawString("Items: " + cantidadDeItems, 95, 210);
+        g.drawString("Vidas: " + cantidadDeVidas, 95, 290);
 
 
-        g.drawImage(backBuffer, 0, 0, null);
+//        g.drawImage(backBuffer, 0, 0, null);
     }
 
 
-    @Override
-    public void update() {
-        repaint();
-    }
-
-    @Override
     public void updateEstadisticas() {
         puntaje = juego.getJugador().getPuntajeAcumulado();
         cantidadDeEnemigos = juego.getEnemigos().size() + juego.getEnemigosBurbuja().size();
         cantidadDeItems = juego.getItems().size();
         cantidadDeVidas = juego.getJugador().getVidasRestantes();
+        repaint();
     }
 }
